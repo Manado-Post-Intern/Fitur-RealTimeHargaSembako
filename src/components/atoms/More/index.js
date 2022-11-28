@@ -1,0 +1,33 @@
+import {Pressable, StyleSheet, Text, View} from 'react-native';
+import React from 'react';
+import Gap from '../Gap';
+import TextInter from '../TextInter';
+import {IcArrowRight, theme} from '../../../assets';
+
+const More = () => {
+  return (
+    <Pressable style={styles.container}>
+      <TextInter style={styles.label}>Lihat Lebih Banyak</TextInter>
+      <Gap width={4} />
+      <IcArrowRight />
+    </Pressable>
+  );
+};
+
+export default More;
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    backgroundColor: theme.colors.MPWhite4,
+    paddingVertical: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 4,
+  },
+  label: {
+    color: theme.colors.MPBlue5,
+    fontFamily: theme.fonts.inter.semiBold,
+    fontSize: 14,
+  },
+});
