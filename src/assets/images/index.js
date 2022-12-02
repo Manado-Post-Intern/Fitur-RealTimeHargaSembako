@@ -41,6 +41,8 @@ import IMGRoundWhatsapp from './img-round-whatsapp.png';
 import IMGRoundFacebook from './img-round-facebook.png';
 import IMGRoundInstagram from './img-round-instagram.png';
 import IMGDummyDigital from './img-dummy-digital.png';
+import IMGDummyHighlight from './img-dummy-highlight.png';
+import IMGYourAds from './img-your-ads.png';
 
 export {
   IMGMetaLogo,
@@ -86,4 +88,6 @@ export {
   IMGRoundFacebook,
   IMGRoundInstagram,
   IMGDummyDigital,
+  IMGDummyHighlight,
+  IMGYourAds,
 };

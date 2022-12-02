@@ -1,9 +1,11 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {
+  Article,
   ChooseCanal,
   ChooseRegion,
   Home,
+  Highlight,
   Meta,
   MPDigitalAll,
   MPKoranAll,
@@ -16,6 +18,7 @@ import {
   RegionSearch,
   Search,
   SearchPaper,
+  SideBar,
   SignIn,
   Splash,
   Trending,
@@ -84,6 +87,9 @@ const Routes = () => {
       <Stack.Screen name="ReadPaper" component={ReadPaper} />
       <Stack.Screen name="MPKoranAll" component={MPKoranAll} />
       <Stack.Screen name="RegionSearch" component={RegionSearch} />
+      <Stack.Screen name="Highlight" component={Highlight} />
+      <Stack.Screen name="Article" component={Article} />
+      <Stack.Screen name="SideBar" component={SideBar} />
     </Stack.Navigator>
   );
 };

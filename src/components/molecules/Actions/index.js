@@ -1,4 +1,4 @@
-import {Pressable, StyleSheet, View} from 'react-native';
+import {Alert, Pressable, Share, StyleSheet, View} from 'react-native';
 import React from 'react';
 import {
   IcLove,
@@ -11,17 +11,37 @@ import {
 } from '../../../assets';
 import {Gap, TextInter} from '../../atoms';
 
-const Actions = ({type}) => {
+const Actions = ({type, border = true}) => {
+  const onShare = async () => {
+    try {
+      const result = await Share.share({
+        message:
+          'React Native | A framework for building native apps using React',
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      Alert(error.message);
+    }
+  };
+
   switch (type) {
     case 'big':
       return (
-        <View style={styles.container}>
+        <View style={[styles.container, border && styles.borderTop]}>
           <Pressable style={styles.buttonContainer}>
             <IcLoveBig style={{height: 19, width: 19}} />
             <Gap width={4} />
             <TextInter style={styles.labelBig}>367k</TextInter>
           </Pressable>
-          <Pressable style={styles.buttonContainer}>
+          <Pressable style={styles.buttonContainer} onPress={() => onShare()}>
             <IcShareBig />
             <Gap width={4} />
             <TextInter style={styles.labelBig}>Share</TextInter>
@@ -35,7 +55,7 @@ const Actions = ({type}) => {
       );
     default:
       return (
-        <View style={styles.container}>
+        <View style={[styles.container, border && styles.borderTop]}>
           <Pressable style={styles.buttonContainer}>
             <IcLove />
             <Gap width={4} />
@@ -62,10 +82,12 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    borderTopWidth: 1,
-    borderTopColor: theme.colors.MPWhite,
     paddingTop: 5,
     width: '100%',
+  },
+  borderTop: {
+    borderTopWidth: 1,
+    borderTopColor: theme.colors.MPWhite,
   },
   buttonContainer: {
     flexDirection: 'row',

@@ -48,6 +48,7 @@ import IcCopyLink from './ic-copy-link.svg';
 import IcCalendar from './ic-calendar.svg';
 import IcChevronLeftDisabled from './ic-chevron-left-disabled.svg';
 import IcChevronRight from './ic-chevron-right.svg';
+import IcArrowLeft from './ic-arrow-left.svg';
 
 export {
   IcClosedEye,
@@ -100,4 +101,5 @@ export {
   IcCalendar,
   IcChevronLeftDisabled,
   IcChevronRight,
+  IcArrowLeft,
 };

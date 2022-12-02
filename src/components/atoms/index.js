@@ -4,5 +4,6 @@ import Gap from './Gap';
 import Button from './Button';
 import More from './More';
 import TimeStamp from './TimeStamp';
+import BackButton from './BackButton';
 
-export {GlowCircle, TextInter, Gap, Button, More, TimeStamp};
+export {GlowCircle, TextInter, Gap, Button, More, TimeStamp, BackButton};

@@ -4,10 +4,13 @@ import {IcMagnifying, IcSort, IMGMPTextPrimary, theme} from '../../../assets';
 import {Gap} from '../../atoms';
 import {Category, Input, InputMeta, InputPaper} from './components';
 import ModalCalendar from '../ModalCalendar';
+import {useNavigation} from '@react-navigation/native';
 
 const dummy = ['Terbaru', 'Politik', 'Daerah', 'Pendidikan'];
 
 const TopBar = ({searchOnly, type}) => {
+  const navigation = useNavigation();
+
   const [active, setActive] = useState(0);
   const [activeSearch, setActiveSearch] = useState(false);
 
@@ -15,6 +18,10 @@ const TopBar = ({searchOnly, type}) => {
   const [calendarModal, setCalendarModal] = useState(false);
 
   const searchRef = createRef(null);
+
+  const handleBurgerPress = () => {
+    navigation.navigate('SideBar');
+  };
 
   useEffect(() => {
     searchRef.current?.focus();
@@ -86,7 +93,7 @@ const TopBar = ({searchOnly, type}) => {
                 </Pressable>
               )}
               <Gap width={24} />
-              <Pressable>
+              <Pressable onPress={() => handleBurgerPress()}>
                 <IcSort />
               </Pressable>
             </View>
@@ -124,7 +131,7 @@ const TopBar = ({searchOnly, type}) => {
                 </Pressable>
               )}
               <Gap width={24} />
-              <Pressable>
+              <Pressable onPress={() => handleBurgerPress()}>
                 <IcSort />
               </Pressable>
             </View>

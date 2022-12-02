@@ -1,12 +1,16 @@
-import {Image, StyleSheet, View} from 'react-native';
+import {Image, Pressable, StyleSheet, View} from 'react-native';
 import React from 'react';
 import {IMGMinahasaLogo, IMGStoryDummy, theme} from '../../../../assets';
 import {TextInter} from '../../../../components';
+import {useNavigation} from '@react-navigation/native';
 
 const Card = ({item}) => {
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
-      <Image style={styles.picture} source={IMGStoryDummy} />
+      <Pressable onPress={() => navigation.navigate('Highlight')}>
+        <Image style={styles.picture} source={IMGStoryDummy} />
+      </Pressable>
       <View style={styles.innerContainer}>
         <View style={styles.avaContainer}>
           <Image style={styles.ava} source={IMGMinahasaLogo} />
