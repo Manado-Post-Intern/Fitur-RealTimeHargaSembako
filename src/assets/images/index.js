@@ -31,6 +31,16 @@ import IMGMetaShoping from './img-meta-shoping.png';
 import IMGMetaHotel from './img-meta-hotel.png';
 import IMGMetaBudaya from './img-meta-budaya.png';
 import IMGMetaDive from './img-meta-dive.png';
+import IMGVirtualTourBg from './img-virtual-tour-bg.png';
+import IMGVirtualTourIll from './img-virtual-tour-ill.png';
+import IMGBeach1 from './img-beach-1.png';
+import IMGBeach2 from './img-beach-2.png';
+import IMGCallUsBanner from './img-call-us-banner.png';
+import IMGHotelBestWestern from './img-hotel-best-western.png';
+import IMGRoundWhatsapp from './img-round-whatsapp.png';
+import IMGRoundFacebook from './img-round-facebook.png';
+import IMGRoundInstagram from './img-round-instagram.png';
+import IMGDummyDigital from './img-dummy-digital.png';
 
 export {
   IMGMetaLogo,
@@ -66,4 +76,14 @@ export {
   IMGMetaRekreasi,
   IMGMetaShoping,
   IMGMetaTampilanUdara,
+  IMGVirtualTourBg,
+  IMGVirtualTourIll,
+  IMGBeach1,
+  IMGBeach2,
+  IMGCallUsBanner,
+  IMGHotelBestWestern,
+  IMGRoundWhatsapp,
+  IMGRoundFacebook,
+  IMGRoundInstagram,
+  IMGDummyDigital,
 };

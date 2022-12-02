@@ -3,10 +3,20 @@ import React from 'react';
 import Gap from '../Gap';
 import TextInter from '../TextInter';
 import {IcArrowRight, theme} from '../../../assets';
+import {useNavigation} from '@react-navigation/native';
 
-const More = () => {
+const More = ({screen}) => {
+  const navigation = useNavigation();
+
+  const handlePress = () => {
+    if (screen) {
+      navigation.navigate(screen);
+    } else {
+      console.log('Screen not found');
+    }
+  };
   return (
-    <Pressable style={styles.container}>
+    <Pressable style={styles.container} onPress={() => handlePress()}>
       <TextInter style={styles.label}>Lihat Lebih Banyak</TextInter>
       <Gap width={4} />
       <IcArrowRight />

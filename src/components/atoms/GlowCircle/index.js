@@ -2,7 +2,7 @@ import {Dimensions, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import Svg, {Defs, RadialGradient, Rect, Stop} from 'react-native-svg';
 
-const GlowCircle = () => {
+const GlowCircle = ({color}) => {
   const screenWidth = Dimensions.get('screen').width;
   return (
     <View style={styles.middleGlow}>
@@ -16,7 +16,7 @@ const GlowCircle = () => {
           >
             <Stop
               offset="0"
-              stopColor="#ffffff" //Set the Gradient color(From)
+              stopColor={color ? color : '#ffffff'} //Set the Gradient color(From)
               stopOpacity="0.15"
             />
             <Stop
@@ -43,11 +43,8 @@ export default GlowCircle;
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    // height: '100%',
     width: '100%',
     resizeMode: 'contain',
     zIndex: 0,
-    // backgroundColor: 'yellow',
-    // alignItems: 'center',
   },
 });

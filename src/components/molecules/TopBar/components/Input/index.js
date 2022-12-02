@@ -18,11 +18,16 @@ const Input = ({
   searching,
   setActiveSearch,
   searchOnly,
+  type,
 }) => {
   const navigation = useNavigation();
   const handleSearch = () => {
     setActiveSearch(false);
-    navigation.navigate('Search');
+    if (type === 'home' || type.length === 0) {
+      navigation.navigate('Search');
+    } else if (type === 'region') {
+      navigation.navigate('RegionSearch');
+    }
   };
 
   return (

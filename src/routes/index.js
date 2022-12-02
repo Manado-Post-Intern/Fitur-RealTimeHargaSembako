@@ -5,12 +5,17 @@ import {
   ChooseRegion,
   Home,
   Meta,
+  MPDigitalAll,
+  MPKoranAll,
   NewPassword,
   Onboarding,
   OTPVerification,
   Paper3D,
+  ReadPaper,
   Region,
+  RegionSearch,
   Search,
+  SearchPaper,
   SignIn,
   Splash,
   Trending,
@@ -31,7 +36,7 @@ const HomeTab = () => {
           return <BottomTabBar route={route} focused={focused} />;
         },
         header: () => {
-          return <TopBar />;
+          return <TopBar type="home" />;
         },
         tabBarShowLabel: false,
         tabBarStyle: {
@@ -43,10 +48,18 @@ const HomeTab = () => {
         },
       })}>
       <Tab.Screen name="Trending" component={Trending} />
-      <Tab.Screen name="Region" component={Region} />
+      <Tab.Screen
+        name="Region"
+        component={Region}
+        options={{headerShown: false}}
+      />
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="Meta" component={Meta} options={{headerShown: false}} />
-      <Tab.Screen name="Paper3D" component={Paper3D} />
+      <Tab.Screen
+        name="Paper3D"
+        component={Paper3D}
+        options={{headerShown: false}}
+      />
     </Tab.Navigator>
   );
 };
@@ -66,6 +79,11 @@ const Routes = () => {
       <Stack.Screen name="ChooseRegion" component={ChooseRegion} />
       <Stack.Screen name="HomeTab" component={HomeTab} />
       <Stack.Screen name="Search" component={Search} />
+      <Stack.Screen name="MPDigitalAll" component={MPDigitalAll} />
+      <Stack.Screen name="SearchPaper" component={SearchPaper} />
+      <Stack.Screen name="ReadPaper" component={ReadPaper} />
+      <Stack.Screen name="MPKoranAll" component={MPKoranAll} />
+      <Stack.Screen name="RegionSearch" component={RegionSearch} />
     </Stack.Navigator>
   );
 };

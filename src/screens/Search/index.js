@@ -1,42 +1,26 @@
-import {Image, ScrollView, StyleSheet, View} from 'react-native';
+import {Pressable, ScrollView, StyleSheet, View} from 'react-native';
 import React from 'react';
-import {Button, Gap, TextInter, TopBar} from '../../components';
-import {IcBack, IMGIllNotFound, theme} from '../../assets';
-import {AreaSection} from '../Region/components';
+import {Gap, NotFound, TextInter, TopBar} from '../../components';
+import {IcBack, theme} from '../../assets';
 import {screenHeightPercentage} from '../../utils';
 import {useNavigation} from '@react-navigation/native';
+import {Card} from './components';
+
+const data = [0, 1, 2, 3];
 
 const Search = () => {
   const navigation = useNavigation();
 
-  const notFound = true;
+  const notFound = false;
 
   if (notFound) {
     return (
       <>
-        <TopBar />
+        <View style={styles.topBarContainer}>
+          <TopBar />
+        </View>
         <View style={styles.container}>
-          <View style={styles.notFoundContainer}>
-            <Image style={styles.notFoundIll} source={IMGIllNotFound} />
-            <TextInter style={styles.sorry}>Maaf</TextInter>
-            <TextInter style={styles.notFound}>
-              Tidak ada berita terkait pencarian anda
-            </TextInter>
-          </View>
-          <View style={styles.actionContainer}>
-            <Button
-              // eslint-disable-next-line react-native/no-inline-styles
-              style={{backgroundColor: '#0547831A'}}
-              type="secondary"
-              label="Kembali ke Halaman Sebelumnya"
-              onPress={() => navigation.goBack()}
-            />
-            <Gap height={8} />
-            <Button
-              label="Kembali ke Beranda"
-              onPress={() => navigation.navigate('Home')}
-            />
-          </View>
+          <NotFound />
         </View>
       </>
     );
@@ -49,7 +33,9 @@ const Search = () => {
       <>
         <Gap height={14} />
         <View style={styles.informationContainer}>
-          <IcBack />
+          <Pressable onPress={() => navigation.goBack()}>
+            <IcBack />
+          </Pressable>
 
           <Gap height={8} />
 
@@ -57,8 +43,10 @@ const Search = () => {
             Hasil pencarian berita untuk ‘M’
           </TextInter>
         </View>
-        <Gap height={18} />
-        <AreaSection />
+        <Gap height={4} />
+        {data.map((item, i) => (
+          <Card key={i} />
+        ))}
       </>
     </ScrollView>
   );
@@ -67,6 +55,10 @@ const Search = () => {
 export default Search;
 
 const styles = StyleSheet.create({
+  topBarContainer: {
+    zIndex: 100,
+  },
+
   container: {
     flex: 1,
     backgroundColor: theme.colors.MPWhite2,

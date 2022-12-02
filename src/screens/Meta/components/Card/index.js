@@ -3,18 +3,24 @@ import React from 'react';
 import {IMGDummyNews, theme} from '../../../../assets';
 import {Gap, TextInter} from '../../../../components';
 
-const Card = () => {
+const Card = ({type, setDetail}) => {
+  const handlePress = () => {
+    setDetail(true);
+  };
   return (
-    <View style={styles.container}>
+    <Pressable style={styles.container} onPress={handlePress}>
       <View style={styles.imageContainer}>
         <Image style={styles.image} source={IMGDummyNews} />
         <TextInter style={styles.label}>Casabaio Resort</TextInter>
       </View>
       <Gap height={3} />
-      <Pressable style={styles.button}>
-        <TextInter>View</TextInter>
+      <Pressable style={[styles.button, type === 'primary' && styles.primary]}>
+        <TextInter
+          style={[styles.buttonLabel, type === 'primary' && styles.primary]}>
+          View
+        </TextInter>
       </Pressable>
-    </View>
+    </Pressable>
   );
 };
 
@@ -31,6 +37,7 @@ const styles = StyleSheet.create({
     shadowColor: 'rgba(1, 36, 69, 0.3)',
   },
   imageContainer: {
+    flex: 6,
     height: 85,
   },
   image: {
@@ -53,5 +60,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#EAEAEA',
     alignItems: 'center',
     borderRadius: 3,
+  },
+  primary: {
+    backgroundColor: theme.colors.MPBlue1,
+    color: theme.colors.fontLight,
+  },
+  buttonLabel: {
+    fontFamily: theme.fonts.inter.medium,
+    fontSize: 10,
+    color: theme.colors.MPBlue1,
   },
 });

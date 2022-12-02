@@ -2,7 +2,8 @@ import {Image, Pressable, StyleSheet, View} from 'react-native';
 import React, {createRef, useEffect, useState} from 'react';
 import {IcMagnifying, IcSort, IMGMPTextPrimary, theme} from '../../../assets';
 import {Gap} from '../../atoms';
-import {Category, Input, InputMeta} from './components';
+import {Category, Input, InputMeta, InputPaper} from './components';
+import ModalCalendar from '../ModalCalendar';
 
 const dummy = ['Terbaru', 'Politik', 'Daerah', 'Pendidikan'];
 
@@ -11,6 +12,7 @@ const TopBar = ({searchOnly, type}) => {
   const [activeSearch, setActiveSearch] = useState(false);
 
   const [searching, setSearching] = useState(false);
+  const [calendarModal, setCalendarModal] = useState(false);
 
   const searchRef = createRef(null);
 
@@ -43,7 +45,33 @@ const TopBar = ({searchOnly, type}) => {
           {activeSearch && <InputMeta />}
         </View>
       );
-    default:
+    case 'paper':
+      return (
+        <View style={styles.container}>
+          <View style={styles.topContainer}>
+            <Image style={styles.image} source={IMGMPTextPrimary} />
+            <View style={styles.topActionContainer}>
+              {!activeSearch && (
+                <Pressable
+                  onPress={() => {
+                    setActiveSearch(true);
+                  }}>
+                  <IcMagnifying />
+                </Pressable>
+              )}
+              <Gap width={24} />
+              <Pressable>
+                <IcSort />
+              </Pressable>
+            </View>
+          </View>
+
+          {activeSearch && <InputPaper calendarModal={setCalendarModal} />}
+          <ModalCalendar isOpen={calendarModal} setIsOpen={setCalendarModal} />
+        </View>
+      );
+
+    case 'home':
       return (
         <View style={styles.container}>
           <View style={styles.topContainer}>
@@ -64,9 +92,81 @@ const TopBar = ({searchOnly, type}) => {
             </View>
           </View>
 
-          {!searchOnly && (
+          {!activeSearch && !searchOnly && (
             <Category dummy={dummy} active={active} setActive={setActive} />
           )}
+
+          {(activeSearch || searchOnly) && (
+            <Input
+              searchRef={searchRef}
+              setSearching={setSearching}
+              searching={searching}
+              setActiveSearch={setActiveSearch}
+              searchOnly={searchOnly}
+              type={type}
+            />
+          )}
+          <Gap height={15} />
+        </View>
+      );
+    case 'region':
+      return (
+        <View style={styles.container}>
+          <View style={styles.topContainer}>
+            <Image style={styles.image} source={IMGMPTextPrimary} />
+            <View style={styles.topActionContainer}>
+              {!activeSearch && !searchOnly && (
+                <Pressable
+                  onPress={() => {
+                    setActiveSearch(true);
+                  }}>
+                  <IcMagnifying />
+                </Pressable>
+              )}
+              <Gap width={24} />
+              <Pressable>
+                <IcSort />
+              </Pressable>
+            </View>
+          </View>
+
+          {!activeSearch && !searchOnly && (
+            <Category dummy={dummy} active={active} setActive={setActive} />
+          )}
+
+          {(activeSearch || searchOnly) && (
+            <Input
+              searchRef={searchRef}
+              setSearching={setSearching}
+              searching={searching}
+              setActiveSearch={setActiveSearch}
+              searchOnly={searchOnly}
+              type="region"
+            />
+          )}
+          <Gap height={15} />
+        </View>
+      );
+    default:
+      return (
+        <View style={styles.container}>
+          <View style={styles.topContainer}>
+            <Image style={styles.image} source={IMGMPTextPrimary} />
+            <View style={styles.topActionContainer}>
+              {!activeSearch && !searchOnly && (
+                <Pressable
+                  onPress={() => {
+                    setActiveSearch(true);
+                  }}>
+                  <IcMagnifying />
+                </Pressable>
+              )}
+              <Gap width={24} />
+              <Pressable>
+                <IcSort />
+              </Pressable>
+            </View>
+          </View>
 
           {(activeSearch || searchOnly) && (
             <Input

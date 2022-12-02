@@ -3,11 +3,10 @@ import {
   ImageBackground,
   Pressable,
   StyleSheet,
-  Text,
   View,
 } from 'react-native';
 import React from 'react';
-import {Gap, TextInter} from '../../../../components';
+import {BlurShadow, Gap, GlowCircle, TextInter} from '../../../../components';
 import {
   IcArrowRightSmall,
   IcMetaBudaya,
@@ -145,13 +144,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flex: 1,
   },
-  //   innerBottomContainer: {
-  //     paddingHorizontal: 7,
-  //     width: '100%',
-  //     flex: 1,
-  //     justifyContent: 'flex-end',
-  //     paddingBottom: 6,
-  //   },
+
   lihatButton: {
     flexDirection: 'row',
     justifyContent: 'center',

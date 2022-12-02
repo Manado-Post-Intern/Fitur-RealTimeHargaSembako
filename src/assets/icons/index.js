@@ -42,6 +42,12 @@ import IcMetaHotel from './ic-meta-hotel-resort.svg';
 import IcMetaBudaya from './ic-meta-budaya.svg';
 import IcMetaDive from './ic-meta-dive.svg';
 import IcArrowRightSmall from './ic-arrow-right-small.svg';
+import IcArrowRightWhite from './ic-arrow-right-white.svg';
+import IcGmaps from './ic-gmaps.svg';
+import IcCopyLink from './ic-copy-link.svg';
+import IcCalendar from './ic-calendar.svg';
+import IcChevronLeftDisabled from './ic-chevron-left-disabled.svg';
+import IcChevronRight from './ic-chevron-right.svg';
 
 export {
   IcClosedEye,
@@ -88,4 +94,10 @@ export {
   IcMetaShoping,
   IcMetaTampilanUdara,
   IcArrowRightSmall,
+  IcArrowRightWhite,
+  IcGmaps,
+  IcCopyLink,
+  IcCalendar,
+  IcChevronLeftDisabled,
+  IcChevronRight,
 };

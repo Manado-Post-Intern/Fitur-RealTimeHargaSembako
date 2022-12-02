@@ -1,6 +1,12 @@
-import {FlatList, SafeAreaView, ScrollView, StyleSheet} from 'react-native';
+import {
+  FlatList,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  View,
+} from 'react-native';
 import React from 'react';
-import {Banner2, Gap} from '../../components';
+import {Banner2, Gap, TopBar} from '../../components';
 import {screenHeightPercentage} from '../../utils';
 import {theme} from '../../assets';
 import {AreaSection, Story} from './components';
@@ -10,6 +16,9 @@ const story = ['Manado', 'Bitung', 'Tomohon', 'Minahasa', 'Minahasa Utara'];
 const Region = () => {
   return (
     <SafeAreaView style={styles.safeAreaView}>
+      <View style={styles.topBarContainer}>
+        <TopBar type="region" />
+      </View>
       <ScrollView style={styles.container}>
         <Gap height={30} />
 
@@ -42,6 +51,9 @@ const styles = StyleSheet.create({
   safeAreaView: {
     flex: 1,
     backgroundColor: theme.colors.white,
+  },
+  topBarContainer: {
+    zIndex: 100,
   },
   container: {
     zIndex: 0,

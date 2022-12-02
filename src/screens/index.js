@@ -9,4 +9,6 @@ import Search from './Search';
 
 export * from './Authentication';
 export * from './ChooseCanal';
+export * from './Paper3D/screens';
+export * from './Region/screens';
 export {Splash, Onboarding, Home, Meta, Trending, Region, Paper3D, Search};

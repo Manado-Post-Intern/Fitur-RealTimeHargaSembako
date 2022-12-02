@@ -6,3 +6,10 @@ import {Dimensions} from 'react-native';
 export const screenHeightPercentage = percent => {
   return Dimensions.get('window').height * (parseFloat(percent) / 100.0);
 };
+
+/**
+ * screen width value
+ */
+export const screenWidth = () => {
+  return Dimensions.get('window').width;
+};
