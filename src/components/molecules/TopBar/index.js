@@ -20,7 +20,7 @@ const TopBar = ({searchOnly, type}) => {
   const searchRef = createRef(null);
 
   const handleBurgerPress = () => {
-    navigation.navigate('SideBar');
+    navigation.navigate('SideMenu');
   };
 
   useEffect(() => {

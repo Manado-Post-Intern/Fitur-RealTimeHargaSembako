@@ -28,7 +28,7 @@ export const palette = {
 export const theme = {
   colors: {
     primary: palette.blue,
-    darkBright: palette.darkBright,
+    darkBright: palette.white3,
     white: palette.white,
     black: palette.black,
     lightBlue: palette.lightBlue,

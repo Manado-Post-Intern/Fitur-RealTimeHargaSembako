@@ -9,7 +9,7 @@ import Search from './Search';
 import Highlight from './Highlight';
 import Article from './Article';
 import WriteNews from './WriteNews';
-import SideBar from './SideBar';
+import SideMenu from './SideMenu';
 
 export * from './Authentication';
 export * from './ChooseCanal';
@@ -27,5 +27,5 @@ export {
   Highlight,
   Article,
   WriteNews,
-  SideBar,
+  SideMenu,
 };

@@ -18,7 +18,7 @@ import {
   RegionSearch,
   Search,
   SearchPaper,
-  SideBar,
+  SideMenu,
   SignIn,
   Splash,
   Trending,
@@ -89,7 +89,7 @@ const Routes = () => {
       <Stack.Screen name="RegionSearch" component={RegionSearch} />
       <Stack.Screen name="Highlight" component={Highlight} />
       <Stack.Screen name="Article" component={Article} />
-      <Stack.Screen name="SideBar" component={SideBar} />
+      <Stack.Screen name="SideMenu" component={SideMenu} />
     </Stack.Navigator>
   );
 };

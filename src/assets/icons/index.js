@@ -49,6 +49,13 @@ import IcCalendar from './ic-calendar.svg';
 import IcChevronLeftDisabled from './ic-chevron-left-disabled.svg';
 import IcChevronRight from './ic-chevron-right.svg';
 import IcArrowLeft from './ic-arrow-left.svg';
+import IcAboutUs from './ic-about-us.svg';
+import IcAds from './ic-ads.svg';
+import IcEdit from './ic-edit.svg';
+import IcLogout from './ic-logout.svg';
+import IcMarketplace from './ic-marketplace.svg';
+import IcSubscription from './ic-subscription.svg';
+import IcWriteNews from './ic-write-news.svg';
 
 export {
   IcClosedEye,
@@ -102,4 +109,11 @@ export {
   IcChevronLeftDisabled,
   IcChevronRight,
   IcArrowLeft,
+  IcAboutUs,
+  IcAds,
+  IcEdit,
+  IcLogout,
+  IcMarketplace,
+  IcSubscription,
+  IcWriteNews,
 };

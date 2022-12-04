@@ -43,6 +43,7 @@ import IMGRoundInstagram from './img-round-instagram.png';
 import IMGDummyDigital from './img-dummy-digital.png';
 import IMGDummyHighlight from './img-dummy-highlight.png';
 import IMGYourAds from './img-your-ads.png';
+import IMGDummyProfile from './img-dummy-profile.png';
 
 export {
   IMGMetaLogo,
@@ -90,4 +91,5 @@ export {
   IMGDummyDigital,
   IMGDummyHighlight,
   IMGYourAds,
+  IMGDummyProfile,
 };
