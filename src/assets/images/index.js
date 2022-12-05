@@ -44,6 +44,10 @@ import IMGDummyDigital from './img-dummy-digital.png';
 import IMGDummyHighlight from './img-dummy-highlight.png';
 import IMGYourAds from './img-your-ads.png';
 import IMGDummyProfile from './img-dummy-profile.png';
+import IMGWeb from './img-web.png';
+import IMGWhatsapp from './img-whatsapp.png';
+import IMGInstagram from './img-instagram.png';
+import IMGFacebook from './img-facebook.png';
 
 export {
   IMGMetaLogo,
@@ -92,4 +96,8 @@ export {
   IMGDummyHighlight,
   IMGYourAds,
   IMGDummyProfile,
+  IMGWeb,
+  IMGWhatsapp,
+  IMGInstagram,
+  IMGFacebook,
 };

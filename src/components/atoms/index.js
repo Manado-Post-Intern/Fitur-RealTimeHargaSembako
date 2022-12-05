@@ -5,5 +5,15 @@ import Button from './Button';
 import More from './More';
 import TimeStamp from './TimeStamp';
 import BackButton from './BackButton';
+import ChevroletBackButton from './ChevroletBackButton';
 
-export {GlowCircle, TextInter, Gap, Button, More, TimeStamp, BackButton};
+export {
+  GlowCircle,
+  TextInter,
+  Gap,
+  Button,
+  More,
+  TimeStamp,
+  BackButton,
+  ChevroletBackButton,
+};

@@ -11,6 +11,7 @@ import Article from './Article';
 import WriteNews from './WriteNews';
 import SideMenu from './SideMenu';
 import Profile from './Profile';
+import AboutUs from './AboutUs';
 
 export * from './Authentication';
 export * from './ChooseCanal';
@@ -30,4 +31,5 @@ export {
   WriteNews,
   SideMenu,
   Profile,
+  AboutUs,
 };
