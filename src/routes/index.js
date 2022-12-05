@@ -22,6 +22,7 @@ import {
   SignIn,
   Splash,
   Trending,
+  Profile,
 } from '../screens';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {BottomTabBar} from './components';
@@ -90,6 +91,7 @@ const Routes = () => {
       <Stack.Screen name="Highlight" component={Highlight} />
       <Stack.Screen name="Article" component={Article} />
       <Stack.Screen name="SideMenu" component={SideMenu} />
+      <Stack.Screen name="Profile" component={Profile} />
     </Stack.Navigator>
   );
 };

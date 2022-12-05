@@ -56,6 +56,8 @@ import IcLogout from './ic-logout.svg';
 import IcMarketplace from './ic-marketplace.svg';
 import IcSubscription from './ic-subscription.svg';
 import IcWriteNews from './ic-write-news.svg';
+import IcChevronLeft from './ic-chevron-left.svg';
+import IcBlueCheckmark from './ic-blue-checkmark.svg';
 
 export {
   IcClosedEye,
@@ -116,4 +118,6 @@ export {
   IcMarketplace,
   IcSubscription,
   IcWriteNews,
+  IcChevronLeft,
+  IcBlueCheckmark,
 };

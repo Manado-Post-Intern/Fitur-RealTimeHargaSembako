@@ -10,6 +10,7 @@ import Highlight from './Highlight';
 import Article from './Article';
 import WriteNews from './WriteNews';
 import SideMenu from './SideMenu';
+import Profile from './Profile';
 
 export * from './Authentication';
 export * from './ChooseCanal';
@@ -28,4 +29,5 @@ export {
   Article,
   WriteNews,
   SideMenu,
+  Profile,
 };

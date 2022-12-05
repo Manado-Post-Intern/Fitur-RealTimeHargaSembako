@@ -13,8 +13,10 @@ import {
   IcLogout,
 } from '../../assets';
 import {Gap, TextInter} from '../../components';
+import {useNavigation} from '@react-navigation/native';
 
 const SideMenu = () => {
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
@@ -28,7 +30,9 @@ const SideMenu = () => {
             </TextInter>
           </View>
           <Gap width={16} />
-          <Pressable style={styles.editButton}>
+          <Pressable
+            style={styles.editButton}
+            onPress={() => navigation.navigate('Profile')}>
             <IcEdit />
           </Pressable>
         </View>
@@ -37,36 +41,36 @@ const SideMenu = () => {
       <Gap height={16} />
 
       <View style={styles.sectionContainer}>
-        <View style={[styles.section, styles.bottomBorder]}>
+        <Pressable style={[styles.section, styles.bottomBorder]}>
           <IcWriteNews />
           <Gap width={10} />
           <TextInter style={styles.sectionLabel}>Tulis Berita</TextInter>
-        </View>
-        <View style={styles.section}>
+        </Pressable>
+        <Pressable style={styles.section}>
           <IcSubscription />
           <Gap width={10} />
           <TextInter style={styles.sectionLabel}>Berlangganan</TextInter>
-        </View>
-        <View style={styles.section}>
+        </Pressable>
+        <Pressable style={styles.section}>
           <IcMarketplace />
           <Gap width={10} />
           <TextInter style={styles.sectionLabel}>Marketplace</TextInter>
-        </View>
-        <View style={[styles.section, styles.bottomBorder]}>
+        </Pressable>
+        <Pressable style={[styles.section, styles.bottomBorder]}>
           <IcAds />
           <Gap width={10} />
           <TextInter style={styles.sectionLabel}>Pasang Iklan</TextInter>
-        </View>
-        <View style={styles.section}>
+        </Pressable>
+        <Pressable style={styles.section}>
           <IcAboutUs />
           <Gap width={10} />
           <TextInter style={styles.sectionLabel}>Tentang Kami</TextInter>
-        </View>
-        <View style={styles.section}>
+        </Pressable>
+        <Pressable style={styles.section}>
           <IcLogout />
           <Gap width={10} />
           <TextInter style={styles.sectionLabel}>Logout</TextInter>
-        </View>
+        </Pressable>
       </View>
 
       <View style={styles.footerContainer}>
