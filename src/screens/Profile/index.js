@@ -2,7 +2,7 @@ import {Image, Pressable, StyleSheet, View} from 'react-native';
 import React, {useState} from 'react';
 import {IcChevronLeft, IcEdit, IMGDummyProfile, theme} from '../../assets';
 import {screenHeightPercentage} from '../../utils';
-import {Button, Gap, TextInter} from '../../components';
+import {Button, ChevroletBackButton, Gap, TextInter} from '../../components';
 import {Password, TextInput} from './components';
 
 const Profile = () => {
@@ -13,9 +13,7 @@ const Profile = () => {
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
-        <Pressable>
-          <IcChevronLeft />
-        </Pressable>
+        <ChevroletBackButton />
         <TextInter style={styles.headerLabel}>Edit Profile</TextInter>
         <View style={styles.none}>
           <IcChevronLeft />

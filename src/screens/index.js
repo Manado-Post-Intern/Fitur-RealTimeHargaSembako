@@ -12,6 +12,7 @@ import WriteNews from './WriteNews';
 import SideMenu from './SideMenu';
 import Profile from './Profile';
 import AboutUs from './AboutUs';
+import Subscription from './Subscription';
 
 export * from './Authentication';
 export * from './ChooseCanal';
@@ -32,4 +33,5 @@ export {
   SideMenu,
   Profile,
   AboutUs,
+  Subscription,
 };

@@ -79,6 +79,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: screenHeightPercentage('5%'),
     alignItems: 'center',
+    backgroundColor: theme.colors.white,
   },
 
   headerContainer: {

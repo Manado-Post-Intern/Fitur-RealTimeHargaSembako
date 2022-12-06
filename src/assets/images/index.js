@@ -48,6 +48,9 @@ import IMGWeb from './img-web.png';
 import IMGWhatsapp from './img-whatsapp.png';
 import IMGInstagram from './img-instagram.png';
 import IMGFacebook from './img-facebook.png';
+import IMGSubscription1Month from './img-subscription-1-month.png';
+import IMGSubscription6Month from './img-subscription-6-month.png';
+import IMGSubscription1Year from './img-subscription-1-year.png';
 
 export {
   IMGMetaLogo,
@@ -100,4 +103,7 @@ export {
   IMGWhatsapp,
   IMGInstagram,
   IMGFacebook,
+  IMGSubscription1Month,
+  IMGSubscription6Month,
+  IMGSubscription1Year,
 };

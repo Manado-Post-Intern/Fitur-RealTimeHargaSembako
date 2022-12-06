@@ -58,6 +58,7 @@ import IcSubscription from './ic-subscription.svg';
 import IcWriteNews from './ic-write-news.svg';
 import IcChevronLeft from './ic-chevron-left.svg';
 import IcBlueCheckmark from './ic-blue-checkmark.svg';
+import IcGoldCheckmark from './ic-gold-checkmark.svg';
 
 export {
   IcClosedEye,
@@ -120,4 +121,5 @@ export {
   IcWriteNews,
   IcChevronLeft,
   IcBlueCheckmark,
+  IcGoldCheckmark,
 };
