@@ -65,6 +65,9 @@ import IcXSmall from './ic-x-small.svg';
 import IcDropdownArrow from './ic-dropdown-arrow.svg';
 import IcCalendarGrey from './ic-calendar-grey.svg';
 import IcBigCheckmark from './ic-big-checkmark.svg';
+import IcFilter from './ic-filter.svg';
+import IcPinpoint from './ic-pinpoint.svg';
+import IcWhatsappExtraSmall from './ic-whatsapp-extra-small.svg';
 
 export {
   IcClosedEye,
@@ -134,4 +137,7 @@ export {
   IcDropdownArrow,
   IcCalendarGrey,
   IcBigCheckmark,
+  IcFilter,
+  IcPinpoint,
+  IcWhatsappExtraSmall,
 };

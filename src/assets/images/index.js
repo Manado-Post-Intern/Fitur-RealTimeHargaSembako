@@ -55,6 +55,7 @@ import IMGAdsPreview1 from './img-ads-preview-1.png';
 import IMGAdsPreview2 from './img-ads-preview-2.png';
 import IMGAdsPreview3 from './img-ads-preview-3.png';
 import IMGAdsPreview4 from './img-ads-preview-4.png';
+import IMGDummyProperty from './img-dummy-property.png';
 
 export {
   IMGMetaLogo,
@@ -114,4 +115,5 @@ export {
   IMGAdsPreview2,
   IMGAdsPreview3,
   IMGAdsPreview4,
+  IMGDummyProperty,
 };

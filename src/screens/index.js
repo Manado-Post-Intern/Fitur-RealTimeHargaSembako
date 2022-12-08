@@ -14,6 +14,7 @@ import Profile from './Profile';
 import AboutUs from './AboutUs';
 import Subscription from './Subscription';
 import Ads from './Ads';
+import Marketplace from './Marketplace';
 
 export * from './Authentication';
 export * from './ChooseCanal';
@@ -37,4 +38,5 @@ export {
   AboutUs,
   Subscription,
   Ads,
+  Marketplace,
 };

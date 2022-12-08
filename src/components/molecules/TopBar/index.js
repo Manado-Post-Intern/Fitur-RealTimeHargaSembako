@@ -167,7 +167,7 @@ const TopBar = ({searchOnly, type}) => {
           <View style={styles.topContainer}>
             <Image style={styles.image} source={IMGMPTextPrimary} />
             <View style={styles.topActionContainer}>
-              <Pressable>
+              <Pressable onPress={() => handleBurgerPress()}>
                 <IcSort />
               </Pressable>
               <Gap width={24} />
