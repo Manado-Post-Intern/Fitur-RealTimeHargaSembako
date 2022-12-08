@@ -10,13 +10,9 @@ import React, {useEffect, useMemo, useRef} from 'react';
 import {screenHeightPercentage} from '../../utils';
 import {IMGDummyHighlight, IMGMinahasaLogo, theme} from '../../assets';
 import {Actions, BackButton, Gap, TextInter} from '../../components';
-import BottomSheet, {BottomSheetModal} from '@gorhom/bottom-sheet';
+import BottomSheet from '@gorhom/bottom-sheet';
 
-import {
-  BlurView,
-  VibrancyView,
-  BlurViewProps,
-} from '@react-native-community/blur';
+import {BlurView} from '@react-native-community/blur';
 
 const Highlight = () => {
   const modalRef = useRef();

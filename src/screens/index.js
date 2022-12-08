@@ -13,11 +13,13 @@ import SideMenu from './SideMenu';
 import Profile from './Profile';
 import AboutUs from './AboutUs';
 import Subscription from './Subscription';
+import Ads from './Ads';
 
 export * from './Authentication';
 export * from './ChooseCanal';
 export * from './Paper3D/screens';
 export * from './Region/screens';
+export * from './Ads/screens';
 export {
   Splash,
   Onboarding,
@@ -34,4 +36,5 @@ export {
   Profile,
   AboutUs,
   Subscription,
+  Ads,
 };

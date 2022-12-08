@@ -51,6 +51,10 @@ import IMGFacebook from './img-facebook.png';
 import IMGSubscription1Month from './img-subscription-1-month.png';
 import IMGSubscription6Month from './img-subscription-6-month.png';
 import IMGSubscription1Year from './img-subscription-1-year.png';
+import IMGAdsPreview1 from './img-ads-preview-1.png';
+import IMGAdsPreview2 from './img-ads-preview-2.png';
+import IMGAdsPreview3 from './img-ads-preview-3.png';
+import IMGAdsPreview4 from './img-ads-preview-4.png';
 
 export {
   IMGMetaLogo,
@@ -106,4 +110,8 @@ export {
   IMGSubscription1Month,
   IMGSubscription6Month,
   IMGSubscription1Year,
+  IMGAdsPreview1,
+  IMGAdsPreview2,
+  IMGAdsPreview3,
+  IMGAdsPreview4,
 };

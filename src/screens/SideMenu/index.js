@@ -58,7 +58,9 @@ const SideMenu = () => {
           <Gap width={10} />
           <TextInter style={styles.sectionLabel}>Marketplace</TextInter>
         </Pressable>
-        <Pressable style={[styles.section, styles.bottomBorder]}>
+        <Pressable
+          style={[styles.section, styles.bottomBorder]}
+          onPress={() => navigation.navigate('Ads')}>
           <IcAds />
           <Gap width={10} />
           <TextInter style={styles.sectionLabel}>Pasang Iklan</TextInter>

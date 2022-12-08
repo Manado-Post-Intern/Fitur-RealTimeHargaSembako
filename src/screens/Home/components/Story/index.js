@@ -26,5 +26,6 @@ export default Story;
 const styles = StyleSheet.create({
   flatListContentContainer: {
     paddingHorizontal: 16,
+    paddingBottom: 5,
   },
 });

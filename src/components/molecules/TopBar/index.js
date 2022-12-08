@@ -1,6 +1,13 @@
 import {Image, Pressable, StyleSheet, View} from 'react-native';
 import React, {createRef, useEffect, useState} from 'react';
-import {IcMagnifying, IcSort, IMGMPTextPrimary, theme} from '../../../assets';
+import {
+  IcMagnifying,
+  IcMetaMP,
+  IcMP,
+  IcSort,
+  IMGMPTextPrimary,
+  theme,
+} from '../../../assets';
 import {Gap} from '../../atoms';
 import {Category, Input, InputMeta, InputPaper} from './components';
 import ModalCalendar from '../ModalCalendar';
@@ -154,6 +161,25 @@ const TopBar = ({searchOnly, type}) => {
           <Gap height={15} />
         </View>
       );
+    case 'order':
+      return (
+        <View style={styles.container}>
+          <View style={styles.topContainer}>
+            <Image style={styles.image} source={IMGMPTextPrimary} />
+            <View style={styles.topActionContainer}>
+              <Pressable>
+                <IcSort />
+              </Pressable>
+              <Gap width={24} />
+              <Pressable>
+                <IcMetaMP />
+              </Pressable>
+            </View>
+          </View>
+
+          <Gap height={15} />
+        </View>
+      );
     default:
       return (
         <View style={styles.container}>
@@ -199,6 +225,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 22,
     borderBottomLeftRadius: 16,
     borderBottomRightRadius: 16,
+
+    elevation: 5,
+    shadowColor: 'rgba(0,0,0,0.5)',
   },
   topContainer: {
     flexDirection: 'row',
@@ -211,5 +240,6 @@ const styles = StyleSheet.create({
   },
   topActionContainer: {
     flexDirection: 'row',
+    alignItems: 'center',
   },
 });

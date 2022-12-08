@@ -59,6 +59,12 @@ import IcWriteNews from './ic-write-news.svg';
 import IcChevronLeft from './ic-chevron-left.svg';
 import IcBlueCheckmark from './ic-blue-checkmark.svg';
 import IcGoldCheckmark from './ic-gold-checkmark.svg';
+import IcMetaMP from './ic-meta-mp.svg';
+import IcLink from './ic-link.svg';
+import IcXSmall from './ic-x-small.svg';
+import IcDropdownArrow from './ic-dropdown-arrow.svg';
+import IcCalendarGrey from './ic-calendar-grey.svg';
+import IcBigCheckmark from './ic-big-checkmark.svg';
 
 export {
   IcClosedEye,
@@ -122,4 +128,10 @@ export {
   IcChevronLeft,
   IcBlueCheckmark,
   IcGoldCheckmark,
+  IcMetaMP,
+  IcLink,
+  IcXSmall,
+  IcDropdownArrow,
+  IcCalendarGrey,
+  IcBigCheckmark,
 };

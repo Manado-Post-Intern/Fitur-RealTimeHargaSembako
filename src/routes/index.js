@@ -1,6 +1,7 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {
+  Ads,
   Article,
   ChooseCanal,
   ChooseRegion,
@@ -22,9 +23,11 @@ import {
   SignIn,
   Splash,
   Trending,
+  Preview as AdsPreview,
   Profile,
   AboutUs,
   Subscription,
+  Order as AdsOrder,
 } from '../screens';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {BottomTabBar} from './components';
@@ -96,6 +99,9 @@ const Routes = () => {
       <Stack.Screen name="Profile" component={Profile} />
       <Stack.Screen name="AboutUs" component={AboutUs} />
       <Stack.Screen name="Subscription" component={Subscription} />
+      <Stack.Screen name="Ads" component={Ads} />
+      <Stack.Screen name="AdsPreview" component={AdsPreview} />
+      <Stack.Screen name="AdsOrder" component={AdsOrder} />
     </Stack.Navigator>
   );
 };
