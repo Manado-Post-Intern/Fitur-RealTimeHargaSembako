@@ -29,6 +29,7 @@ import {
   Subscription,
   Order as AdsOrder,
   Marketplace,
+  CreateAds,
 } from '../screens';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {BottomTabBar} from './components';
@@ -78,7 +79,7 @@ const Routes = () => {
   const Stack = createNativeStackNavigator();
   return (
     <Stack.Navigator
-      initialRouteName="Marketplace"
+      initialRouteName="CreateAds"
       screenOptions={{headerShown: false}}>
       <Stack.Screen name="Splash" component={Splash} />
       <Stack.Screen name="Onboarding" component={Onboarding} />
@@ -104,6 +105,7 @@ const Routes = () => {
       <Stack.Screen name="AdsPreview" component={AdsPreview} />
       <Stack.Screen name="AdsOrder" component={AdsOrder} />
       <Stack.Screen name="Marketplace" component={Marketplace} />
+      <Stack.Screen name="CreateAds" component={CreateAds} />
     </Stack.Navigator>
   );
 };

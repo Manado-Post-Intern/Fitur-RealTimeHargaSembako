@@ -1,4 +1,4 @@
-import {Pressable, StyleSheet, Text, TextInput, View} from 'react-native';
+import {Pressable, StyleSheet, TextInput, View} from 'react-native';
 import React, {useCallback, useMemo, useRef, useState} from 'react';
 import {Gap, TextInter, TopBar} from '../../../../components';
 import {
@@ -10,7 +10,6 @@ import {
 import {Duration, Position} from './components';
 import ModalCalendar from '../../../../components/molecules/ModalCalendar';
 import BottomSheet, {BottomSheetBackdrop} from '@gorhom/bottom-sheet';
-import {useNavigation} from '@react-navigation/native';
 
 const Order = ({route}) => {
   const {type} = route;

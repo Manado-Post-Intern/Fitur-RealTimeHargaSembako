@@ -3,18 +3,15 @@ import {
   Pressable,
   ScrollView,
   StyleSheet,
-  Text,
   TextInput,
   View,
 } from 'react-native';
-import React, {useCallback, useMemo, useRef, useState} from 'react';
+import React, {useMemo, useRef, useState} from 'react';
 import {IcFilter, IcSearchGray, theme} from '../../assets';
 import {Gap, TextInter, TopBar} from '../../components';
 import {HorizontalCard, ModalRow, VerticalCard} from './components';
-import BottomSheet, {
-  BottomSheetBackdrop,
-  BottomSheetModal,
-} from '@gorhom/bottom-sheet';
+import BottomSheet from '@gorhom/bottom-sheet';
+import {useNavigation} from '@react-navigation/native';
 
 const categories = ['Otomotif', 'Properti', 'Lowongan', 'Ragam'];
 const horizontal = [0, 1, 2, 3, 4];
@@ -28,6 +25,8 @@ const filterItem = [
 ];
 
 const Marketplace = () => {
+  const navigation = useNavigation();
+
   const [activeCategory, setActiveCategory] = useState(0);
   const [filter, setFilter] = useState(0);
 
@@ -39,7 +38,7 @@ const Marketplace = () => {
       <View style={styles.topBarContainer}>
         <TopBar type="order" />
       </View>
-      <ScrollView style={styles.scrollView}>
+      <ScrollView style={styles.scrollView} nestedScrollEnabled={true}>
         <View>
           <FlatList
             data={categories}
@@ -112,7 +111,9 @@ const Marketplace = () => {
         </View>
       </ScrollView>
       <View style={styles.footer}>
-        <Pressable style={styles.footerButton}>
+        <Pressable
+          style={styles.footerButton}
+          onPress={() => navigation.navigate('CreateAds')}>
           <TextInter style={styles.footerLabel}>Pasang Iklan</TextInter>
         </Pressable>
       </View>

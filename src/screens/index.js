@@ -21,6 +21,7 @@ export * from './ChooseCanal';
 export * from './Paper3D/screens';
 export * from './Region/screens';
 export * from './Ads/screens';
+export * from './Marketplace/screens';
 export {
   Splash,
   Onboarding,

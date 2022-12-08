@@ -6,6 +6,8 @@ import More from './More';
 import TimeStamp from './TimeStamp';
 import BackButton from './BackButton';
 import ChevroletBackButton from './ChevroletBackButton';
+import Switch from './Switch';
+import CheckBox from './CheckbBox';
 
 export {
   GlowCircle,
@@ -16,4 +18,6 @@ export {
   TimeStamp,
   BackButton,
   ChevroletBackButton,
+  Switch,
+  CheckBox,
 };
