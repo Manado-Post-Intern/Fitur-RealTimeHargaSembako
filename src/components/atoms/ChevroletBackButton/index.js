@@ -1,4 +1,4 @@
-import {Pressable, StyleSheet} from 'react-native';
+import {Pressable} from 'react-native';
 import React from 'react';
 import {IcChevronLeft} from '../../../assets';
 import {useNavigation} from '@react-navigation/native';
@@ -13,5 +13,3 @@ const ChevroletBackButton = () => {
 };
 
 export default ChevroletBackButton;
-
-const styles = StyleSheet.create({});

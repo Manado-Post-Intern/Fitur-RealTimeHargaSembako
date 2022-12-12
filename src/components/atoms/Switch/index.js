@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import React, {useState} from 'react';
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
 import TextInter from '../TextInter';
