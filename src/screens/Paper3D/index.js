@@ -1,11 +1,4 @@
-import {
-  Pressable,
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import {SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
 import React from 'react';
 import {Banner1, Gap, More, TextInter, TopBar} from '../../components';
 import {IcBack, theme} from '../../assets';
@@ -51,7 +44,7 @@ const Paper3D = () => {
           </View>
         </View>
 
-        <Gap height={screenHeightPercentage('15%')} />
+        <Gap height={screenHeightPercentage('19%')} />
       </ScrollView>
     </SafeAreaView>
   );

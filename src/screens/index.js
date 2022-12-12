@@ -22,6 +22,7 @@ export * from './Paper3D/screens';
 export * from './Region/screens';
 export * from './Ads/screens';
 export * from './Marketplace/screens';
+export * from './Meta/screens';
 export {
   Splash,
   Onboarding,

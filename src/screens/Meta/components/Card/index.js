@@ -2,10 +2,13 @@ import {Image, Pressable, StyleSheet, View} from 'react-native';
 import React from 'react';
 import {IMGDummyNews, theme} from '../../../../assets';
 import {Gap, TextInter} from '../../../../components';
+import {useNavigation} from '@react-navigation/native';
 
-const Card = ({type, setDetail}) => {
+const Card = ({type}) => {
+  const navigation = useNavigation();
   const handlePress = () => {
-    setDetail(true);
+    // setDetail(true);
+    navigation.navigate('MetaDetail');
   };
   return (
     <Pressable style={styles.container} onPress={handlePress}>

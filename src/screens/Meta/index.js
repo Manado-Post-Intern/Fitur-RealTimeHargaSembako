@@ -1,19 +1,8 @@
 import {FlatList, Image, ScrollView, StyleSheet, View} from 'react-native';
 import React, {useState} from 'react';
 import {Gap, NotFound, TextInter, TopBar} from '../../components';
-import {
-  IcBack,
-  IMGCallUsBanner,
-  IMGHotelBestWestern,
-  theme,
-} from '../../assets';
-import {
-  BannerSection,
-  Card,
-  Categories,
-  Detail,
-  TrendingSection,
-} from './components';
+import {IcBack, IMGCallUsBanner, theme} from '../../assets';
+import {BannerSection, Card, Categories, TrendingSection} from './components';
 import {screenHeightPercentage} from '../../utils';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
@@ -21,6 +10,7 @@ const data = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 
 const Meta = () => {
   const [detail, setDetail] = useState(false);
+  const [search, setSearch] = useState(false);
 
   return (
     <SafeAreaView>
@@ -28,42 +18,38 @@ const Meta = () => {
         <TopBar type="meta" />
       </View>
       <ScrollView style={styles.container}>
-        {detail ? (
-          <Detail />
-        ) : (
-          <>
-            <View style={styles.bodyContainer}>
-              <View style={styles.headerContainer}>
-                <IcBack />
-                <TextInter style={styles.headerText}>Meta</TextInter>
-              </View>
-              <Gap height={6} />
-              <Categories />
-              <Gap height={32} />
-              <BannerSection />
-              <TrendingSection />
-              <Gap height={10} />
-
-              <Image style={styles.callUsBanner} source={IMGCallUsBanner} />
+        <>
+          <View style={styles.bodyContainer}>
+            <View style={styles.headerContainer}>
+              <IcBack />
+              <TextInter style={styles.headerText}>Meta</TextInter>
             </View>
+            <Gap height={6} />
+            <Categories />
+            <Gap height={32} />
+            <BannerSection />
+            <TrendingSection />
+            <Gap height={10} />
 
-            <View style={styles.bodyContainer}>
-              <View style={styles.headerContainer}>
-                <IcBack />
-                <TextInter style={styles.headerText}>Hotel & Resort</TextInter>
-              </View>
-              <View style={styles.cardListContainer}>
-                <FlatList
-                  data={data}
-                  numColumns={3}
-                  renderItem={({item, index}) => (
-                    <Card setDetail={setDetail} key={index} />
-                  )}
-                />
-              </View>
+            <Image style={styles.callUsBanner} source={IMGCallUsBanner} />
+          </View>
+
+          <View style={styles.bodyContainer}>
+            <View style={styles.headerContainer}>
+              <IcBack />
+              <TextInter style={styles.headerText}>Hotel & Resort</TextInter>
             </View>
-          </>
-        )}
+            <View style={styles.cardListContainer}>
+              <FlatList
+                data={data}
+                numColumns={3}
+                renderItem={({item, index}) => (
+                  <Card setDetail={setDetail} key={index} />
+                )}
+              />
+            </View>
+          </View>
+        </>
         <NotFound />
 
         <Gap height={screenHeightPercentage('15%')} />
