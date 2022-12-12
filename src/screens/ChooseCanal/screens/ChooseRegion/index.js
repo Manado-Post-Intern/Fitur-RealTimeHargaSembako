@@ -1,5 +1,5 @@
 import {FlatList, Image, SafeAreaView, StyleSheet, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Button, Gap, GlowCircle, TextInter} from '../../../components';
 import {IMGMPText, theme} from '../../../assets';
 import {SelectionRow} from './../components';

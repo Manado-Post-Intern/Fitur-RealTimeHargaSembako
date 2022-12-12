@@ -2,6 +2,16 @@ import {StyleSheet, Text} from 'react-native';
 import React from 'react';
 import {theme} from '../../../assets';
 
+/**
+ *
+ * @param {children, style} props
+ * @returns
+ * Basic text component with inter font family.
+ *
+ * To do {
+ *  textProps doesn't seems to be working without typescript
+ * }
+ */
 const TextInter = props => {
   const {children, style, ...textProps} = props;
 

@@ -1,8 +1,8 @@
 import {Image, Pressable, SafeAreaView, StyleSheet, View} from 'react-native';
-import React, {useState} from 'react';
-import {IMGMPTextPrimary, theme} from '../../../assets';
-import {SocialSignIn, TextInput} from './../components';
-import {Button, Gap, TextInter} from '../../../components';
+import React from 'react';
+import {IMGMPTextPrimary, theme} from '../../../../assets';
+import {SocialSignIn, TextInput} from '../../components';
+import {Button, Gap, TextInter} from '../../../../components';
 import {useNavigation} from '@react-navigation/native';
 
 const SignIn = () => {
@@ -23,6 +23,9 @@ const SignIn = () => {
         <TextInput
           label="Email"
           placeholder="masukkan email disini"
+          /**
+           * isError is used to activate error state
+           */
           // isError={true}
         />
 
@@ -32,6 +35,9 @@ const SignIn = () => {
           label="Password"
           placeholder="******"
           password
+          /**
+           * isError is used to activate error state
+           */
           // isError={true}
         />
 
