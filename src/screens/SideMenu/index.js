@@ -1,6 +1,6 @@
-import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
+import {Image, Pressable, StyleSheet, View} from 'react-native';
 import React from 'react';
-import {screenHeightPercentage, screenWidth} from '../../utils';
+import {screenHeightPercentage} from '../../utils';
 import {
   theme,
   IMGDummyProfile,
