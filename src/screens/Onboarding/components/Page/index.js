@@ -1,7 +1,7 @@
 import {Dimensions, Image, StyleSheet, View} from 'react-native';
 import React from 'react';
-import {IMGMPText, IMGOnboarding1, theme} from '../../../assets';
-import {GlowCircle, TextInter} from '../../../components';
+import {GlowCircle, TextInter} from '../../../../components';
+import {IMGMPText, theme} from '../../../../assets';
 
 const Page = ({item}) => {
   const width = Dimensions.get('window').width;
