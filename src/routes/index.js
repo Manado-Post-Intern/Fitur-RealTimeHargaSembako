@@ -37,6 +37,9 @@ import {BottomTabBar} from './components';
 import {screenHeightPercentage} from '../utils';
 import {TopBar} from '../components';
 
+/**
+ * Home Bottom Tab Bar Navigation Routes
+ */
 const HomeTab = () => {
   const Tab = createBottomTabNavigator();
 
@@ -76,6 +79,9 @@ const HomeTab = () => {
   );
 };
 
+/**
+ * Main Root Routes
+ */
 const Routes = () => {
   const Stack = createNativeStackNavigator();
   return (
