@@ -1,8 +1,8 @@
 import {Image, SafeAreaView, StyleSheet, View} from 'react-native';
 import React from 'react';
-import {IMGMPTextPrimary, theme} from '../../../assets';
-import {Button, Gap, TextInter} from '../../../components';
-import {Requirements, TextInput} from '../components';
+import {IMGMPTextPrimary, theme} from '../../../../assets';
+import {Button, Gap, TextInter} from '../../../../components';
+import {Requirements, TextInput} from '../../components';
 
 const NewPassword = () => {
   return (

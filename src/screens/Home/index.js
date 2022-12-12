@@ -1,7 +1,7 @@
 import {SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
-import React, {useRef, useState} from 'react';
+import React, {useRef} from 'react';
 import {theme} from '../../assets';
-import {Gap, TopBar} from '../../components';
+import {Gap} from '../../components';
 import {
   ActionSection,
   Headlines,

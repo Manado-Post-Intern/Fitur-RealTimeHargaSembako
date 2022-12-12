@@ -1,8 +1,8 @@
 import {Image, Pressable, SafeAreaView, StyleSheet, View} from 'react-native';
 import React from 'react';
-import {IMGMPTextPrimary, theme} from '../../../assets';
-import {Button, Gap, TextInter} from '../../../components';
-import {OTPInput} from '../components';
+import {IMGMPTextPrimary, theme} from '../../../../assets';
+import {Button, Gap, TextInter} from '../../../../components';
+import {OTPInput} from '../../components';
 
 const OTPVerification = () => {
   return (

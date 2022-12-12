@@ -1,9 +1,9 @@
 import {Image, Pressable, SafeAreaView, StyleSheet, View} from 'react-native';
 import React from 'react';
+import {useNavigation} from '@react-navigation/native';
 import {IMGMPTextPrimary, theme} from '../../../../assets';
 import {SocialSignIn, TextInput} from '../../components';
 import {Button, Gap, TextInter} from '../../../../components';
-import {useNavigation} from '@react-navigation/native';
 
 const SignIn = () => {
   const navigation = useNavigation();

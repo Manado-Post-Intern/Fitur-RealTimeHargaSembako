@@ -1,9 +1,9 @@
 import {FlatList, Image, SafeAreaView, StyleSheet, View} from 'react-native';
 import React, {useState} from 'react';
-import {Button, Gap, GlowCircle, TextInter} from '../../../components';
-import {IMGMPText, theme} from '../../../assets';
-import {SelectionRow} from './../components';
-import {screenHeightPercentage} from '../../../utils';
+import {screenHeightPercentage} from '../../../../utils';
+import {Button, Gap, GlowCircle, TextInter} from '../../../../components';
+import {IMGMPText, theme} from '../../../../assets';
+import {SelectionRow} from '../../../Home/components/NewsForYou/components/CanalModal/components';
 
 const data = [
   'News',
