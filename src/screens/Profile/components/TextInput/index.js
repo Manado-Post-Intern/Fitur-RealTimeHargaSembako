@@ -1,11 +1,10 @@
 import {
   Platform,
-  Pressable,
   StyleSheet,
   TextInput as RNTextInput,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React from 'react';
 import {Gap, TextInter} from '../../../../components';
 import {theme} from '../../../../assets';
 

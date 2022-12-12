@@ -81,11 +81,7 @@ const Password = ({
       <TextInter style={styles.label}>Password</TextInter>
       <Gap height={4} />
       <View style={styles.passwordContainer}>
-        <RNTextInput
-          style={styles.textInputPassword}
-          value={'******'}
-          // onChangeText={val => setValue(val)}
-        />
+        <RNTextInput style={styles.textInputPassword} value={'******'} />
         <Gap width={4} />
         <Pressable
           style={styles.editPassword}
