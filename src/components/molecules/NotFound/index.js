@@ -1,5 +1,5 @@
-import {Image, StyleSheet, Text, View} from 'react-native';
-import React, {useState} from 'react';
+import {Image, StyleSheet, View} from 'react-native';
+import React from 'react';
 import {IMGIllNotFound, theme} from '../../../assets';
 import {Button, Gap, TextInter} from '../../atoms';
 import {useNavigation} from '@react-navigation/native';
@@ -39,7 +39,6 @@ export default NotFound;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: theme.colors.MPWhite2,
     paddingHorizontal: 20,
   },
   informationContainer: {

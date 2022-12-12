@@ -37,7 +37,7 @@ const Actions = ({type, border = true}) => {
       return (
         <View style={[styles.container, border && styles.borderTop]}>
           <Pressable style={styles.buttonContainer}>
-            <IcLoveBig style={{height: 19, width: 19}} />
+            <IcLoveBig />
             <Gap width={4} />
             <TextInter style={styles.labelBig}>367k</TextInter>
           </Pressable>

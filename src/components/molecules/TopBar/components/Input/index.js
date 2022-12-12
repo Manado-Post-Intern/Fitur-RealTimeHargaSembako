@@ -94,7 +94,6 @@ const styles = StyleSheet.create({
     width: '100%',
     position: 'absolute',
     backgroundColor: theme.colors.white,
-    // bottom: -180,
     top: 40,
     borderRadius: 8,
     alignSelf: 'center',

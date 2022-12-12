@@ -3,7 +3,6 @@ import React, {createRef, useEffect, useState} from 'react';
 import {
   IcMagnifying,
   IcMetaMP,
-  IcMP,
   IcSort,
   IMGMPTextPrimary,
   theme,
@@ -35,7 +34,7 @@ const TopBar = ({searchOnly, type}) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeSearch, searchRef.current]);
   switch (type) {
-    case 'meta':
+    case 'meta': // META
       return (
         <View style={styles.container}>
           <View style={styles.topContainer}>
@@ -59,7 +58,7 @@ const TopBar = ({searchOnly, type}) => {
           {activeSearch && <InputMeta />}
         </View>
       );
-    case 'paper':
+    case 'paper': // PAPER
       return (
         <View style={styles.container}>
           <View style={styles.topContainer}>
@@ -85,7 +84,7 @@ const TopBar = ({searchOnly, type}) => {
         </View>
       );
 
-    case 'home':
+    case 'home': // HOME
       return (
         <View style={styles.container}>
           <View style={styles.topContainer}>
@@ -123,7 +122,7 @@ const TopBar = ({searchOnly, type}) => {
           <Gap height={15} />
         </View>
       );
-    case 'region':
+    case 'region': // REGION
       return (
         <View style={styles.container}>
           <View style={styles.topContainer}>
@@ -161,7 +160,7 @@ const TopBar = ({searchOnly, type}) => {
           <Gap height={15} />
         </View>
       );
-    case 'order':
+    case 'order': // ORDER
       return (
         <View style={styles.container}>
           <View style={styles.topContainer}>
@@ -180,7 +179,7 @@ const TopBar = ({searchOnly, type}) => {
           <Gap height={15} />
         </View>
       );
-    default:
+    default: // FALLBACK DEFAULT
       return (
         <View style={styles.container}>
           <View style={styles.topContainer}>

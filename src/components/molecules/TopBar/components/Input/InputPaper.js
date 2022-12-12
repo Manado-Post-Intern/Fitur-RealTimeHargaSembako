@@ -1,29 +1,12 @@
-import {Pressable, StyleSheet, Text, TextInput, View} from 'react-native';
-import React, {useState} from 'react';
-import {Gap, TextInter} from '../../../../atoms';
-import {
-  IcArrowDown,
-  IcCalendar,
-  IcMap,
-  IcSearchGray,
-  theme,
-} from '../../../../../assets';
+import {Pressable, StyleSheet, TextInput, View} from 'react-native';
+import React from 'react';
+import {Gap} from '../../../../atoms';
+import {IcCalendar, IcSearchGray, theme} from '../../../../../assets';
 import {useNavigation} from '@react-navigation/native';
 
 const STYLES = {
   height: 36,
 };
-
-const data = [
-  'Manado',
-  'Bitung',
-  'Gorontalo',
-  'Minahasa',
-  'Minahasa Utara',
-  'Minahasa Selatan',
-  'Minahasa Tenggara',
-  'Bolaang Mongondow',
-];
 
 const InputPaper = ({calendarModal}) => {
   const navigation = useNavigation();

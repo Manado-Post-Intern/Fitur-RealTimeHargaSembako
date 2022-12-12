@@ -1,4 +1,4 @@
-import {Pressable, StyleSheet, Text, TextInput, View} from 'react-native';
+import {Pressable, StyleSheet, TextInput, View} from 'react-native';
 import React, {useState} from 'react';
 import {Gap, TextInter} from '../../../../atoms';
 import {IcArrowDown, IcMap, IcSearchGray, theme} from '../../../../../assets';
