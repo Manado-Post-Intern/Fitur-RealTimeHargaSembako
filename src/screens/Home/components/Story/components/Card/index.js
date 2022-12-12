@@ -1,8 +1,8 @@
 import {Image, Pressable, StyleSheet, View} from 'react-native';
 import React from 'react';
-import {IMGMinahasaLogo, IMGStoryDummy, theme} from '../../../../assets';
-import {TextInter} from '../../../../components';
 import {useNavigation} from '@react-navigation/native';
+import {IMGMinahasaLogo, IMGStoryDummy, theme} from '../../../../../../assets';
+import {TextInter} from '../../../../../../components';
 
 const Card = ({item}) => {
   const navigation = useNavigation();

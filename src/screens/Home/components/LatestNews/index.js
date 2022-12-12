@@ -2,7 +2,7 @@ import {StyleSheet, View} from 'react-native';
 import React from 'react';
 import {Gap, More, TextInter} from '../../../../components';
 import {theme} from '../../../../assets';
-import Card from './Card';
+import {Card} from './components';
 
 const data = [0, 1, 2, 3];
 

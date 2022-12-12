@@ -1,7 +1,7 @@
 import {FlatList, StyleSheet, View} from 'react-native';
 import React from 'react';
 import {Gap} from '../../../../components';
-import Card from './Card';
+import {Card} from './components';
 
 const data = ['Minahasa', 'Manado', 'Minahasa Utara', 'Bitung'];
 

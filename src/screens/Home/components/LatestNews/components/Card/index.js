@@ -1,13 +1,13 @@
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Image, StyleSheet, View} from 'react-native';
 import React from 'react';
-import {IMGDummyNews, theme} from '../../../../../assets';
+import {IMGDummyNews, theme} from '../../../../../../assets';
 import {
   Actions,
   CategoryHorizontal,
   Gap,
   TextInter,
   TimeStamp,
-} from '../../../../../components';
+} from '../../../../../../components';
 
 const Card = () => {
   return (

@@ -2,15 +2,13 @@ import {Image, StyleSheet, View} from 'react-native';
 import React from 'react';
 import {
   Actions,
-  // CategoryHorizontal,
+  CategoryHorizontal,
   Gap,
   TextInter,
   TimeStamp,
 } from '../../../../components';
 import {IMGGodStatue, theme} from '../../../../assets';
 import Button from './Button';
-// import Actions from './Actions';
-// import CategoryHorizontal from '../../../../components/molecules/CategoryHorizontal';
 
 const Card = () => {
   return (
@@ -29,7 +27,7 @@ const Card = () => {
 
       <Gap height={4} />
 
-      {/* <CategoryHorizontal /> */}
+      <CategoryHorizontal />
 
       <Gap height={16} />
 
