@@ -1,7 +1,7 @@
 import {Image, Pressable, StyleSheet} from 'react-native';
 import React from 'react';
-import {IMGDummyDigital, IMGDummyNewspaper, theme} from '../../../../assets';
-import {Gap, TextInter, TimeStamp} from '../../../../components';
+import {IMGDummyNewspaper, theme} from '../../../../assets';
+import {Gap, TextInter} from '../../../../components';
 import {useNavigation} from '@react-navigation/native';
 
 const Card = ({index, dataLength}) => {

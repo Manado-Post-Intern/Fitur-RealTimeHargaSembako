@@ -1,4 +1,4 @@
-import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {Pressable, StyleSheet, View} from 'react-native';
 import React from 'react';
 import {Gap, TopBar} from '../../../../components';
 import {IcBack, theme} from '../../../../assets';

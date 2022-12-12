@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import React from 'react';
 import {NotFound, TopBar} from '../../../../components';
 import {theme} from '../../../../assets';
