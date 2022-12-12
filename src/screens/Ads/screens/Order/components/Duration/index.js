@@ -1,13 +1,7 @@
 import {FlatList, Pressable, StyleSheet, Text, View} from 'react-native';
 import React, {useState} from 'react';
-import {
-  IcArrowDown,
-  IcDropdownArrow,
-  IcXSmall,
-  theme,
-} from '../../../../../../assets';
-import {Gap, TextInter} from '../../../../../../components';
-import CheckBox from '../../../../../Home/components/NewsForYou/components/CanalModal/components/Checkbox';
+import {IcDropdownArrow, theme} from '../../../../../../assets';
+import {TextInter} from '../../../../../../components';
 import OptionRow from './OptionRow';
 
 const dataAll = ['1 Bulan', '2 Bulan', '3 Bulan', '6 Bulan'];
@@ -88,7 +82,6 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     alignItems: 'center',
     marginRight: 4,
-    // height: 30,
   },
   itemLabel: {
     color: theme.colors.grey1,

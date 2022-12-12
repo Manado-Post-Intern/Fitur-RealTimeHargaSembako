@@ -1,18 +1,9 @@
-import {Pressable, StyleSheet, Text, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import {StyleSheet, View} from 'react-native';
+import React from 'react';
 import {TextInter} from '../../../../../../components';
-import CheckBox from '../../../../../Home/components/NewsForYou/components/CanalModal/components/Checkbox';
 import {theme} from '../../../../../../assets';
 
-const OptionRow = ({item, index, setActive, activeList}) => {
-  const handleCheck = () => {
-    if (!activeList.includes(item)) {
-      setActive([...activeList, item]);
-    } else {
-      setActive(activeList.filter(x => x !== item));
-    }
-  };
-
+const OptionRow = ({item, index}) => {
   return (
     <View style={[styles.optionItemContainer, index !== 0 && styles.topBorder]}>
       <TextInter style={styles.optionItem}>{item}</TextInter>

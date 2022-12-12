@@ -1,4 +1,4 @@
-import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
+import {Image, Pressable, StyleSheet, View} from 'react-native';
 import React from 'react';
 import {ChevroletBackButton, Gap, TextInter} from '../../components';
 import {IcEdit, IMGDummyProfile, theme} from '../../assets';

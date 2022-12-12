@@ -1,5 +1,5 @@
-import {Pressable, StyleSheet, Text, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import {Pressable, StyleSheet} from 'react-native';
+import React from 'react';
 import {TextInter} from '../../../../../../components';
 import CheckBox from '../../../../../Home/components/NewsForYou/components/CanalModal/components/Checkbox';
 import {theme} from '../../../../../../assets';

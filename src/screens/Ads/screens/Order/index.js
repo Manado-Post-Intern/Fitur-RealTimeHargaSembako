@@ -12,7 +12,7 @@ import ModalCalendar from '../../../../components/molecules/ModalCalendar';
 import BottomSheet, {BottomSheetBackdrop} from '@gorhom/bottom-sheet';
 
 const Order = ({route}) => {
-  const {type} = route;
+  const {type} = route; // Type used for specify type of order
 
   const [calendarModal, setCalendarModal] = useState(false);
   const modalRef = useRef();

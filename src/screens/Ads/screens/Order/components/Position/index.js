@@ -2,10 +2,8 @@ import {FlatList, Pressable, StyleSheet, Text, View} from 'react-native';
 import React, {useState} from 'react';
 import {IcXSmall, theme} from '../../../../../../assets';
 import {Gap, TextInter} from '../../../../../../components';
-import CheckBox from '../../../../../Home/components/NewsForYou/components/CanalModal/components/Checkbox';
 import OptionRow from './OptionRow';
 
-const data = ['Home', 'Daerah'];
 const dataAll = [
   'Home',
   'Trending',
