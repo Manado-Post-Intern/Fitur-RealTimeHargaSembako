@@ -1,11 +1,4 @@
-import {
-  Image,
-  ImageBackground,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import {Image, ScrollView, StyleSheet, View} from 'react-native';
 import React from 'react';
 import {
   IcCopyLink,
@@ -16,9 +9,7 @@ import {
   IMGRoundWhatsapp,
   theme,
 } from '../../../../assets';
-import {screenWidth} from '../../../../utils';
 import {Gap, TextInter} from '../../../../components';
-import {BlurView} from '@react-native-community/blur';
 
 const Detail = () => {
   return (

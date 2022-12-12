@@ -10,7 +10,6 @@ const data = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 
 const Meta = () => {
   const [detail, setDetail] = useState(false);
-  const [search, setSearch] = useState(false);
 
   return (
     <SafeAreaView>

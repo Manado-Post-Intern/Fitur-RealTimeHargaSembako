@@ -7,7 +7,6 @@ import {useNavigation} from '@react-navigation/native';
 const Card = ({type}) => {
   const navigation = useNavigation();
   const handlePress = () => {
-    // setDetail(true);
     navigation.navigate('MetaDetail');
   };
   return (

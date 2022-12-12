@@ -6,7 +6,7 @@ import {
   View,
 } from 'react-native';
 import React from 'react';
-import {BlurShadow, Gap, GlowCircle, TextInter} from '../../../../components';
+import {Gap, TextInter} from '../../../../components';
 import {
   IcArrowRightSmall,
   IcMetaBudaya,
