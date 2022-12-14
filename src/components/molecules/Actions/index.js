@@ -1,5 +1,5 @@
 import {Alert, Pressable, Share, StyleSheet, View} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {
   IcLove,
   IcLoveBig,
@@ -12,6 +12,12 @@ import {
 import {Gap, TextInter} from '../../atoms';
 
 const Actions = ({type, border = true}) => {
+  const [containerWidth, setContainerWidth] = useState();
+
+  const checkSlimScreen = () => {
+    return containerWidth < 180;
+  };
+
   const onShare = async () => {
     try {
       const result = await Share.share({
@@ -55,18 +61,35 @@ const Actions = ({type, border = true}) => {
       );
     default:
       return (
-        <View style={[styles.container, border && styles.borderTop]}>
-          <Pressable style={styles.buttonContainer}>
+        <View
+          style={[styles.container, border && styles.borderTop]}
+          onLayout={event => {
+            var {width} = event.nativeEvent.layout;
+            setContainerWidth(width);
+          }}>
+          <Pressable
+            style={[
+              styles.buttonContainer,
+              checkSlimScreen() && styles.slimButtonContainer,
+            ]}>
             <IcLove />
             <Gap width={4} />
             <TextInter style={styles.label}>367k</TextInter>
           </Pressable>
-          <Pressable style={styles.buttonContainer}>
+          <Pressable
+            style={[
+              styles.buttonContainer,
+              checkSlimScreen() && styles.slimButtonContainer,
+            ]}>
             <IcShare />
             <Gap width={4} />
             <TextInter style={styles.label}>Share</TextInter>
           </Pressable>
-          <Pressable style={styles.buttonContainer}>
+          <Pressable
+            style={[
+              styles.buttonContainer,
+              checkSlimScreen() && styles.slimButtonContainer,
+            ]}>
             <IcWhatsapp />
             <Gap width={4} />
             <TextInter style={styles.label}>WhatsApp</TextInter>
@@ -94,6 +117,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingTop: 4,
+    flex: 1,
+  },
+  slimButtonContainer: {
+    flexDirection: 'column',
+    alignItems: 'center',
   },
   label: {
     fontFamily: theme.fonts.inter.semiBold,

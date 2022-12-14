@@ -21,6 +21,7 @@ const styles = StyleSheet.create({
     borderColor: theme.colors.MPBlue1,
     borderRadius: 4,
     marginRight: 4,
+    marginBottom: 4,
   },
   categoriesLabel: {
     fontSize: 10,

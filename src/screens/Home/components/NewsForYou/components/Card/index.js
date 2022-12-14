@@ -2,12 +2,12 @@ import {Image, StyleSheet, View} from 'react-native';
 import React from 'react';
 import {IMGDummyNews, theme} from '../../../../../../assets';
 import {
+  Actions,
   CategoryHorizontal,
   Gap,
   TextInter,
   TimeStamp,
 } from '../../../../../../components';
-import Actions from '../Actions';
 
 const Card = () => {
   return (
@@ -25,7 +25,7 @@ const Card = () => {
         <TimeStamp />
         <Gap height={4} />
         <CategoryHorizontal />
-        <Gap height={8} />
+        <Gap height={4} />
         <Actions />
       </View>
     </View>
@@ -55,6 +55,7 @@ const styles = StyleSheet.create({
   },
   informationContainer: {
     flex: 1,
+    width: '100%',
   },
   title: {
     fontFamily: theme.fonts.inter.semiBold,

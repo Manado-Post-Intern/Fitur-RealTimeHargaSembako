@@ -18,6 +18,8 @@ export default CategoryHorizontal;
 
 const styles = StyleSheet.create({
   categoriesContainer: {
+    flexWrap: 'wrap',
     flexDirection: 'row',
+    flex: 1,
   },
 });
