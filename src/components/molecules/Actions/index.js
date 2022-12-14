@@ -15,7 +15,7 @@ const Actions = ({type, border = true}) => {
   const [containerWidth, setContainerWidth] = useState();
 
   const checkSlimScreen = () => {
-    return containerWidth < 180;
+    return containerWidth < 170;
   };
 
   const onShare = async () => {
@@ -74,7 +74,10 @@ const Actions = ({type, border = true}) => {
             ]}>
             <IcLove />
             <Gap width={4} />
-            <TextInter style={styles.label}>367k</TextInter>
+            <TextInter
+              style={[styles.label, checkSlimScreen() && styles.labelSmall]}>
+              367k
+            </TextInter>
           </Pressable>
           <Pressable
             style={[
@@ -83,7 +86,10 @@ const Actions = ({type, border = true}) => {
             ]}>
             <IcShare />
             <Gap width={4} />
-            <TextInter style={styles.label}>Share</TextInter>
+            <TextInter
+              style={[styles.label, checkSlimScreen() && styles.labelSmall]}>
+              Share
+            </TextInter>
           </Pressable>
           <Pressable
             style={[
@@ -92,7 +98,10 @@ const Actions = ({type, border = true}) => {
             ]}>
             <IcWhatsapp />
             <Gap width={4} />
-            <TextInter style={styles.label}>WhatsApp</TextInter>
+            <TextInter
+              style={[styles.label, checkSlimScreen() && styles.labelSmall]}>
+              WhatsApp
+            </TextInter>
           </Pressable>
         </View>
       );
@@ -105,6 +114,8 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
+    // justifyContent: 'flex-start',
     paddingTop: 5,
     width: '100%',
   },
@@ -117,7 +128,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingTop: 4,
-    flex: 1,
   },
   slimButtonContainer: {
     flexDirection: 'column',
@@ -131,6 +141,11 @@ const styles = StyleSheet.create({
   labelBig: {
     fontFamily: theme.fonts.inter.semiBold,
     fontSize: 16,
+    color: theme.colors.MPGrey3,
+  },
+  labelSmall: {
+    fontFamily: theme.fonts.inter.semiBold,
+    fontSize: 8,
     color: theme.colors.MPGrey3,
   },
 });

@@ -1,15 +1,35 @@
-import {Pressable} from 'react-native';
+import {Pressable, StyleSheet} from 'react-native';
 import React from 'react';
 import {IcArrowLeft} from '../../../assets';
 import {useNavigation} from '@react-navigation/native';
+import {isSlimScreen} from '../../../utils';
 
 const BackButton = () => {
   const navigation = useNavigation();
+  const checkValue = () => {
+    if (isSlimScreen()) {
+      return 40;
+    } else {
+      return 50;
+    }
+  };
   return (
-    <Pressable onPress={() => navigation.goBack()}>
-      <IcArrowLeft />
+    <Pressable
+      style={styles.container}
+      onPress={() => navigation.goBack()}
+      onLayout={e => {
+        var {width} = e.nativeEvent.layout;
+        console.log({width});
+      }}>
+      <IcArrowLeft width={checkValue()} height={checkValue()} />
     </Pressable>
   );
 };
 
 export default BackButton;
+
+const styles = StyleSheet.create({
+  container: {
+    alignSelf: 'baseline',
+  },
+});

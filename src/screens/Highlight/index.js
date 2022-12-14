@@ -14,7 +14,7 @@ import {Actions, BackButton, Gap, TextInter} from '../../components';
 
 const Highlight = () => {
   const modalRef = useRef();
-  const snapPoints = useMemo(() => ['25%', '50%'], []);
+  const snapPoints = useMemo(() => ['30%', '65%'], []);
 
   return (
     <SafeAreaView>
@@ -79,12 +79,13 @@ const styles = StyleSheet.create({
   actionsContainer: {
     backgroundColor: theme.colors.white,
     paddingTop: 13,
-    borderRadius: 25,
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
     paddingHorizontal: 20,
     position: 'absolute',
     width: '100%',
     bottom: 0,
-    paddingBottom: screenHeightPercentage('5%'),
+    paddingBottom: 25,
   },
   blurView: {
     position: 'absolute',

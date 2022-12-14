@@ -13,3 +13,7 @@ export const screenHeightPercentage = percent => {
 export const screenWidth = () => {
   return Dimensions.get('window').width;
 };
+
+export const isSlimScreen = () => {
+  return screenWidth() < 380;
+};
