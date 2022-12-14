@@ -268,9 +268,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  switchContainer: {
-    flexDirection: 'row',
-  },
+  switchContainer: {},
   voucherLeft: {
     fontSize: 13,
     color: '#F35656',
@@ -396,7 +394,7 @@ const styles = StyleSheet.create({
     paddingTop: 11,
     backgroundColor: theme.colors.MPWhite,
     paddingHorizontal: 20,
-    paddingBottom: 29,
+    paddingBottom: 16,
     alignItems: 'center',
     justifyContent: 'space-between',
   },
