@@ -1,5 +1,18 @@
 import {StyleSheet, View} from 'react-native';
 import React from 'react';
+// import {
+//   Ic3DPaper,
+//   Ic3DPaperActive,
+//   IcMeta,
+//   IcMetaActive,
+//   IcMP,
+//   IcRegion,
+//   IcRegionActive,
+//   IcTrending,
+//   IcTrendingActive,
+//   theme,
+// } from '../../assets';
+// import {TextInter} from '../../components';
 import {
   Ic3DPaper,
   Ic3DPaperActive,
@@ -11,8 +24,8 @@ import {
   IcTrending,
   IcTrendingActive,
   theme,
-} from '../../assets';
-import {TextInter} from '../../components';
+} from '../../../assets';
+import {TextInter} from '../../atoms';
 
 const BottomTabBar = ({route, focused}) => {
   switch (route.name) {

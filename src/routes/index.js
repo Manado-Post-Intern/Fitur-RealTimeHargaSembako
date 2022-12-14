@@ -33,9 +33,8 @@ import {
   MetaDetail,
 } from '../screens';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {BottomTabBar} from './components';
 import {screenHeightPercentage} from '../utils';
-import {TopBar} from '../components';
+import {BottomTabBar, TopBar} from '../components';
 
 /**
  * Home Bottom Tab Bar Navigation Routes
