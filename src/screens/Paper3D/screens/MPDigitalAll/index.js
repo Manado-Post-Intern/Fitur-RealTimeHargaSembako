@@ -1,4 +1,4 @@
-import {FlatList, Pressable, ScrollView, StyleSheet, View} from 'react-native';
+import {FlatList, Pressable, StyleSheet, View} from 'react-native';
 import React from 'react';
 import {Gap, Pagination, TextInter, TopBar} from '../../../../components';
 import {IcBack, theme} from '../../../../assets';
@@ -11,35 +11,30 @@ const data = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 const MPDigitalAll = () => {
   const navigation = useNavigation();
   return (
-    <ScrollView style={styles.container}>
+    <>
       <View style={styles.topBarContainer}>
         <TopBar type="paper" />
       </View>
-      <View style={styles.bodyContainer}>
-        <View style={styles.headerContainer}>
-          <Pressable onPress={() => navigation.goBack()}>
-            <IcBack />
-          </Pressable>
-          <TextInter style={styles.headerText}>MP Digital</TextInter>
-        </View>
-
-        <Gap height={12} />
-
-        <View style={styles.flatListContainer}>
-          <FlatList
-            data={data}
-            numColumns={3}
-            renderItem={({item, index}) => (
-              <Card key={index} index={index} dataLength={data.length} />
-            )}
-          />
-        </View>
-      </View>
+      <FlatList
+        ListHeaderComponent={() => (
+          <View style={styles.headerContainer}>
+            <Pressable onPress={() => navigation.goBack()}>
+              <IcBack />
+            </Pressable>
+            <TextInter style={styles.headerText}>MP Digital</TextInter>
+          </View>
+        )}
+        contentContainerStyle={styles.contentContainerStyle}
+        data={data}
+        numColumns={3}
+        renderItem={({item, index}) => (
+          <Card key={index} index={index} dataLength={data.length} />
+        )}
+      />
 
       <Pagination />
-
-      <Gap height={screenHeightPercentage('15%')} />
-    </ScrollView>
+      <Gap height={30} />
+    </>
   );
 };
 
@@ -59,7 +54,8 @@ const styles = StyleSheet.create({
   headerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginLeft: 24,
+    marginLeft: 24 - 17,
+    marginVertical: 12,
   },
   headerText: {
     fontFamily: 'Roboto',
@@ -67,8 +63,8 @@ const styles = StyleSheet.create({
     color: theme.colors.MPGrey2,
     fontWeight: '700',
   },
-
-  flatListContainer: {
+  contentContainerStyle: {
     paddingHorizontal: 17,
+    paddingBottom: screenHeightPercentage('10.5%'),
   },
 });
