@@ -12,7 +12,14 @@ import {Category, Input, InputMeta, InputPaper} from './components';
 import ModalCalendar from '../ModalCalendar';
 import {useNavigation} from '@react-navigation/native';
 
-const dummy = ['Terbaru', 'Politik', 'Daerah', 'Pendidikan'];
+const dummy = [
+  'Terbaru',
+  'Politik',
+  'Daerah',
+  'Pendidikan',
+  'Olahraga',
+  'Games',
+];
 
 const TopBar = ({searchOnly, type}) => {
   const navigation = useNavigation();
