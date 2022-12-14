@@ -56,7 +56,7 @@ const TopBar = ({searchOnly, type}) => {
                 </Pressable>
               )}
               <Gap width={24} />
-              <Pressable>
+              <Pressable onPress={() => handleBurgerPress()}>
                 <IcSort />
               </Pressable>
             </View>
@@ -80,7 +80,7 @@ const TopBar = ({searchOnly, type}) => {
                 </Pressable>
               )}
               <Gap width={24} />
-              <Pressable>
+              <Pressable onPress={() => handleBurgerPress()}>
                 <IcSort />
               </Pressable>
             </View>
@@ -201,7 +201,7 @@ const TopBar = ({searchOnly, type}) => {
                 </Pressable>
               )}
               <Gap width={24} />
-              <Pressable>
+              <Pressable onPress={() => handleBurgerPress()}>
                 <IcSort />
               </Pressable>
             </View>

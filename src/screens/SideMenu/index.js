@@ -1,6 +1,6 @@
-import {Image, Pressable, StyleSheet, View} from 'react-native';
+import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import {screenHeightPercentage} from '../../utils';
+import {screenHeightPercentage, screenWidth} from '../../utils';
 import {
   theme,
   IMGDummyProfile,
@@ -23,9 +23,12 @@ const SideMenu = () => {
         <Image style={styles.profileImage} source={IMGDummyProfile} />
         <Gap width={16} />
         <View style={styles.headerTextContainer}>
-          <View>
+          <View style={styles.userNameContainer}>
             <TextInter style={styles.name}>Cameron Williamson</TextInter>
-            <TextInter style={styles.email}>
+            <TextInter
+              style={styles.email}
+              adjustsFontSizeToFit={true}
+              numberOfLines={1}>
               jessica.hanson@example.com
             </TextInter>
           </View>
@@ -106,17 +109,20 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: theme.colors.darkBright,
     paddingBottom: 16,
-    backgroundColor: 'yellow',
     width: '100%',
   },
   profileImage: {
     borderRadius: 100,
-    width: 75,
-    height: 75,
+    width: '20%',
+    aspectRatio: 1,
   },
   headerTextContainer: {
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  userNameContainer: {
+    flex: 1,
   },
   name: {
     fontFamily: theme.fonts.inter.semiBold,
@@ -132,8 +138,9 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.MPGrey2,
     justifyContent: 'center',
     alignItems: 'center',
-    width: 32,
-    height: 32,
+    width: '15%',
+    aspectRatio: 1,
+    // height: 32,
   },
 
   sectionContainer: {

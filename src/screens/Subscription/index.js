@@ -1,6 +1,6 @@
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {Image, Pressable, StyleSheet, View} from 'react-native';
+import {Image, Pressable, ScrollView, StyleSheet, View} from 'react-native';
 import {
   IcEdit,
   IcGoldCheckmark,
@@ -18,7 +18,7 @@ const Subscription = () => {
   const subscribed = true;
   const shortTimeLeft = true;
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View style={styles.headerContainer}>
         <ChevroletBackButton />
         <TextInter style={styles.title}>Subscription</TextInter>
@@ -51,11 +51,14 @@ const Subscription = () => {
 
         {shortTimeLeft && (
           <View style={styles.extendContainer}>
-            <TextInter style={styles.subscribedLeft}>
+            <TextInter
+              style={styles.subscribedLeft}
+              adjustsFontSizeToFit={true}
+              numberOfLines={1}>
               Langganan akan habis dalam 1 hari lagi.
             </TextInter>
             <Pressable style={styles.extendButton}>
-              <TextInter style={styles.subscribedLeft}>Perpanjang</TextInter>
+              <TextInter style={styles.extendButtonLabel}>Perpanjang</TextInter>
             </Pressable>
           </View>
         )}
@@ -128,13 +131,14 @@ const Subscription = () => {
           </Pressable>
         </View>
       </View>
+      <Gap height={screenHeightPercentage('5%')} />
       <Pressable style={styles.stopSubscribeButton}>
         <TextInter style={styles.stopSubscribe}>
           Tidak ingin berlangganan lagi ?{' '}
           <TextInter style={styles.stopSubscribeBold}>Unsubscribe</TextInter>
         </TextInter>
       </Pressable>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -210,12 +214,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     borderRadius: 8,
+    width: '100%',
   },
   extendButton: {
     backgroundColor: theme.colors.MPBlue0,
     paddingHorizontal: 10,
-    paddingVertical: 4,
     borderRadius: 5,
+    height: 27,
+    justifyContent: 'center',
+  },
+  extendButtonLabel: {
+    fontSize: 12,
+    color: theme.colors.fontLight,
   },
 
   subscribedContainer: {
@@ -230,6 +240,7 @@ const styles = StyleSheet.create({
   subscribedLeft: {
     fontSize: 12,
     color: theme.colors.fontLight,
+    flex: 1,
   },
 
   text1: {
@@ -271,7 +282,9 @@ const styles = StyleSheet.create({
   },
 
   stopSubscribeButton: {
-    marginBottom: screenHeightPercentage('3%'),
+    flex: 1,
+    width: '100%',
+    alignItems: 'center',
   },
   stopSubscribe: {
     fontSize: 14,

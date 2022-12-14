@@ -12,6 +12,7 @@ import {Gap, TextInter, TopBar} from '../../components';
 import {HorizontalCard, ModalRow, VerticalCard} from './components';
 import BottomSheet from '@gorhom/bottom-sheet';
 import {useNavigation} from '@react-navigation/native';
+import {screenHeightPercentage} from '../../utils';
 
 const categories = ['Otomotif', 'Properti', 'Lowongan', 'Ragam'];
 const horizontal = [0, 1, 2, 3, 4];
@@ -130,7 +131,7 @@ const Marketplace = () => {
           <TextInter style={styles.modalSort}>Urutkan</TextInter>
           <Gap height={22} />
           {filterItem.map((item, i) => (
-            <Pressable onPress={() => setFilter(i)}>
+            <Pressable key={i} onPress={() => setFilter(i)}>
               <ModalRow key={i} item={item} filter={filter} index={i} />
             </Pressable>
           ))}
@@ -248,8 +249,8 @@ const styles = StyleSheet.create({
   footer: {
     backgroundColor: theme.colors.white,
     alignItems: 'center',
-    paddingTop: 21,
-    paddingBottom: 27,
+    paddingTop: screenHeightPercentage('2%'),
+    paddingBottom: screenHeightPercentage('3%'),
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
     paddingHorizontal: 44,

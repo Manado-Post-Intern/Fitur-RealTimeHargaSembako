@@ -10,7 +10,10 @@ export const screenHeightPercentage = percent => {
 /**
  * screen width value
  */
-export const screenWidth = () => {
+export const screenWidth = percent => {
+  if (percent) {
+    return Dimensions.get('window').width * (parseFloat(percent) / 100.0);
+  }
   return Dimensions.get('window').width;
 };
 
