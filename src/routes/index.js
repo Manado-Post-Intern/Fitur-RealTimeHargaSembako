@@ -60,6 +60,7 @@ const HomeTab = () => {
           position: 'absolute',
           overflow: 'hidden',
           height: screenHeightPercentage('10.5%'),
+          minHeight: 80,
         },
       })}>
       <Tab.Screen name="Trending" component={Trending} />
