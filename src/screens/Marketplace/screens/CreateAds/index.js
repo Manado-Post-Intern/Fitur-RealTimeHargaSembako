@@ -59,11 +59,23 @@ const CreateAds = () => {
         contentContainerStyle={styles.innerContentContainer}>
         <Gap height={19} />
         <View style={styles.voucherContainer}>
-          <TextInter style={styles.voucherText}>
+          <TextInter
+            style={styles.voucherText}
+            adjustsFontSizeToFit={true}
+            numberOfLines={1}>
             Menggunakan gratis pasang iklan
           </TextInter>
-          <Switch />
-          <TextInter style={styles.voucherLeft}>sisa : 2</TextInter>
+          <View style={styles.voucherRightContainer}>
+            <View style={styles.switchContainer}>
+              <Switch />
+            </View>
+            <TextInter
+              style={styles.voucherLeft}
+              adjustsFontSizeToFit={true}
+              numberOfLines={1}>
+              sisa : 2
+            </TextInter>
+          </View>
         </View>
         <Gap height={16} />
         <TextInter style={styles.title}>Pasang Iklan</TextInter>
@@ -248,6 +260,16 @@ const styles = StyleSheet.create({
   voucherText: {
     fontSize: 13,
     color: theme.colors.grey1,
+    flex: 2,
+  },
+  voucherRightContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  switchContainer: {
+    flexDirection: 'row',
   },
   voucherLeft: {
     fontSize: 13,
