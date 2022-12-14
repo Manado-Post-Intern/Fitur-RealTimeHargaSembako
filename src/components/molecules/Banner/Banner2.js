@@ -21,5 +21,6 @@ const styles = StyleSheet.create({
   banner: {
     width: '100%',
     height: 130,
+    resizeMode: 'contain',
   },
 });
