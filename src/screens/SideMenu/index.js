@@ -106,6 +106,8 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: theme.colors.darkBright,
     paddingBottom: 16,
+    backgroundColor: 'yellow',
+    width: '100%',
   },
   profileImage: {
     borderRadius: 100,

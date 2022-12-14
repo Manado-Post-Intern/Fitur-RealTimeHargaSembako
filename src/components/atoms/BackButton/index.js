@@ -14,13 +14,7 @@ const BackButton = () => {
     }
   };
   return (
-    <Pressable
-      style={styles.container}
-      onPress={() => navigation.goBack()}
-      onLayout={e => {
-        var {width} = e.nativeEvent.layout;
-        console.log({width});
-      }}>
+    <Pressable style={styles.container} onPress={() => navigation.goBack()}>
       <IcArrowLeft width={checkValue()} height={checkValue()} />
     </Pressable>
   );

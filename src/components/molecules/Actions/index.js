@@ -14,7 +14,7 @@ import {Gap, TextInter} from '../../atoms';
 const Actions = ({type, border = true}) => {
   const [containerWidth, setContainerWidth] = useState();
 
-  const checkSlimScreen = () => {
+  const checkSlimContainer = () => {
     return containerWidth < 170;
   };
 
@@ -70,36 +70,36 @@ const Actions = ({type, border = true}) => {
           <Pressable
             style={[
               styles.buttonContainer,
-              checkSlimScreen() && styles.slimButtonContainer,
+              checkSlimContainer() && styles.slimButtonContainer,
             ]}>
             <IcLove />
             <Gap width={4} />
             <TextInter
-              style={[styles.label, checkSlimScreen() && styles.labelSmall]}>
+              style={[styles.label, checkSlimContainer() && styles.labelSmall]}>
               367k
             </TextInter>
           </Pressable>
           <Pressable
             style={[
               styles.buttonContainer,
-              checkSlimScreen() && styles.slimButtonContainer,
+              checkSlimContainer() && styles.slimButtonContainer,
             ]}>
             <IcShare />
             <Gap width={4} />
             <TextInter
-              style={[styles.label, checkSlimScreen() && styles.labelSmall]}>
+              style={[styles.label, checkSlimContainer() && styles.labelSmall]}>
               Share
             </TextInter>
           </Pressable>
           <Pressable
             style={[
               styles.buttonContainer,
-              checkSlimScreen() && styles.slimButtonContainer,
+              checkSlimContainer() && styles.slimButtonContainer,
             ]}>
             <IcWhatsapp />
             <Gap width={4} />
             <TextInter
-              style={[styles.label, checkSlimScreen() && styles.labelSmall]}>
+              style={[styles.label, checkSlimContainer() && styles.labelSmall]}>
               WhatsApp
             </TextInter>
           </Pressable>
