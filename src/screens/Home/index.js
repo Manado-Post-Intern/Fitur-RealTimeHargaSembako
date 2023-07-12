@@ -26,6 +26,7 @@ import {
   site,
   tagArticle,
 } from '../../api';
+import {sectionList} from '../../data';
 
 const data = [0, 1, 2];
 const daerah = ['Manado', 'Minahasa Utara', 'Bitung', 'Tondano'];
@@ -92,16 +93,16 @@ const Home = () => {
     }
   };
   const getStory = async () => {
-    const promises = daerah.map(async query => {
-      const response = await axios.get(search, {
+    const promises = sectionList.map(async item => {
+      const response = await axios.get(latestEndPoint, {
         headers: {
           Accept: 'application/vnd.promedia+json; version=1.0',
           Authorization: `Bearer ${token}`,
         },
-        params: {q: query, page: 1},
+        params: {page: 1, section_id: item.id},
       });
       let data = response.data.data.list.latest[0];
-      data.region = query;
+      data.region = item.name;
       return data;
     });
 

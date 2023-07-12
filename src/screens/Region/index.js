@@ -5,15 +5,60 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Banner2, Gap, TopBar} from '../../components';
 import {screenHeightPercentage} from '../../utils';
 import {theme} from '../../assets';
 import {AreaSection, Story} from './components';
+import {latestEndPoint, loadSession} from '../../api';
+import {sectionList} from '../../data';
+import axios from 'axios';
 
 const story = ['Manado', 'Bitung', 'Tomohon', 'Minahasa', 'Minahasa Utara'];
 
 const Region = () => {
+  const [token, setToken] = useState(null);
+  const [data, setData] = useState(null);
+
+  const getRegion = async () => {
+    const promises = sectionList.map(async item => {
+      const response = await axios.get(latestEndPoint, {
+        headers: {
+          Accept: 'application/vnd.promedia+json; version=1.0',
+          Authorization: `Bearer ${token}`,
+        },
+        params: {page: 1, section_id: item.id},
+      });
+      let data = response.data.data.list;
+      data.region = item.name;
+      return data;
+    });
+
+    try {
+      const result = await Promise.all(promises);
+      setData(result);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (token) {
+      getRegion();
+    }
+  }, [token]);
+
+  useEffect(() => {
+    loadSession()
+      .then(session => {
+        if (session) {
+          setToken(session.access_token);
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, []);
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <View style={styles.topBarContainer}>
@@ -22,13 +67,13 @@ const Region = () => {
       <ScrollView style={styles.container}>
         <Gap height={30} />
 
-        <FlatList
+        {/* <FlatList
           contentContainerStyle={styles.storyList}
           horizontal
           data={story}
           showsHorizontalScrollIndicator={false}
           renderItem={({item, index}) => <Story key={index} />}
-        />
+        /> */}
 
         <Gap height={35} />
 
@@ -36,8 +81,10 @@ const Region = () => {
 
         <Gap height={18} />
 
-        <AreaSection />
-        <AreaSection />
+        {/* <AreaSection /> */}
+        {data?.map((item, index) => {
+          return <AreaSection key={index} item={item} />;
+        })}
 
         <Gap height={screenHeightPercentage('11%')} />
       </ScrollView>

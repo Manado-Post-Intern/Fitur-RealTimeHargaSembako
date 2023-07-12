@@ -1,11 +1,45 @@
 import {SafeAreaView, ScrollView, StyleSheet} from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {theme} from '../../assets';
 import {Banner1, Gap} from '../../components';
 import {TrendingSection} from './components';
 import {screenHeightPercentage} from '../../utils';
+import {loadSession, popular} from '../../api';
+import axios from 'axios';
 
 const Trending = () => {
+  const [token, setToken] = useState(null);
+  const [trending, setTrending] = useState(null);
+
+  const getTrending = async () => {
+    try {
+      const response = await axios.get(popular, {
+        headers: {
+          Accept: 'application/vnd.promedia+json; version=1.0',
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setTrending(response.data.data.list);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getTrending();
+  }, [token]);
+
+  useEffect(() => {
+    loadSession()
+      .then(session => {
+        if (session) {
+          setToken(session.access_token);
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, []);
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <ScrollView style={styles.container}>
@@ -15,7 +49,7 @@ const Trending = () => {
 
         <Gap height={18} />
 
-        <TrendingSection />
+        <TrendingSection item={trending} />
 
         <Gap height={screenHeightPercentage('11%')} />
       </ScrollView>

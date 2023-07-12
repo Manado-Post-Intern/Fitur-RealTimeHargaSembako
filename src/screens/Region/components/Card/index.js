@@ -9,20 +9,19 @@ import {
 } from '../../../../components';
 import {IMGDummyNews, theme} from '../../../../assets';
 
-const Card = () => {
+const Card = ({item}) => {
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
-        <Image style={styles.image} source={IMGDummyNews} />
+        <Image style={styles.image} source={{uri: item?.photo_url}} />
       </View>
       <Gap width={14} />
       <View style={styles.informationContainer}>
-        <TextInter style={styles.title}>
-          Kasat Reskrim Polresta Manado Kompol Sugeng Wahyudi Santoso
-          membenarkan
+        <TextInter style={styles.title} numberOfLines={4}>
+          {item?.title}
         </TextInter>
         <Gap height={8} />
-        <TimeStamp />
+        <TimeStamp data={item?.published_date} />
         <Gap height={4} />
         <CategoryHorizontal />
         <Gap height={8} />

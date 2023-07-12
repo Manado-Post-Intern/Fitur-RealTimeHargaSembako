@@ -6,17 +6,17 @@ import Card from '../Card';
 
 const data = [0, 1, 2];
 
-const AreaSection = () => {
+const AreaSection = ({item}) => {
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
         <Image style={styles.logo} source={IMGLogoManado} />
         <Gap width={10} />
-        <TextInter style={styles.title}>Manado</TextInter>
+        <TextInter style={styles.title}>{item?.region}</TextInter>
       </View>
 
-      {data.map((item, i) => (
-        <Card key={i} />
+      {item?.latest?.slice(0, 3).map((item, i) => (
+        <Card key={i} item={item} />
       ))}
 
       <More />
