@@ -1,5 +1,5 @@
-import {Image, ScrollView, StyleSheet, View} from 'react-native';
-import React from 'react';
+import {Image, LogBox, ScrollView, StyleSheet, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import {
   IMGDummyHighlight,
   IMGDummyNews,
@@ -21,57 +21,105 @@ import {
 import {screenHeightPercentage, screenWidth} from '../../utils';
 import {Card} from '../Home/components/NewsForYou/components';
 import {Card as TrendingCard} from '../Trending/components';
+import {loadSession, popular, readArticle} from '../../api';
+import axios from 'axios';
+import RenderHtml from 'react-native-render-html';
 
-const related = [0, 1, 2];
-const trending = [0, 1, 2, 3, 4];
+LogBox.ignoreLogs([
+  'You should always pass contentWidth',
+  'No source prop was provided. Nothing will be rendered',
+]);
 
-const Article = () => {
-  console.log(screenWidth());
+// const related = [0, 1, 2];
+// const trending = [0, 1, 2, 3, 4];
+
+const Article = ({route}) => {
+  const {articleId} = route.params;
+  const [token, setToken] = useState(null);
+  const [article, setArticle] = useState(null);
+  const [trending, setTrending] = useState(null);
+
+  const getArticle = async () => {
+    try {
+      const response = await axios.get(readArticle, {
+        headers: {
+          Accept: 'application/vnd.promedia+json; version=1.0',
+          Authorization: `Bearer ${token}`,
+        },
+        params: {id: articleId},
+      });
+      setArticle(response.data.data.detail);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getTrending = async () => {
+    try {
+      const response = await axios.get(popular, {
+        headers: {
+          Accept: 'application/vnd.promedia+json; version=1.0',
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setTrending(response.data.data.list);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (token) {
+      getArticle();
+      getTrending();
+    }
+  }, [token]);
+
+  useEffect(() => {
+    loadSession()
+      .then(session => {
+        if (session) {
+          setToken(session.access_token);
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, []);
   return (
     <View style={styles.container}>
       <View style={styles.backButtonContainer}>
         <BackButton />
       </View>
-      <Image style={styles.image} source={IMGGodStatue} />
+      <Image style={styles.image} source={{uri: article?.photo_url}} />
       <View style={styles.innerContainer}>
         <ScrollView style={styles.scrollView}>
           <View style={styles.articleContainer}>
             <Image style={styles.mp} source={IMGMPTextPrimary} />
-            <TextInter>Tukang Bangunan Ditatar Iptek Campuran Beton</TextInter>
+            <TextInter>{article?.description}</TextInter>
             <Gap height={7} />
-            <TimeStamp />
+            <TimeStamp data={article?.published_date} />
             <Gap height={7} />
-            <View style={styles.authorContainer}>
-              <View style={styles.authorImageContainer}>
-                <Image style={styles.authorImage} source={IMGLogoMinahasa} />
-              </View>
-              <Gap width={4} />
-              <TextInter style={styles.authorName}>Kenjiro Tanos</TextInter>
-            </View>
+            {article?.author.map((item, index) => {
+              return (
+                <View style={styles.authorContainer} key={index}>
+                  <View style={styles.authorImageContainer}>
+                    <Image
+                      style={styles.authorImage}
+                      source={item.photo ? {uri: item.photo} : IMGLogoMinahasa}
+                    />
+                  </View>
+                  <Gap width={4} />
+                  <TextInter style={styles.authorName}>{item.name}</TextInter>
+                </View>
+              );
+            })}
             <View style={styles.articleTextContainer}>
-              <TextInter style={styles.articleText}>
-                MANADOPOST.ID—Tak hanya melakukan pengabdian kepada masyarakat,
-                Politeknik Negeri Manado turut berbagi ilmu di Jemaat GMIM
-                Paulus Kauditan di Desa Kauditan II, Kecamatan Kauditan.{'\n'}
-                {'\n'}Program Penerapan Iptek kepada Masyarakat (PIM) dilakukan
-                melalui pelatihan teknologi campuran beton untuk peningkatan
-                keterampilan tukang bangunan, 29 September lalu. {'\n'}
-                {'\n'}Syanne Pangemanan ST MEng selaku Ketua Tim Pelaksana
-                didampingi anggota Helen G Mantiri SST MT dan Fery Sondakh ST MT
-                mengatakan kegiatan menyasar para tukang bangunan di jemaat
-                tersebut. {'\n'}
-                {'\n'}Para akademisi Politeknik Manado membagikan ilmu
-                pengetahuan dan teknologi serta pembuatan gudang penyimpanan
-                barang milik GMIM Paulus Kauditan. {'\n'}
-                {'\n'}“Implementasi teknologi desain campuran beton dan
-                peningkatan pengetahuan melalui pemilihan dan penggunaan
-                material campuran beton menjadi tujuan kegiatan tersebut,”
-                tandasnya.
-              </TextInter>
+              <RenderHtml source={{html: article?.content}} />
               <Gap height={10} />
               <TextInter style={styles.tagTerkait}>Tag Terkait</TextInter>
               <Gap height={10} />
-              <CategoryHorizontal />
+              <CategoryHorizontal categories={article?.tag} />
             </View>
           </View>
 
@@ -79,18 +127,20 @@ const Article = () => {
 
           <Image style={styles.ads} source={IMGYourAds} />
 
-          <View style={styles.sectionTitleContainer}>
-            <TextInter style={styles.sectionTitle}>Related News</TextInter>
-          </View>
-          {related.map((item, i) => (
-            <Card key={i} />
+          {article?.related.length !== 0 && (
+            <View style={styles.sectionTitleContainer}>
+              <TextInter style={styles.sectionTitle}>Related News</TextInter>
+            </View>
+          )}
+          {article?.related?.map((item, i) => (
+            <Card key={i} item={item} />
           ))}
 
           <View style={styles.sectionTitleContainer}>
             <TextInter style={styles.sectionTitle}>Trending</TextInter>
           </View>
-          {trending.map((item, i) => (
-            <TrendingCard key={i} />
+          {trending?.slice(0, 5).map((item, i) => (
+            <TrendingCard key={i} item={item} />
           ))}
           <More />
           <Gap height={400} />

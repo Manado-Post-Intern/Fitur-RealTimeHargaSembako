@@ -10,28 +10,28 @@ import {
 import {IMGGodStatue, theme} from '../../../../assets';
 import Button from './Button';
 
-const Card = () => {
+const Card = ({item}) => {
   return (
     <View style={styles.cardContainer}>
-      <Image style={styles.image} source={IMGGodStatue} />
+      <Image style={styles.image} source={{uri: item?.photo_url}} />
 
       <Gap height={15} />
 
-      <TextInter style={styles.title}>
-        Manado diprediksi Menjadi Kota Metropolitan pada tahun 2030
+      <TextInter style={styles.title} numberOfLines={3}>
+        {item?.title}
       </TextInter>
 
       <Gap height={4} />
 
-      <TimeStamp />
+      <TimeStamp data={item?.published_date} />
 
       <Gap height={4} />
 
-      <CategoryHorizontal />
+      {/* <CategoryHorizontal /> */}
 
       <Gap height={16} />
 
-      <Button />
+      <Button articleId={item?.id} />
 
       <Gap height={8} />
 

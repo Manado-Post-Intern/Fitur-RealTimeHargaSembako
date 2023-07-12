@@ -14,13 +14,11 @@ const Card = ({item, number}) => {
       <TextInter style={styles.number}>{number}</TextInter>
       <Gap width={14} />
       <View style={styles.innerContainer}>
-        <TextInter style={styles.title}>
-          Kasat Reskrim Polresta Manado Kompol Rocky Wahyudi Santoso membenarkan
-        </TextInter>
+        <TextInter style={styles.title}>{item?.title}</TextInter>
 
         <Gap height={8} />
 
-        <TimeStamp />
+        <TimeStamp data={item?.published_date} />
 
         <Gap height={4} />
 

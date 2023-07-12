@@ -5,9 +5,9 @@ import {theme} from '../../../../assets';
 import Card from './Card';
 import More from '../../../../components/atoms/More';
 
-const data = [0, 1, 2];
+// const data = [0, 1, 2];
 
-const Headlines = () => {
+const Headlines = ({data}) => {
   return (
     <View>
       <View style={styles.titleContainer}>

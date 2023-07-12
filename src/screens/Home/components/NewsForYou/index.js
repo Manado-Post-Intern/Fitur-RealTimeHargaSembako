@@ -8,7 +8,7 @@ import {Card} from './components';
 const categories = ['Politik', 'Budaya', 'Pendidikan'];
 const data = [0, 1, 2, 3];
 
-const NewsForYou = ({canalModalRef}) => {
+const NewsForYou = ({canalModalRef, item}) => {
   return (
     <View>
       <View style={styles.titleContainer}>
@@ -32,7 +32,7 @@ const NewsForYou = ({canalModalRef}) => {
         </View>
       </View>
       <Gap height={4} />
-      {data.map((item, i) => (
+      {item?.map((item, i) => (
         <Card item={item} key={i} />
       ))}
       <More />

@@ -4,12 +4,12 @@ import {IcNewspaper, theme} from '../../../../assets';
 import {Gap, TextInter} from '../../../../components';
 import {useNavigation} from '@react-navigation/native';
 
-const Button = () => {
+const Button = ({articleId}) => {
   const navigation = useNavigation();
   return (
     <Pressable
       style={styles.container}
-      onPress={() => navigation.navigate('Article')}>
+      onPress={() => navigation.navigate('Article', {articleId})}>
       <IcNewspaper />
       <Gap width={4} />
       <TextInter style={styles.label}>Baca Berita</TextInter>

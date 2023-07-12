@@ -1,5 +1,5 @@
 import {SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
-import React, {useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {theme} from '../../assets';
 import {Gap} from '../../components';
 import {
@@ -15,11 +15,93 @@ import {screenHeightPercentage} from '../../utils';
 import {Card as CardNews} from './components/NewsForYou/components';
 import {TrendingSection} from '../Trending/components';
 import CanalModal from './components/NewsForYou/components/CanalModal';
+import axios from 'axios';
+import {editorPick, headline, latest, loadSession, site} from '../../api';
 
 const data = [0, 1, 2];
 
 const Home = () => {
   const canalModalRef = useRef();
+  const [token, setToken] = useState(null);
+  const [headlines, setHeadlines] = useState(null);
+  const [forYou, setForYou] = useState(null);
+
+  const getHeadline = async () => {
+    try {
+      const response = await axios.get(headline, {
+        headers: {
+          Accept: 'application/vnd.promedia+json; version=1.0',
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setHeadlines(response.data.data.list);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const getForYou = async () => {
+    try {
+      const response = await axios.get(editorPick, {
+        headers: {
+          Accept: 'application/vnd.promedia+json; version=1.0',
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setForYou(response.data.data.list);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const getLatest = async () => {
+    try {
+      const response = await axios.get(latest, {
+        headers: {
+          Accept: 'application/vnd.promedia+json; version=1.0',
+          Authorization: `Bearer ${token}`,
+        },
+        params: {
+          section_id: 1,
+        },
+      });
+      console.log(response.data.data.list);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  // const getReferenceSite = async () => {
+  //   try {
+  //     const response = await axios.get(site, {
+  //       headers: {
+  //         Accept: 'application/vnd.promedia+json; version=1.0',
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     });
+  //     console.log(response.data);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  useEffect(() => {
+    if (token) {
+      getHeadline();
+      getForYou();
+      // getLatest();
+      // getReferenceSite();
+    }
+  }, [token]);
+
+  useEffect(() => {
+    loadSession()
+      .then(session => {
+        if (session) {
+          setToken(session.access_token);
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, []);
 
   return (
     <SafeAreaView style={styles.safeAreaView}>
@@ -35,11 +117,11 @@ const Home = () => {
 
           <Gap height={12} />
 
-          <Headlines />
+          <Headlines data={headlines} />
 
           <Gap height={12} />
 
-          <NewsForYou canalModalRef={canalModalRef} />
+          <NewsForYou canalModalRef={canalModalRef} item={forYou} />
 
           <Gap height={12} />
 
