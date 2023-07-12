@@ -7025,7 +7025,7 @@ __metadata:
     react-native-config: ^1.5.1
     react-native-encrypted-storage: ^4.0.3
     react-native-gesture-handler: ^2.8.0
-    react-native-linear-gradient: ^2.6.2
+    react-native-linear-gradient: ^2.7.3
     react-native-reanimated: ^2.13.0
     react-native-render-html: ^6.3.4
     react-native-safe-area-context: ^4.4.1
@@ -8640,13 +8640,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-linear-gradient@npm:^2.6.2":
-  version: 2.6.2
-  resolution: "react-native-linear-gradient@npm:2.6.2"
+"react-native-linear-gradient@npm:^2.7.3":
+  version: 2.7.3
+  resolution: "react-native-linear-gradient@npm:2.7.3"
   peerDependencies:
     react: "*"
     react-native: "*"
-  checksum: dd0e27d3ddffa239d46919fd397f1ad68cdb6bcaa48c11ec9b01a0f54f0ad383f203a2245f2f06206e63aa4443fe7b2b1cc105ee262bf9a84ee62dabad6028ad
+  checksum: 3b224e5f0a844e385f9010816e141d0903cd2a7e2c59fef9f67c7ef563ce6acb52b35f9ddaec3c6afb9560492d8513a15e4bf5e9dfc867fc3afb519ed9a9d693
   languageName: node
   linkType: hard
 

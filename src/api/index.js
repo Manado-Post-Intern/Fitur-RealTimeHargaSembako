@@ -51,8 +51,16 @@ export const editorPick = `${API_URL}article/editor-pick/`;
 
 // =================================== LATEST ===================================
 
-export const latest = `${API_URL}article/latest/`;
+export const latestEndPoint = `${API_URL}article/latest/`;
 
 // =================================== REFERENCE SITE ===================================
 
 export const site = `${API_URL}reference/site/`;
+
+// =================================== TAG ARTICLE ===================================
+
+export const tagArticle = `${API_URL}article/tag/`;
+
+// =================================== SEARCH ===================================
+
+export const search = `${API_URL}article/search/`;

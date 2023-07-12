@@ -1,4 +1,4 @@
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {theme} from '../../../../assets';
 import {
@@ -7,10 +7,15 @@ import {
   TextInter,
   TimeStamp,
 } from '../../../../components';
+import {useNavigation} from '@react-navigation/native';
 
 const Card = ({item, number}) => {
+  const navigation = useNavigation();
   return (
-    <View style={styles.container}>
+    <TouchableOpacity
+      activeOpacity={0.8}
+      style={styles.container}
+      onPress={() => navigation.navigate('Article', {articleId: item?.id})}>
       <TextInter style={styles.number}>{number}</TextInter>
       <Gap width={14} />
       <View style={styles.innerContainer}>
@@ -24,7 +29,7 @@ const Card = ({item, number}) => {
 
         <CategoryHorizontal />
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

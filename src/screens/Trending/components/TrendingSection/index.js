@@ -6,13 +6,13 @@ import Card from '../Card';
 
 const data = [0, 1, 2, 3, 4];
 
-const TrendingSection = () => {
+const TrendingSection = ({item}) => {
   return (
     <View>
       <View style={styles.titleContainer}>
         <TextInter style={styles.title}>Trending</TextInter>
       </View>
-      {data.map((item, i) => (
+      {item?.slice(0, 5).map((item, i) => (
         <Card item={item} key={i} number={i + 1} />
       ))}
       <More />

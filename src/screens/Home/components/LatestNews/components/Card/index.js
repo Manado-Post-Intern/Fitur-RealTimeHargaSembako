@@ -9,17 +9,16 @@ import {
   TimeStamp,
 } from '../../../../../../components';
 
-const Card = () => {
+const Card = ({item}) => {
   return (
     <View style={styles.container}>
-      <Image style={styles.image} source={IMGDummyNews} />
+      <Image style={styles.image} source={{uri: item?.photo_url}} />
       <View style={styles.informationContainer}>
-        <TextInter style={styles.title}>
-          Rumah Makan Murah Menjamur di Manado, Seporsi Nasi Ayam dengan Sup
-          Brenebon dan Minuman Rp 15 Ribu
+        <TextInter style={styles.title} numberOfLines={3}>
+          {item?.title}
         </TextInter>
         <Gap height={8} />
-        <TimeStamp />
+        <TimeStamp data={item?.published_date} />
         <Gap height={4} />
         <CategoryHorizontal />
         <Gap height={4} />

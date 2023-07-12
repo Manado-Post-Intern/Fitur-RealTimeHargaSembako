@@ -16,15 +16,28 @@ import {Card as CardNews} from './components/NewsForYou/components';
 import {TrendingSection} from '../Trending/components';
 import CanalModal from './components/NewsForYou/components/CanalModal';
 import axios from 'axios';
-import {editorPick, headline, latest, loadSession, site} from '../../api';
+import {
+  editorPick,
+  headline,
+  latestEndPoint,
+  loadSession,
+  popular,
+  search,
+  site,
+  tagArticle,
+} from '../../api';
 
 const data = [0, 1, 2];
+const daerah = ['Manado', 'Minahasa Utara', 'Bitung', 'Tondano'];
 
 const Home = () => {
   const canalModalRef = useRef();
   const [token, setToken] = useState(null);
   const [headlines, setHeadlines] = useState(null);
   const [forYou, setForYou] = useState(null);
+  const [trending, setTrending] = useState(null);
+  const [latest, setLatest] = useState(null);
+  const [story, setStory] = useState(null);
 
   const getHeadline = async () => {
     try {
@@ -54,39 +67,59 @@ const Home = () => {
   };
   const getLatest = async () => {
     try {
-      const response = await axios.get(latest, {
+      const response = await axios.get(latestEndPoint, {
         headers: {
           Accept: 'application/vnd.promedia+json; version=1.0',
           Authorization: `Bearer ${token}`,
         },
-        params: {
-          section_id: 1,
-        },
       });
-      console.log(response.data.data.list);
+      setLatest(response.data.data.list.latest);
     } catch (error) {
       console.log(error);
     }
   };
-  // const getReferenceSite = async () => {
-  //   try {
-  //     const response = await axios.get(site, {
-  //       headers: {
-  //         Accept: 'application/vnd.promedia+json; version=1.0',
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     });
-  //     console.log(response.data);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  const getTrending = async () => {
+    try {
+      const response = await axios.get(popular, {
+        headers: {
+          Accept: 'application/vnd.promedia+json; version=1.0',
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setTrending(response.data.data.list);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const getStory = async () => {
+    const promises = daerah.map(async query => {
+      const response = await axios.get(search, {
+        headers: {
+          Accept: 'application/vnd.promedia+json; version=1.0',
+          Authorization: `Bearer ${token}`,
+        },
+        params: {q: query, page: 1},
+      });
+      let data = response.data.data.list.latest[0];
+      data.region = query;
+      return data;
+    });
+
+    try {
+      const result = await Promise.all(promises);
+      setStory(result);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     if (token) {
       getHeadline();
       getForYou();
-      // getLatest();
+      getTrending();
+      getLatest();
+      getStory();
       // getReferenceSite();
     }
   }, [token]);
@@ -109,7 +142,7 @@ const Home = () => {
         <ScrollView style={styles.bodyContainer}>
           <Gap height={36} />
 
-          <Story />
+          <Story item={story} />
 
           <Gap height={12} />
 
@@ -125,15 +158,15 @@ const Home = () => {
 
           <Gap height={12} />
 
-          <LatestNews />
+          <LatestNews item={latest} />
 
           <Gap height={12} />
 
-          <TrendingSection />
+          <TrendingSection item={trending} />
 
           <Gap height={12} />
 
-          <MPDigital />
+          {/* <MPDigital />
 
           <Gap height={12} />
 
@@ -143,7 +176,7 @@ const Home = () => {
 
           <Gap height={12} />
 
-          <MPNewspaper />
+          <MPNewspaper /> */}
 
           <Gap height={screenHeightPercentage('11%')} />
         </ScrollView>
