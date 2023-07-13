@@ -1,5 +1,11 @@
-import {Pressable, StyleSheet, TextInput, View} from 'react-native';
-import React from 'react';
+import {
+  Pressable,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import React, {useState} from 'react';
 import {IcSearchGray, theme} from '../../../../../assets';
 import {TextInter} from '../../../../atoms';
 import {useNavigation} from '@react-navigation/native';
@@ -19,8 +25,10 @@ const Input = ({
   setActiveSearch,
   searchOnly,
   type,
+  onPress = () => {},
 }) => {
   const navigation = useNavigation();
+  const [search, setSearch] = useState('');
   const handleSearch = () => {
     setActiveSearch(false);
     if (type === 'home' || type.length === 0) {
@@ -39,12 +47,14 @@ const Input = ({
         placeholderTextColor="#C9C9C9"
         onFocus={() => setSearching(true)}
         onBlur={() => setSearching(false)}
+        onChangeText={text => setSearch(text)}
+        value={search}
       />
-      <Pressable
+      <TouchableOpacity
         style={styles.searchButtonContainer}
-        onPress={() => handleSearch()}>
+        onPress={() => onPress(search)}>
         <IcSearchGray />
-      </Pressable>
+      </TouchableOpacity>
       {searching && !searchOnly && (
         <View style={styles.suggestionContainer}>
           {dummy.map((item, i) => (

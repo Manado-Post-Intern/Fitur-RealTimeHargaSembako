@@ -13,7 +13,7 @@ import ModalCalendar from '../ModalCalendar';
 import {useNavigation} from '@react-navigation/native';
 import {sectionList} from '../../../data';
 
-const TopBar = ({searchOnly, type}) => {
+const TopBar = ({searchOnly, type, onSearchPress}, props) => {
   const navigation = useNavigation();
 
   const [active, setActive] = useState(0);
@@ -212,6 +212,7 @@ const TopBar = ({searchOnly, type}) => {
               searching={searching}
               setActiveSearch={setActiveSearch}
               searchOnly={searchOnly}
+              onPress={word => onSearchPress(word)}
             />
           )}
           <Gap height={15} />

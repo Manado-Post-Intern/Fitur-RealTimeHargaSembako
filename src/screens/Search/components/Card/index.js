@@ -1,4 +1,4 @@
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {theme} from '../../../../assets';
 import {
@@ -7,18 +7,21 @@ import {
   TextInter,
   TimeStamp,
 } from '../../../../components';
+import {useNavigation} from '@react-navigation/native';
 
-const Card = () => {
+const Card = ({item}) => {
+  const navigation = useNavigation();
   return (
-    <View style={styles.container}>
-      <TextInter style={styles.title}>
-        Kasat Reskrim Polresta Manado Kompol Rocky Wahyudi Santoso membenarkan
-      </TextInter>
+    <TouchableOpacity
+      activeOpacity={0.8}
+      style={styles.container}
+      onPress={() => navigation.navigate('Article', {articleId: item?.id})}>
+      <TextInter style={styles.title}>{item?.title}</TextInter>
       <Gap height={8} />
-      <TimeStamp />
+      <TimeStamp data={item?.published_date} />
       <Gap height={4} />
       <CategoryHorizontal />
-    </View>
+    </TouchableOpacity>
   );
 };
 
