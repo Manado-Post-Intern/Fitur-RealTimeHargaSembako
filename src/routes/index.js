@@ -31,6 +31,7 @@ import {
   Marketplace,
   CreateAds,
   MetaDetail,
+  MoreNews,
 } from '../screens';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {screenHeightPercentage} from '../utils';
@@ -86,7 +87,8 @@ const Routes = () => {
   const Stack = createNativeStackNavigator();
   return (
     <Stack.Navigator
-      initialRouteName="HomeTab"
+      initialRouteName="Home"
+      // initialRouteName="MoreNews" // TODO: Change this to Home
       screenOptions={{headerShown: false}}>
       <Stack.Screen name="Splash" component={Splash} />
       <Stack.Screen name="Onboarding" component={Onboarding} />
@@ -114,6 +116,7 @@ const Routes = () => {
       <Stack.Screen name="Marketplace" component={Marketplace} />
       <Stack.Screen name="CreateAds" component={CreateAds} />
       <Stack.Screen name="MetaDetail" component={MetaDetail} />
+      <Stack.Screen name="MoreNews" component={MoreNews} />
     </Stack.Navigator>
   );
 };

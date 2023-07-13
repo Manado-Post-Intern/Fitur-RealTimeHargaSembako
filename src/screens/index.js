@@ -15,6 +15,7 @@ import AboutUs from './AboutUs';
 import Subscription from './Subscription';
 import Ads from './Ads';
 import Marketplace from './Marketplace';
+import MoreNews from './MoreNews';
 
 export * from './Authentication';
 export * from './ChooseCanal';
@@ -41,4 +42,5 @@ export {
   Subscription,
   Ads,
   Marketplace,
+  MoreNews,
 };
