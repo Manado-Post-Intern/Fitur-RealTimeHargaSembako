@@ -26,7 +26,7 @@ import {
   site,
   tagArticle,
 } from '../../api';
-import {sectionList} from '../../data';
+import {regionList} from '../../data';
 
 const data = [0, 1, 2];
 const daerah = ['Manado', 'Minahasa Utara', 'Bitung', 'Tondano'];
@@ -93,7 +93,7 @@ const Home = () => {
     }
   };
   const getStory = async () => {
-    const promises = sectionList.map(async item => {
+    const promises = regionList.map(async item => {
       const response = await axios.get(latestEndPoint, {
         headers: {
           Accept: 'application/vnd.promedia+json; version=1.0',
@@ -163,7 +163,7 @@ const Home = () => {
 
           <Gap height={12} />
 
-          <TrendingSection item={trending} />
+          {/* <TrendingSection item={trending} /> */}
 
           <Gap height={12} />
 

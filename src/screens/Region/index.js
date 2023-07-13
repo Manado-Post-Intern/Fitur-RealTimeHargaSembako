@@ -11,7 +11,7 @@ import {screenHeightPercentage} from '../../utils';
 import {theme} from '../../assets';
 import {AreaSection, Story} from './components';
 import {latestEndPoint, loadSession} from '../../api';
-import {sectionList} from '../../data';
+import {regionList} from '../../data';
 import axios from 'axios';
 
 const story = ['Manado', 'Bitung', 'Tomohon', 'Minahasa', 'Minahasa Utara'];
@@ -21,7 +21,7 @@ const Region = () => {
   const [data, setData] = useState(null);
 
   const getRegion = async () => {
-    const promises = sectionList.map(async item => {
+    const promises = regionList.map(async item => {
       const response = await axios.get(latestEndPoint, {
         headers: {
           Accept: 'application/vnd.promedia+json; version=1.0',

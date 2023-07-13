@@ -16,7 +16,7 @@ const NewsForYou = ({canalModalRef, item}) => {
       </View>
       <Gap height={8} />
       <View style={styles.categoriesWrapper}>
-        <View style={styles.categoriesContainer}>
+        {/* <View style={styles.categoriesContainer}>
           <FlatList
             data={categories}
             horizontal
@@ -29,13 +29,13 @@ const NewsForYou = ({canalModalRef, item}) => {
           <Pressable onPress={() => canalModalRef.current?.present()}>
             <IcPlus />
           </Pressable>
-        </View>
+        </View> */}
       </View>
       <Gap height={4} />
       {item?.map((item, i) => (
         <Card item={item} key={i} />
       ))}
-      <More />
+      {/* <More /> */}
     </View>
   );
 };

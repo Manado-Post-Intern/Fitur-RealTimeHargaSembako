@@ -6,17 +6,65 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {IMGMPTextPrimary, IcBack, IcMagnifying, theme} from '../../assets';
 import {TextInter} from '../../components';
 import {Card} from './components';
 import {useNavigation} from '@react-navigation/native';
+import {regionList, sectionList} from '../../data';
+import {latestEndPoint, loadSession} from '../../api';
+import axios from 'axios';
 
 const SPACING = 10;
 
-const MoreNews = ({label}) => {
-  const navigation = useNavigation();
+const MoreNews = ({route}) => {
   const [page, setPage] = useState(1);
+  const [token, setToken] = useState(null);
+  const [moreNews, setMoreNews] = useState([]);
+  const {sectionId} = route.params;
+  const label = sectionList.find(item => item?.id === sectionId)?.name;
+
+  const navigation = useNavigation();
+
+  const bottomReached = ({layoutMeasurement, contentOffset, contentSize}) => {
+    return layoutMeasurement.height + contentOffset.y >= contentSize.height;
+  };
+
+  const getMoreNews = async () => {
+    try {
+      const response = await axios.get(latestEndPoint, {
+        headers: {
+          Accept: 'application/vnd.promedia+json; version=1.0',
+          Authorization: `Bearer ${token}`,
+        },
+        params: {
+          page,
+          section_id: sectionId,
+        },
+      });
+      setMoreNews(prevData => [...prevData, ...response.data.data.list.latest]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (token) {
+      getMoreNews();
+    }
+  }, [page, token]);
+
+  useEffect(() => {
+    loadSession()
+      .then(session => {
+        if (session) {
+          setToken(session.access_token);
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, []);
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headerContainer}>
@@ -36,14 +84,19 @@ const MoreNews = ({label}) => {
         </TouchableOpacity>
       </View>
 
-      <ScrollView>
+      <ScrollView
+        onScroll={({nativeEvent}) => {
+          if (bottomReached(nativeEvent)) {
+            setPage(prevPage => prevPage + 1);
+          }
+        }}>
         <View style={styles.labelContainer}>
-          <TextInter style={styles.label}>Label</TextInter>
+          <TextInter style={styles.label}>{label}</TextInter>
         </View>
 
         <View>
-          {[...Array(5).keys()].map((_, index) => {
-            return <Card />;
+          {moreNews?.map((item, index) => {
+            return <Card key={index} item={item} />;
           })}
         </View>
       </ScrollView>

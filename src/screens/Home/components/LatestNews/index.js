@@ -16,7 +16,7 @@ const LatestNews = ({item}) => {
       {item?.slice(0, 5).map((item, i) => (
         <Card key={i} item={item} />
       ))}
-      <More />
+      <More sectionId={466} />
     </View>
   );
 };

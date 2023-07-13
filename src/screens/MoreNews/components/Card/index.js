@@ -19,20 +19,18 @@ const Card = ({item}) => {
       // onPress={() => navigation.push('Article', {articleId: item?.id})}
     >
       <View style={styles.imageContainer}>
-        <Image style={styles.image} source={IMGDummyNews} />
+        <Image style={styles.image} source={{uri: item?.photo_url}} />
       </View>
       <Gap width={14} />
       <View style={styles.informationContainer}>
         <TextInter style={styles.title} numberOfLines={2}>
-          Darell ganteng banget anjay
+          {item?.title}
         </TextInter>
         <TextInter style={styles.description} numberOfLines={5}>
-          Darell ganteng banget anjay Darell ganteng banget anjay Darell ganteng
-          banget anjay Darell ganteng banget anjay Darell ganteng banget anjay
-          Darell ganteng banget anjay
+          {item?.description}
         </TextInter>
         <Gap height={8} />
-        <TimeStamp />
+        <TimeStamp data={item?.published_date} />
         <Gap height={4} />
         <CategoryHorizontal />
         <Gap height={4} />

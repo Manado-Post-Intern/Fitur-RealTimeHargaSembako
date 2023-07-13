@@ -24,7 +24,7 @@ const Headlines = ({data}) => {
       />
       <Gap height={12} />
 
-      <More />
+      {/* <More /> */}
     </View>
   );
 };

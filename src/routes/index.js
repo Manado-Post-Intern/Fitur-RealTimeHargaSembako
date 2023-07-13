@@ -87,7 +87,7 @@ const Routes = () => {
   const Stack = createNativeStackNavigator();
   return (
     <Stack.Navigator
-      initialRouteName="Home"
+      initialRouteName="HomeTab"
       // initialRouteName="MoreNews" // TODO: Change this to Home
       screenOptions={{headerShown: false}}>
       <Stack.Screen name="Splash" component={Splash} />
