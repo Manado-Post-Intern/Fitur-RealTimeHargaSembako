@@ -1,4 +1,4 @@
-import {Image, StyleSheet, View} from 'react-native';
+import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {
   Actions,
@@ -8,10 +8,15 @@ import {
   TimeStamp,
 } from '../../../../components';
 import {IMGDummyNews, theme} from '../../../../assets';
+import {useNavigation} from '@react-navigation/native';
 
 const Card = ({item}) => {
+  const navigation = useNavigation();
   return (
-    <View style={styles.container}>
+    <TouchableOpacity
+      activeOpacity={0.8}
+      onPress={() => navigation.navigate('Article', {articleId: item?.id})}
+      style={styles.container}>
       <View style={styles.imageContainer}>
         <Image style={styles.image} source={{uri: item?.photo_url}} />
       </View>
@@ -25,9 +30,9 @@ const Card = ({item}) => {
         <Gap height={4} />
         <CategoryHorizontal />
         <Gap height={8} />
-        <Actions />
+        {/* <Actions /> */}
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

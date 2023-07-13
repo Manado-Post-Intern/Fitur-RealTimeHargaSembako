@@ -15,7 +15,7 @@ const Card = ({item, number}) => {
     <TouchableOpacity
       activeOpacity={0.8}
       style={styles.container}
-      onPress={() => navigation.navigate('Article', {articleId: item?.id})}>
+      onPress={() => navigation.push('Article', {articleId: item?.id})}>
       <TextInter style={styles.number}>{number}</TextInter>
       <Gap width={14} />
       <View style={styles.innerContainer}>

@@ -35,7 +35,7 @@ const Card = ({item}) => {
 
       <Gap height={8} />
 
-      <Actions />
+      {/* <Actions /> */}
     </View>
   );
 };

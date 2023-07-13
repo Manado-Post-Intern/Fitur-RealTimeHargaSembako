@@ -143,12 +143,12 @@ const Article = ({route}) => {
             <TrendingCard key={i} item={item} />
           ))}
           <More />
-          <Gap height={400} />
+          <Gap height={320} />
         </ScrollView>
       </View>
-      <View style={styles.actionContainer}>
+      {/* <View style={styles.actionContainer}>
         <Actions border={false} type="big" />
-      </View>
+      </View> */}
     </View>
   );
 };
