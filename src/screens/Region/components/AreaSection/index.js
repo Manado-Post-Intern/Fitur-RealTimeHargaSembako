@@ -3,10 +3,12 @@ import React from 'react';
 import {Gap, More, TextInter} from '../../../../components';
 import {IMGLogoManado, theme} from '../../../../assets';
 import Card from '../Card';
+import {regionList} from '../../../../data';
 
 const data = [0, 1, 2];
 
 const AreaSection = ({item}) => {
+  const regionId = regionList.find(region => region.name === item?.region)?.id;
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
@@ -19,7 +21,7 @@ const AreaSection = ({item}) => {
         <Card key={i} item={item} />
       ))}
 
-      <More />
+      <More sectionId={regionId} />
     </View>
   );
 };

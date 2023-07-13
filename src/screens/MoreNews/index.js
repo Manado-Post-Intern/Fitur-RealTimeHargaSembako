@@ -1,5 +1,6 @@
 import {
   Image,
+  RefreshControl,
   SafeAreaView,
   ScrollView,
   StyleSheet,
@@ -21,6 +22,7 @@ const MoreNews = ({route}) => {
   const [page, setPage] = useState(1);
   const [token, setToken] = useState(null);
   const [moreNews, setMoreNews] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const {sectionId} = route.params;
   const label = sectionList.find(item => item?.id === sectionId)?.name;
 
@@ -31,6 +33,7 @@ const MoreNews = ({route}) => {
   };
 
   const getMoreNews = async () => {
+    setIsLoading(true);
     try {
       const response = await axios.get(latestEndPoint, {
         headers: {
@@ -45,11 +48,13 @@ const MoreNews = ({route}) => {
       setMoreNews(prevData => [...prevData, ...response.data.data.list.latest]);
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    if (token) {
+    if (token && !isLoading) {
       getMoreNews();
     }
   }, [page, token]);
@@ -85,6 +90,12 @@ const MoreNews = ({route}) => {
       </View>
 
       <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={isLoading}
+            colors={['#12365D', '#021726']}
+          />
+        }
         onScroll={({nativeEvent}) => {
           if (bottomReached(nativeEvent)) {
             setPage(prevPage => prevPage + 1);

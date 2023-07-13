@@ -5,12 +5,14 @@ import TextInter from '../TextInter';
 import {IcArrowRight, theme} from '../../../assets';
 import {useNavigation} from '@react-navigation/native';
 
-const More = ({sectionId}) => {
+const More = ({sectionId, trending}) => {
   const navigation = useNavigation();
 
   const handlePress = () => {
     if (sectionId) {
       navigation.navigate('MoreNews', {sectionId});
+    } else if (trending) {
+      navigation.navigate('Trending');
     } else {
       console.log('Section ID Not Provided');
     }

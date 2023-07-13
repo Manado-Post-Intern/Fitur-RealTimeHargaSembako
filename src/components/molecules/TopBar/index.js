@@ -11,15 +11,7 @@ import {Gap} from '../../atoms';
 import {Category, Input, InputMeta, InputPaper} from './components';
 import ModalCalendar from '../ModalCalendar';
 import {useNavigation} from '@react-navigation/native';
-
-const dummy = [
-  'Terbaru',
-  'Politik',
-  'Daerah',
-  'Pendidikan',
-  'Olahraga',
-  'Games',
-];
+import {sectionList} from '../../../data';
 
 const TopBar = ({searchOnly, type}) => {
   const navigation = useNavigation();
@@ -100,7 +92,8 @@ const TopBar = ({searchOnly, type}) => {
               {!activeSearch && !searchOnly && (
                 <Pressable
                   onPress={() => {
-                    setActiveSearch(true);
+                    // setActiveSearch(true);
+                    navigation.navigate('Search');
                   }}>
                   <IcMagnifying />
                 </Pressable>
@@ -113,7 +106,11 @@ const TopBar = ({searchOnly, type}) => {
           </View>
 
           {!activeSearch && !searchOnly && (
-            <Category dummy={dummy} active={active} setActive={setActive} />
+            <Category
+              dummy={sectionList}
+              active={active}
+              setActive={setActive}
+            />
           )}
 
           {(activeSearch || searchOnly) && (
@@ -138,7 +135,8 @@ const TopBar = ({searchOnly, type}) => {
               {!activeSearch && !searchOnly && (
                 <Pressable
                   onPress={() => {
-                    setActiveSearch(true);
+                    // setActiveSearch(true);
+                    navigation.navigate('Search');
                   }}>
                   <IcMagnifying />
                 </Pressable>
@@ -150,9 +148,9 @@ const TopBar = ({searchOnly, type}) => {
             </View>
           </View>
 
-          {!activeSearch && !searchOnly && (
+          {/* {!activeSearch && !searchOnly && (
             <Category dummy={dummy} active={active} setActive={setActive} />
-          )}
+          )} */}
 
           {(activeSearch || searchOnly) && (
             <Input

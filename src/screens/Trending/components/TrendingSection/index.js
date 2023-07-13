@@ -12,10 +12,10 @@ const TrendingSection = ({item}) => {
       <View style={styles.titleContainer}>
         <TextInter style={styles.title}>Trending</TextInter>
       </View>
-      {item?.slice(0, 5).map((item, i) => (
+      {item?.map((item, i) => (
         <Card item={item} key={i} number={i + 1} />
       ))}
-      <More />
+      {/* <More /> */}
     </View>
   );
 };

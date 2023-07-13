@@ -142,7 +142,7 @@ const Article = ({route}) => {
           {trending?.slice(0, 5).map((item, i) => (
             <TrendingCard key={i} item={item} />
           ))}
-          <More />
+          <More trending />
           <Gap height={320} />
         </ScrollView>
       </View>
