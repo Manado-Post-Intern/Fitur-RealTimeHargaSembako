@@ -115,7 +115,10 @@ const Article = ({route}) => {
               );
             })}
             <View style={styles.articleTextContainer}>
-              <RenderHtml source={{html: article?.content}} />
+              <RenderHtml
+                baseStyle={{color: 'black'}}
+                source={{html: article?.content}}
+              />
               <Gap height={10} />
               <TextInter style={styles.tagTerkait}>Tag Terkait</TextInter>
               <Gap height={10} />
@@ -184,7 +187,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingBottom: 16,
     borderRadius: 24,
-    backgroundColor: theme.colors.white,
+    backgroundColor: theme.colors.MPWhite,
   },
   mp: {
     width: 139,
