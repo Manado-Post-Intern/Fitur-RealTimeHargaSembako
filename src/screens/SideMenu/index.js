@@ -1,5 +1,5 @@
 import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useContext} from 'react';
 import {screenHeightPercentage, screenWidth} from '../../utils';
 import {
   theme,
@@ -14,9 +14,16 @@ import {
 } from '../../assets';
 import {Gap, TextInter} from '../../components';
 import {useNavigation} from '@react-navigation/native';
+import {SocialSignIn} from '../Authentication/components';
+import auth from '@react-native-firebase/auth';
+import {AuthContext} from '../../context/AuthContext';
 
 const SideMenu = () => {
   const navigation = useNavigation();
+  const {user} = useContext(AuthContext);
+  console.log('user', user);
+
+  const handleLogout = () => auth().signOut();
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
@@ -77,11 +84,12 @@ const SideMenu = () => {
           <Gap width={10} />
           <TextInter style={styles.sectionLabel}>Tentang Kami</TextInter>
         </Pressable>
-        <Pressable style={styles.section}>
+        <Pressable onPress={handleLogout} style={styles.section}>
           <IcLogout />
           <Gap width={10} />
           <TextInter style={styles.sectionLabel}>Logout</TextInter>
         </Pressable>
+        <SocialSignIn type={'google'} />
       </View>
 
       <View style={styles.footerContainer}>

@@ -1,8 +1,23 @@
 import {Pressable, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {IcApple, IcFacebook, IcGoogle, theme} from '../../../assets';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import auth from '@react-native-firebase/auth';
 
 const SocialSignIn = ({type}) => {
+  const handleGoogleSignIn = async () => {
+    try {
+      await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
+
+      const {idToken} = await GoogleSignin.signIn();
+
+      const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+
+      return auth().signInWithCredential(googleCredential);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   switch (type) {
     case 'facebook':
       return (
@@ -15,7 +30,9 @@ const SocialSignIn = ({type}) => {
       );
     case 'google':
       return (
-        <Pressable style={[styles.container, styles.google]}>
+        <Pressable
+          onPress={handleGoogleSignIn}
+          style={[styles.container, styles.google]}>
           <View style={[styles.iconContainer, styles.iconGoogle]}>
             <IcGoogle />
           </View>
