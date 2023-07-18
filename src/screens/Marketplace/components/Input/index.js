@@ -1,7 +1,8 @@
 import {StyleSheet, TextInput, View} from 'react-native';
 import React from 'react';
 
-const Input = ({placeholder, isDescription}) => {
+const Input = props => {
+  const {placeholder, isDescription} = props;
   return (
     <View style={[styles.inputContainer, isDescription && styles.description]}>
       <TextInput
@@ -9,6 +10,7 @@ const Input = ({placeholder, isDescription}) => {
         placeholder={placeholder}
         multiline={isDescription}
         placeholderTextColor="#617D9780"
+        {...props}
       />
     </View>
   );
@@ -41,5 +43,8 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     textAlignVertical: 'top',
     height: '100%',
+  },
+  linkInput: {
+    color: '#617D97',
   },
 });

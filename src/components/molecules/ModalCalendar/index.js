@@ -3,7 +3,11 @@ import React from 'react';
 import {Calendar} from 'react-native-calendars';
 import {theme} from '../../../assets';
 
-const ModalCalendar = ({isOpen, setIsOpen}) => {
+const ModalCalendar = ({isOpen, setIsOpen, onDayPress = () => {}}) => {
+  const handleDayPress = day => {
+    onDayPress(day);
+    setIsOpen(false);
+  };
   return (
     <Modal
       animationType="slide"
@@ -20,7 +24,7 @@ const ModalCalendar = ({isOpen, setIsOpen}) => {
           setIsOpen(false);
         }}>
         <Pressable style={styles.modalView}>
-          <Calendar style={styles.calendar} />
+          <Calendar style={styles.calendar} onDayPress={handleDayPress} />
         </Pressable>
       </Pressable>
     </Modal>

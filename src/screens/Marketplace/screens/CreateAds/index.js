@@ -1,5 +1,22 @@
-import {Pressable, ScrollView, StyleSheet, TextInput, View} from 'react-native';
-import React, {useCallback, useMemo, useRef, useState} from 'react';
+import {
+  ActivityIndicator,
+  Image,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import {IcBigCheckmark, IcCalendarGrey, theme} from '../../../../assets';
 import {CheckBox, Gap, Switch, TextInter, TopBar} from '../../../../components';
 import {Input} from '../../components';
@@ -7,21 +24,26 @@ import Dropdown from '../../components/Dropdown';
 import {screenHeightPercentage} from '../../../../utils';
 import BottomSheet, {BottomSheetBackdrop} from '@gorhom/bottom-sheet';
 import ModalCalendar from '../../../../components/molecules/ModalCalendar';
+import ImageCropPicker from 'react-native-image-crop-picker';
+import storage from '@react-native-firebase/storage';
+import moment from 'moment';
+import {AuthContext} from '../../../../context/AuthContext';
+import database from '@react-native-firebase/database';
 
 const labelData = ['Otomotif', 'Properti', 'Lowongan', 'Ragam'];
-const merkData = [
-  'BMW',
-  'Bajaj',
-  'Chevrolet',
-  'Daihatsu',
-  'Honda',
-  'Daihatsu',
-  'Isuzu',
-  'Jeep',
-  'Kawasaki',
-  'Kaisar',
-  'Lexus',
-];
+// const merkData = [
+//   'BMW',
+//   'Bajaj',
+//   'Chevrolet',
+//   'Daihatsu',
+//   'Honda',
+//   'Daihatsu',
+//   'Isuzu',
+//   'Jeep',
+//   'Kawasaki',
+//   'Kaisar',
+//   'Lexus',
+// ];
 const statusData = [
   'Dikontrakkan',
   'Dijual Cepat',
@@ -32,15 +54,44 @@ const statusData = [
   'Ditemukan',
 ];
 
-const CreateAds = () => {
-  const [label, setLabel] = useState(0);
-  const [merk, setMerk] = useState(0);
+const requiredField = [
+  {field: 'adsImage', message: 'Gambar iklan belum dipilih'},
+  {field: 'adsName', message: 'Nama iklan belum diisi'},
+  {field: 'price', message: 'Harga iklan belum diisi'},
+  {field: 'whatsappContact', message: 'Kontak whatsapp belum diisi'},
+  {field: 'label', message: 'Label belum dipilih'},
+  {field: 'brand', message: 'Merk belum diisi'},
+  {field: 'status', message: 'Status belum dipilih'},
+  {field: 'startDate', message: 'Tanggal mulai belum dipilih'},
+];
 
+const CreateAds = () => {
+  const [data, setData] = useState({
+    adsImage: '',
+    adsName: '',
+    description: '',
+    price: '',
+    whatsappContact: '',
+    address: '',
+    label: '',
+    brand: '',
+    status: '',
+    highlight: {
+      isHighlight: true,
+      duration: '0',
+      highlightPrice: '0',
+    },
+    startDate: '',
+    totalPrice: 0,
+  });
+  const [label, setLabel] = useState(0);
+  const [isStartToday, setIsStartToday] = useState(false);
   const [status, setStatus] = useState(0);
   const [calendarModal, setCalendarModal] = useState(false);
-
+  const [isLoading, setIsLoading] = useState(false);
   const [terms, setTerms] = useState(false);
   const modalRef = useRef();
+  const {user} = useContext(AuthContext);
 
   const snapPoints = useMemo(() => ['50%'], []);
   const renderBackdrop = useCallback(
@@ -49,6 +100,114 @@ const CreateAds = () => {
     ),
     [],
   );
+
+  const handleTotalPrice = () => {
+    const tp =
+      parseInt(data.highlight.duration, 10) * 20000 + parseInt(data.price, 10);
+    setData({...data, totalPrice: tp});
+  };
+
+  const handleImageSelect = async () => {
+    console.log('select image');
+    try {
+      const res = await ImageCropPicker.openPicker({
+        mediaType: 'photo',
+        multiple: false,
+      });
+      setData({...data, adsImage: res.path});
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleRequired = () =>
+    new Promise((resolve, reject) => {
+      const emptyField = requiredField.find(item => data[item.field] === '');
+      if (emptyField) {
+        reject(emptyField.message);
+      }
+      resolve(data);
+    });
+
+  const handleImageUpload = async (adsImage, adsName) => {
+    const random = Math.floor(Math.random() * 1000);
+    const referance = storage().ref(
+      `/images/marketplace/${adsName + '_' + random}.${adsImage
+        .split('.')
+        .pop()}`,
+    );
+    try {
+      await referance.putFile(adsImage);
+      const url = await referance.getDownloadURL();
+      return url;
+    } catch (error) {
+      throw error.message;
+    }
+  };
+
+  const handleNormalizeData = (imageUri, passed) => {
+    const normalize = {
+      ...passed,
+      adsImage: imageUri,
+      highlight: {
+        isHighlight: passed.highlight.isHighlight,
+        duration: passed.highlight.duration,
+        perDayPrice: 20000,
+        highlightPrice: parseInt(passed.highlight.duration, 10) * 20000,
+        endDate: moment(passed.startDate)
+          .add(passed.highlight.duration, 'days')
+          .format('YYYY-MM-DD'),
+      },
+    };
+    return normalize;
+  };
+
+  const handleSubmit = async () => {
+    const referance = database().ref(`/marketplace/${user.uid}/list`);
+    setIsLoading(true);
+    try {
+      const passed = await handleRequired();
+      const imageUri = await handleImageUpload(passed.adsImage, passed.adsName);
+      const normalize = handleNormalizeData(imageUri, passed);
+      const snapshot = await referance.once('value');
+      let data = snapshot.val() || [];
+      data.push(normalize);
+      await referance.set(data);
+
+      modalRef.current.expand();
+    } catch (error) {
+      alert(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const unsubscribe = handleTotalPrice();
+    return unsubscribe;
+  }, [data.highlight.duration, data.price]);
+
+  useEffect(() => {
+    if (isStartToday) {
+      setData({
+        ...data,
+        startDate: moment().format('YYYY-MM-DD'),
+      });
+    }
+  }, [isStartToday]);
+
+  useEffect(() => {
+    if (!data.highlight.isHighlight) {
+      setData({
+        ...data,
+        highlight: {
+          ...data.highlight,
+          duration: '0',
+        },
+      });
+    }
+  }, [data.highlight.isHighlight]);
+
   return (
     <View style={styles.container}>
       <View style={styles.topBarContainer}>
@@ -81,23 +240,79 @@ const CreateAds = () => {
         <TextInter style={styles.title}>Pasang Iklan</TextInter>
         <Gap height={16} />
         <View style={styles.browseContainer}>
-          <Pressable style={styles.browseButton}>
-            <TextInter style={styles.browseLabel}>browse picture</TextInter>
-          </Pressable>
+          {!data.adsImage ? (
+            <Pressable style={styles.browseButton} onPress={handleImageSelect}>
+              <TextInter style={styles.browseLabel}>browse picture</TextInter>
+            </Pressable>
+          ) : (
+            <>
+              <Image
+                source={{
+                  uri: data.adsImage,
+                }}
+                style={{
+                  resizeMode: 'cover',
+                  width: '100%',
+                  height: '100%',
+                }}
+              />
+              <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={() => setData({...data, adsImage: ''})}
+                style={{
+                  backgroundColor: theme.colors.errorRed,
+                  position: 'absolute',
+                  top: 13,
+                  right: 13,
+                  paddingHorizontal: 13,
+                  paddingVertical: 5,
+                  borderRadius: 10,
+                }}>
+                <Text
+                  style={{
+                    fontSize: 20,
+                    color: 'white',
+                    fontFamily: theme.fonts.inter.semiBold,
+                  }}>
+                  X
+                </Text>
+              </TouchableOpacity>
+            </>
+          )}
         </View>
         <Gap height={20} />
-        <Input placeholder="Nama Barang / Properti / Perkerjaan" />
+        <Input
+          placeholder="Nama Barang / Properti / Perkerjaan"
+          onChangeText={text => setData({...data, adsName: text})}
+          value={data.adsName}
+        />
         <Gap height={16} />
         <Input
           placeholder="Deskripsi (bisa tidak diisi)"
           isDescription={true}
+          onChangeText={text => setData({...data, description: text})}
+          value={data.description}
         />
         <Gap height={16} />
-        <Input placeholder="Harga Dalam Rupiah" />
+        <Input
+          placeholder="Harga Dalam Rupiah (cth: 50000)"
+          keyboardType="numeric"
+          onChangeText={text => setData({...data, price: text})}
+          value={data.price}
+        />
         <Gap height={16} />
-        <Input placeholder="Nomor Kontak Whatsapp" />
+        <Input
+          placeholder="Nomor Kontak Whatsapp"
+          onChangeText={text => setData({...data, whatsappContact: text})}
+          value={data.whatsappContact}
+          keyboardType="numeric"
+        />
         <Gap height={16} />
-        <Input placeholder="Alamat (bisa tidak diisi)" />
+        <Input
+          placeholder="Alamat (bisa tidak diisi)"
+          onChangeText={text => setData({...data, address: text})}
+          value={data.address}
+        />
         <Gap height={16} />
         <View style={styles.labelAndMerkContainer}>
           <Dropdown
@@ -105,15 +320,20 @@ const CreateAds = () => {
             width="40%"
             label="Label"
             activeItem={label}
-            setItem={setLabel}
+            setItem={index => {
+              setLabel(index);
+              setData({...data, label: labelData[index]});
+            }}
           />
           <Gap width={32} />
-          <Dropdown
-            data={merkData}
-            label="Merk"
-            activeItem={merk}
-            setItem={setMerk}
-          />
+          <View style={{flex: 1}}>
+            <Input
+              placeholder="Merk"
+              onChangeText={text => setData({...data, brand: text})}
+              value={data.brand}
+              style={{width: '100%', color: theme.colors.grey1}}
+            />
+          </View>
         </View>
         <Gap height={16} />
         <Dropdown
@@ -121,7 +341,10 @@ const CreateAds = () => {
           //   width="30%"
           label="Status"
           activeItem={status}
-          setItem={setStatus}
+          setItem={index => {
+            setStatus(index);
+            setData({...data, status: statusData[index]});
+          }}
         />
         <Gap height={16} />
         <View style={styles.highlightOptionContainer}>
@@ -136,12 +359,31 @@ const CreateAds = () => {
             </View>
             <Gap width={16} />
 
-            <Switch />
+            <Switch
+              defaultValue={false}
+              onChange={value =>
+                setData({
+                  ...data,
+                  highlight: {...data.highlight, isHighlight: value},
+                })
+              }
+            />
           </View>
           <View style={styles.highlightDuration}>
             <TextInter style={styles.highlightTop}>Durasi (Hari)</TextInter>
             <Gap height={4} />
-            <TextInput style={styles.durationInput} />
+            <TextInput
+              style={styles.durationInput}
+              keyboardType="numeric"
+              value={data.highlight.duration}
+              editable={data.highlight.isHighlight}
+              onChangeText={value =>
+                setData({
+                  ...data,
+                  highlight: {...data.highlight, duration: value},
+                })
+              }
+            />
           </View>
         </View>
 
@@ -152,9 +394,10 @@ const CreateAds = () => {
             </TextInter>
             <Gap height={4} />
             <Pressable
+              disabled={isStartToday}
               style={styles.fieldContainer}
               onPress={() => setCalendarModal(true)}>
-              <TextInter style={styles.activeDate}>1 Januari 2023</TextInter>
+              <TextInter style={styles.activeDate}>{data.startDate}</TextInter>
               <IcCalendarGrey />
             </Pressable>
           </View>
@@ -164,7 +407,10 @@ const CreateAds = () => {
                 Mulai saat ini juga
               </TextInter>
               <Gap height={4} />
-              <Switch />
+              <Switch
+                onChange={value => setIsStartToday(value)}
+                defaultValue={false}
+              />
             </View>
           </View>
         </View>
@@ -187,16 +433,32 @@ const CreateAds = () => {
       <View style={styles.footerContainer}>
         <View style={styles.footerLeftContainer}>
           <TextInter style={styles.footerTotal}>total</TextInter>
-          <TextInter style={styles.price}>Rp. 1.560.000</TextInter>
+          <TextInter style={styles.price}>
+            {data.totalPrice.toLocaleString('id-ID', {
+              style: 'currency',
+              currency: 'IDR',
+            })}
+          </TextInter>
         </View>
         <Pressable
           style={styles.footerButton}
-          onPress={() => modalRef.current.expand()}>
-          <TextInter style={styles.footerButtonLabel}>Pasang Iklan</TextInter>
+          onPress={handleSubmit}
+          disabled={isLoading}>
+          <TextInter style={styles.footerButtonLabel}>
+            {!isLoading ? (
+              'Pasang Iklan'
+            ) : (
+              <ActivityIndicator animating={true} size={'large'} />
+            )}
+          </TextInter>
         </Pressable>
       </View>
 
-      <ModalCalendar isOpen={calendarModal} setIsOpen={setCalendarModal} />
+      <ModalCalendar
+        isOpen={calendarModal}
+        setIsOpen={setCalendarModal}
+        onDayPress={day => setData({...data, startDate: day.dateString})}
+      />
 
       <BottomSheet
         ref={modalRef}
@@ -226,6 +488,20 @@ const CreateAds = () => {
           </Pressable>
         </View>
       </BottomSheet>
+
+      {/* <View
+        style={{
+          position: 'absolute',
+          width: 100,
+          height: 100,
+          top: '50%',
+          left: '50%',
+          transform: [{translateX: -50}, {translateY: -50}],
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <ActivityIndicator animating={true} size={'large'} />
+      </View> */}
     </View>
   );
 };
@@ -286,7 +562,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#E2E6EB',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 47,
+    overflow: 'hidden',
+    height: 140,
   },
   browseButton: {
     padding: 10,
@@ -299,6 +576,7 @@ const styles = StyleSheet.create({
 
   labelAndMerkContainer: {
     flexDirection: 'row',
+    alignItems: 'flex-end',
   },
 
   highlightOptionContainer: {
@@ -335,6 +613,7 @@ const styles = StyleSheet.create({
     borderColor: theme.colors.MPWhite,
     padding: 0,
     textAlign: 'center',
+    color: theme.colors.grey1,
   },
 
   dateContainer: {
