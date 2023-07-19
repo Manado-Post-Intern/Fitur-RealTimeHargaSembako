@@ -158,6 +158,7 @@ const CreateAds = () => {
           .add(passed.highlight.duration, 'days')
           .format('YYYY-MM-DD'),
       },
+      isAllowed: false,
     };
     return normalize;
   };

@@ -4,7 +4,7 @@ import {Gap, TextInter} from '../../../../components';
 import {theme} from '../../../../assets';
 import {useNavigation} from '@react-navigation/native';
 
-const Card = ({size, color, type}) => {
+const Card = ({size, color, type, adsConfig}) => {
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
@@ -24,7 +24,7 @@ const Card = ({size, color, type}) => {
         <Gap width={4} />
         <Pressable
           style={styles.bottomRightContainer}
-          onPress={() => navigation.navigate('AdsOrder', {type})}>
+          onPress={() => navigation.navigate('AdsOrder', {type, adsConfig})}>
           <TextInter style={styles.rightText}>Pesan Sekarang</TextInter>
         </Pressable>
       </View>

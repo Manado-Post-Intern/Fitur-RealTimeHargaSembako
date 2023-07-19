@@ -1,12 +1,12 @@
 import {FlatList, Pressable, StyleSheet, Text, View} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {IcDropdownArrow, theme} from '../../../../../../assets';
 import {TextInter} from '../../../../../../components';
 import OptionRow from './OptionRow';
 
 const dataAll = ['1 Bulan', '2 Bulan', '3 Bulan', '6 Bulan'];
 
-const Duration = ({label}) => {
+const Duration = ({label, onDurationSelect = () => {}}) => {
   const [choosed, setChoosed] = useState('1 Bulan');
   const [durationOption, setDurationOption] = useState(false);
 
@@ -14,6 +14,10 @@ const Duration = ({label}) => {
     setChoosed(item);
     setDurationOption(false);
   };
+
+  useEffect(() => {
+    onDurationSelect(choosed);
+  }, [choosed]);
   return (
     <View style={styles.container}>
       <Text style={styles.label}>Durasi</Text>
