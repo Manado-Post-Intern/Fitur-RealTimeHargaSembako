@@ -6,13 +6,14 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import React, {useMemo, useRef, useState} from 'react';
+import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {IcFilter, IcSearchGray, theme} from '../../assets';
 import {Gap, TextInter, TopBar} from '../../components';
 import {HorizontalCard, ModalRow, VerticalCard} from './components';
 import BottomSheet from '@gorhom/bottom-sheet';
 import {useNavigation} from '@react-navigation/native';
 import {screenHeightPercentage} from '../../utils';
+import database from '@react-native-firebase/database';
 
 const categories = ['Otomotif', 'Properti', 'Lowongan', 'Ragam'];
 const horizontal = [0, 1, 2, 3, 4];
@@ -26,13 +27,47 @@ const filterItem = [
 ];
 
 const Marketplace = () => {
+  const referance = database().ref('/marketplace/data');
   const navigation = useNavigation();
+  const [data, setData] = useState([]);
+  const [labelledData, setLabelledData] = useState([]);
 
   const [activeCategory, setActiveCategory] = useState(0);
+  const [selectedCategory, setSelectedCategory] = useState('Otomotif');
   const [filter, setFilter] = useState(0);
 
   const modalRef = useRef();
   const snapPoints = useMemo(() => ['68%'], []);
+
+  const cleaningData = data => {
+    const dataArray = [];
+    data &&
+      Object.values(data).forEach(user => {
+        const userList = user['list'];
+        dataArray.push(...userList);
+      });
+    return dataArray;
+  };
+
+  const forHighlight = labelledData?.filter(
+    item => item.highlight.isHighlight === true,
+  );
+
+  useEffect(() => {
+    const fetchData = referance.on('value', async snapshot => {
+      const data = await snapshot?.val();
+      const array = cleaningData(data);
+      const isAllowed = array?.filter(item => item.isAllowed === true);
+      setData(isAllowed);
+    });
+
+    return () => referance.off('value', fetchData);
+  }, []);
+
+  useEffect(() => {
+    const filteredData = data?.filter(item => item.label === selectedCategory);
+    setLabelledData(filteredData);
+  }, [selectedCategory, data]);
 
   return (
     <View style={styles.container}>
@@ -46,7 +81,11 @@ const Marketplace = () => {
             horizontal
             contentContainerStyle={styles.categoriesContainer}
             renderItem={({item, index}) => (
-              <Pressable onPress={() => setActiveCategory(index)}>
+              <Pressable
+                onPress={() => {
+                  setActiveCategory(index);
+                  setSelectedCategory(item);
+                }}>
                 <TextInter
                   style={[
                     styles.categories,
@@ -73,13 +112,13 @@ const Marketplace = () => {
             </Pressable>
           </View>
           <Gap width={8} />
-          <Pressable
+          {/* <Pressable HIDE DULU NGGAK SIH :v
             style={styles.filterButton}
             onPress={() => modalRef.current?.expand()}>
             <IcFilter />
             <Gap width={10} />
             <TextInter style={styles.filterLabel}>Filter</TextInter>
-          </Pressable>
+          </Pressable> */}
         </View>
         <View style={styles.sectionTitleContainer}>
           <TextInter style={styles.sectionTitle}>Highlight</TextInter>
@@ -89,11 +128,12 @@ const Marketplace = () => {
 
         <View>
           <FlatList
-            data={horizontal}
+            data={forHighlight}
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.flatListHorizontal}
             horizontal
-            renderItem={() => <HorizontalCard />}
+            keyExtractor={(_, index) => index.toString()}
+            renderItem={({item}) => <HorizontalCard item={item} />}
           />
         </View>
 
@@ -106,8 +146,8 @@ const Marketplace = () => {
         <Gap height={4} />
 
         <View>
-          {horizontal.map((item, i) => (
-            <VerticalCard key={i} />
+          {labelledData?.map((item, i) => (
+            <VerticalCard key={i} item={item} />
           ))}
         </View>
       </ScrollView>

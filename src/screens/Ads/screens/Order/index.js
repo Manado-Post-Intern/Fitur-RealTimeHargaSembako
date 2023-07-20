@@ -115,7 +115,7 @@ const Order = ({route}) => {
   };
 
   const handleSubmit = async () => {
-    const referance = database().ref(`/ads/${user.uid}/list`);
+    const referance = database().ref(`/ads/data/${user.uid}/list`);
     try {
       if (!user) {
         throw 'Please login first';

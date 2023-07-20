@@ -159,12 +159,16 @@ const CreateAds = () => {
           .format('YYYY-MM-DD'),
       },
       isAllowed: false,
+      profile: {
+        name: user.displayName,
+        photo: user.photoURL,
+      },
     };
     return normalize;
   };
 
   const handleSubmit = async () => {
-    const referance = database().ref(`/marketplace/${user.uid}/list`);
+    const referance = database().ref(`/marketplace/data/${user.uid}/list`);
     setIsLoading(true);
     try {
       const passed = await handleRequired();

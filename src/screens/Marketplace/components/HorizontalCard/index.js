@@ -1,4 +1,4 @@
-import {Image, StyleSheet, View} from 'react-native';
+import {Image, Linking, StyleSheet, View} from 'react-native';
 import React from 'react';
 import {
   IcPinpoint,
@@ -12,43 +12,59 @@ import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
 
 const CARD_WIDTH = 172; // Card width minus 4 horizontal padding
 
-const HorizontalCard = () => {
+const HorizontalCard = ({item}) => {
+  const handleOpenWhatsapp = phoneNumber => {
+    const url = `https://wa.me/${phoneNumber}`;
+
+    Linking.openURL(url);
+  };
   return (
     <View style={styles.container}>
       <View style={styles.userContainer}>
-        <Image style={styles.profilePicture} source={IMGDummyProfile} />
+        <Image
+          style={styles.profilePicture}
+          source={{uri: item?.profile?.photo}}
+        />
         <Gap width={8} />
-        <TextInter style={styles.userName}>Savannah Nguyen</TextInter>
+        <TextInter style={styles.userName}>{item?.profile?.name}</TextInter>
       </View>
       <Gap height={6} />
       <View style={styles.imageSection}>
         <View style={styles.productImageContainer}>
-          <Image style={styles.productImage} source={IMGDummyProperty} />
-          <TextInter style={styles.productCategory}>Properti</TextInter>
+          <Image style={styles.productImage} source={{uri: item?.adsImage}} />
+          <TextInter style={styles.productCategory}>{item?.label}</TextInter>
         </View>
       </View>
       <Gap height={6} />
-      <TextInter style={styles.productName}>
-        Rumah Kost 10 Kamar, 10 x 20 SHM{' '}
+      <TextInter style={styles.productName} numberOfLines={3}>
+        {item?.adsName}
       </TextInter>
       <Gap height={6} />
       <View style={styles.tagSection}>
-        <TextInter style={styles.tag}>Dijual Cepat</TextInter>
-        <TextInter style={styles.price}>Rp 1 M</TextInter>
+        <TextInter style={styles.tag}>{item?.status}</TextInter>
+        <TextInter style={styles.price}>
+          {parseInt(item.price, 10)?.toLocaleString('id-ID', {
+            style: 'currency',
+            currency: 'IDR',
+            minimumFractionDigits: 0,
+          })}
+        </TextInter>
       </View>
       <Gap height={6} />
       <View style={styles.locationContainer}>
         <IcPinpoint />
         <Gap width={4} />
-        <TextInter style={styles.location}>
-          Jl. Pogidon 123, Malalayang Manado
+        <TextInter style={styles.location} numberOfLines={4}>
+          {item?.address}
         </TextInter>
       </View>
       <Gap height={6} />
-      <Pressable style={styles.contactButton}>
+      <Pressable
+        style={styles.contactButton}
+        onPress={() => handleOpenWhatsapp(item?.whatsappContact)}>
         <IcWhatsappExtraSmall />
         <Gap width={4} />
-        <TextInter style={styles.contact}>085342344444</TextInter>
+        <TextInter style={styles.contact}>{item?.whatsappContact}</TextInter>
       </Pressable>
     </View>
   );
@@ -90,6 +106,8 @@ const styles = StyleSheet.create({
   },
   productImage: {
     borderRadius: 4,
+    flex: 1,
+    resizeMode: 'contain',
   },
   productCategory: {
     position: 'absolute',
