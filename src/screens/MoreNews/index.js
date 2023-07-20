@@ -7,14 +7,15 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {IMGMPTextPrimary, IcBack, IcMagnifying, theme} from '../../assets';
 import {TextInter} from '../../components';
-import {Card} from './components';
+import {Card, MediumBanner} from './components';
 import {useNavigation} from '@react-navigation/native';
 import {regionList, sectionList} from '../../data';
 import {latestEndPoint, loadSession} from '../../api';
 import axios from 'axios';
+import {AdsContext} from '../../context/AdsContext';
 
 const SPACING = 10;
 
@@ -24,6 +25,7 @@ const MoreNews = ({route}) => {
   const [moreNews, setMoreNews] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const {sectionId} = route.params;
+  const {medium} = useContext(AdsContext);
   const label = sectionList.find(item => item?.id === sectionId)?.name;
 
   const navigation = useNavigation();
@@ -101,6 +103,7 @@ const MoreNews = ({route}) => {
             setPage(prevPage => prevPage + 1);
           }
         }}>
+        <MediumBanner item={medium} />
         <View style={styles.labelContainer}>
           <TextInter style={styles.label}>{label}</TextInter>
         </View>

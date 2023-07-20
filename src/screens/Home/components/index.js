@@ -8,9 +8,11 @@ import MPNewspaper from './MPNewspaper';
 import TopBanner from './TopBanner';
 import BottomBanner from './BottomBanner';
 import SecondBanner from './SecondBanner';
+import FullBanner from './FullBanner';
 
 export {
   TopBanner,
+  FullBanner,
   SecondBanner,
   BottomBanner,
   Story,

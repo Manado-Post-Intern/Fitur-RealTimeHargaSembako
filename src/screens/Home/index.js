@@ -5,6 +5,7 @@ import {Gap} from '../../components';
 import {
   ActionSection,
   BottomBanner,
+  FullBanner,
   Headlines,
   LatestNews,
   MPDigital,
@@ -43,7 +44,7 @@ const Home = () => {
   // const [trending, setTrending] = useState(null);
   const [latest, setLatest] = useState(null);
   const [story, setStory] = useState(null);
-  const {top, bottom, second} = useContext(AdsContext);
+  const {top, bottom, second, full} = useContext(AdsContext);
 
   const getHeadline = async () => {
     try {
@@ -177,6 +178,8 @@ const Home = () => {
           {bottom && <BottomBanner item={bottom} />}
 
           <Gap height={12} />
+
+          {full && <FullBanner item={full} />}
 
           {/* <MPDigital />
 
