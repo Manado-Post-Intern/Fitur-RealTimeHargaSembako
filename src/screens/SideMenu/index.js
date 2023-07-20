@@ -26,27 +26,40 @@ const SideMenu = () => {
   const handleLogout = () => auth().signOut();
   return (
     <View style={styles.container}>
-      <View style={styles.headerContainer}>
-        <Image style={styles.profileImage} source={IMGDummyProfile} />
-        <Gap width={16} />
-        <View style={styles.headerTextContainer}>
-          <View style={styles.userNameContainer}>
-            <TextInter style={styles.name}>Cameron Williamson</TextInter>
-            <TextInter
-              style={styles.email}
-              adjustsFontSizeToFit={true}
-              numberOfLines={1}>
-              jessica.hanson@example.com
-            </TextInter>
-          </View>
+      {user ? (
+        <View style={styles.headerContainer}>
+          <Image style={styles.profileImage} source={{uri: user?.photoURL}} />
           <Gap width={16} />
-          <Pressable
-            style={styles.editButton}
-            onPress={() => navigation.navigate('Profile')}>
-            <IcEdit />
-          </Pressable>
+          <View style={styles.headerTextContainer}>
+            <View style={styles.userNameContainer}>
+              <TextInter style={styles.name}>{user?.displayName}</TextInter>
+              <TextInter
+                style={styles.email}
+                adjustsFontSizeToFit={true}
+                numberOfLines={1}>
+                {user?.email}
+              </TextInter>
+            </View>
+            <Gap width={16} />
+            {/* <Pressable
+              style={styles.editButton}
+              onPress={() => navigation.navigate('Profile')}>
+              <IcEdit />
+            </Pressable> */}
+          </View>
         </View>
-      </View>
+      ) : (
+        <View
+          style={{
+            borderWidth: 1,
+            borderColor: theme.colors.errorRed,
+            paddingHorizontal: 5,
+            paddingVertical: 10,
+            borderRadius: 10,
+          }}>
+          <TextInter>Login terlebih dahulu dengan Google</TextInter>
+        </View>
+      )}
 
       <Gap height={16} />
 
@@ -72,7 +85,9 @@ const SideMenu = () => {
         </Pressable>
         <Pressable
           style={[styles.section, styles.bottomBorder]}
-          onPress={() => navigation.navigate('Ads')}>
+          onPress={() => {
+            user ? navigation.navigate('Ads') : alert('Login terlebih dahulu');
+          }}>
           <IcAds />
           <Gap width={10} />
           <TextInter style={styles.sectionLabel}>Pasang Iklan</TextInter>
@@ -84,12 +99,15 @@ const SideMenu = () => {
           <Gap width={10} />
           <TextInter style={styles.sectionLabel}>Tentang Kami</TextInter>
         </Pressable>
-        <Pressable onPress={handleLogout} style={styles.section}>
-          <IcLogout />
-          <Gap width={10} />
-          <TextInter style={styles.sectionLabel}>Logout</TextInter>
-        </Pressable>
-        <SocialSignIn type={'google'} />
+        {user ? (
+          <Pressable onPress={handleLogout} style={styles.section}>
+            <IcLogout />
+            <Gap width={10} />
+            <TextInter style={styles.sectionLabel}>Logout</TextInter>
+          </Pressable>
+        ) : (
+          <SocialSignIn type={'google'} />
+        )}
       </View>
 
       <View style={styles.footerContainer}>

@@ -1,15 +1,17 @@
 import {Image, Pressable, StyleSheet, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {ChevroletBackButton, Gap, TextInter} from '../../components';
 import {IcEdit, IMGDummyProfile, theme} from '../../assets';
 import {screenHeightPercentage} from '../../utils';
 import {useNavigation} from '@react-navigation/native';
 import {Card} from './components';
 import database from '@react-native-firebase/database';
+import {AuthContext} from '../../context/AuthContext';
 
 const Ads = () => {
   const navigation = useNavigation();
   const [adsConfig, setAdsConfig] = useState([]);
+  const {user} = useContext(AuthContext);
 
   useEffect(() => {
     database()
@@ -34,21 +36,19 @@ const Ads = () => {
 
       <View style={styles.body}>
         <View style={styles.profileHeaderContainer}>
-          <Image style={styles.profileImage} source={IMGDummyProfile} />
+          <Image style={styles.profileImage} source={{uri: user.photoURL}} />
           <Gap width={16} />
           <View style={styles.headerTextContainer}>
             <View>
-              <TextInter style={styles.name}>Cameron Williamson</TextInter>
-              <TextInter style={styles.email}>
-                jessica.hanson@example.com
-              </TextInter>
+              <TextInter style={styles.name}>{user.displayName}</TextInter>
+              <TextInter style={styles.email}>{user.email}</TextInter>
             </View>
             <Gap width={16} />
-            <Pressable
+            {/* <Pressable
               style={styles.editButton}
               onPress={() => navigation.navigate('Profile')}>
               <IcEdit />
-            </Pressable>
+            </Pressable> */}
           </View>
         </View>
         <Gap height={8} />
