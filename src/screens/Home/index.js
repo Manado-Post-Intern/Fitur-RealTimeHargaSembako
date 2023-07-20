@@ -1,15 +1,18 @@
 import {SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import {theme} from '../../assets';
 import {Gap} from '../../components';
 import {
   ActionSection,
+  BottomBanner,
   Headlines,
   LatestNews,
   MPDigital,
   MPNewspaper,
   NewsForYou,
+  SecondBanner,
   Story,
+  TopBanner,
 } from './components';
 import {screenHeightPercentage} from '../../utils';
 import {Card as CardNews} from './components/NewsForYou/components';
@@ -27,6 +30,7 @@ import {
   tagArticle,
 } from '../../api';
 import {regionList} from '../../data';
+import {AdsContext} from '../../context/AdsContext';
 
 const data = [0, 1, 2];
 const daerah = ['Manado', 'Minahasa Utara', 'Bitung', 'Tondano'];
@@ -36,9 +40,10 @@ const Home = () => {
   const [token, setToken] = useState(null);
   const [headlines, setHeadlines] = useState(null);
   const [forYou, setForYou] = useState(null);
-  const [trending, setTrending] = useState(null);
+  // const [trending, setTrending] = useState(null);
   const [latest, setLatest] = useState(null);
   const [story, setStory] = useState(null);
+  const {top, bottom, second} = useContext(AdsContext);
 
   const getHeadline = async () => {
     try {
@@ -79,19 +84,19 @@ const Home = () => {
       console.log(error);
     }
   };
-  const getTrending = async () => {
-    try {
-      const response = await axios.get(popular, {
-        headers: {
-          Accept: 'application/vnd.promedia+json; version=1.0',
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setTrending(response.data.data.list);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const getTrending = async () => {
+  //   try {
+  //     const response = await axios.get(popular, {
+  //       headers: {
+  //         Accept: 'application/vnd.promedia+json; version=1.0',
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     });
+  //     setTrending(response.data.data.list);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
   const getStory = async () => {
     const promises = regionList.map(async item => {
       const response = await axios.get(latestEndPoint, {
@@ -118,7 +123,7 @@ const Home = () => {
     if (token) {
       getHeadline();
       getForYou();
-      getTrending();
+      // getTrending();
       getLatest();
       getStory();
       // getReferenceSite();
@@ -147,11 +152,16 @@ const Home = () => {
 
           <Gap height={12} />
 
-          <ActionSection />
+          {/* <ActionSection /> */}
+          {top && <TopBanner item={top} />}
 
           <Gap height={12} />
 
           <Headlines data={headlines} />
+
+          <Gap height={12} />
+
+          {second && <SecondBanner item={second} />}
 
           <Gap height={12} />
 
@@ -164,6 +174,7 @@ const Home = () => {
           <Gap height={12} />
 
           {/* <TrendingSection item={trending} /> */}
+          {bottom && <BottomBanner item={bottom} />}
 
           <Gap height={12} />
 

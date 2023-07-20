@@ -9,6 +9,7 @@ import {auth as promediaAuth, authConfig, authData} from './api';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {AuthProvider} from './context/AuthContext';
+import {AdsProvider} from './context/AdsContext';
 
 GoogleSignin.configure({
   webClientId:
@@ -37,13 +38,15 @@ const App = () => {
 
   return (
     <AuthProvider>
-      <GestureHandlerRootView style={styles.gestureHandlerRootView}>
-        <BottomSheetModalProvider>
-          <NavigationContainer>
-            <Routes />
-          </NavigationContainer>
-        </BottomSheetModalProvider>
-      </GestureHandlerRootView>
+      <AdsProvider>
+        <GestureHandlerRootView style={styles.gestureHandlerRootView}>
+          <BottomSheetModalProvider>
+            <NavigationContainer>
+              <Routes />
+            </NavigationContainer>
+          </BottomSheetModalProvider>
+        </GestureHandlerRootView>
+      </AdsProvider>
     </AuthProvider>
   );
 };
