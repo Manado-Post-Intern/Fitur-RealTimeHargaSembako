@@ -10,6 +10,7 @@ import EncryptedStorage from 'react-native-encrypted-storage';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {AuthProvider} from './context/AuthContext';
 import {AdsProvider} from './context/AdsContext';
+import {MPDigitalProvider} from './context/MPDigitalContext';
 
 GoogleSignin.configure({
   webClientId:
@@ -39,13 +40,15 @@ const App = () => {
   return (
     <AuthProvider>
       <AdsProvider>
-        <GestureHandlerRootView style={styles.gestureHandlerRootView}>
-          <BottomSheetModalProvider>
-            <NavigationContainer>
-              <Routes />
-            </NavigationContainer>
-          </BottomSheetModalProvider>
-        </GestureHandlerRootView>
+        <MPDigitalProvider>
+          <GestureHandlerRootView style={styles.gestureHandlerRootView}>
+            <BottomSheetModalProvider>
+              <NavigationContainer>
+                <Routes />
+              </NavigationContainer>
+            </BottomSheetModalProvider>
+          </GestureHandlerRootView>
+        </MPDigitalProvider>
       </AdsProvider>
     </AuthProvider>
   );

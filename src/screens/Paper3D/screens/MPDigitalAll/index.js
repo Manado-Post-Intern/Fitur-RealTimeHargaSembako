@@ -1,15 +1,17 @@
 import {FlatList, Pressable, StyleSheet, View} from 'react-native';
-import React from 'react';
+import React, {useContext} from 'react';
 import {Gap, Pagination, TextInter, TopBar} from '../../../../components';
 import {IcBack, theme} from '../../../../assets';
 import {screenHeightPercentage} from '../../../../utils';
 import Card from './Card';
 import {useNavigation} from '@react-navigation/native';
+import {MPDigitalContext} from '../../../../context/MPDigitalContext';
 
-const data = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+// const data = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 const MPDigitalAll = () => {
   const navigation = useNavigation();
+  const {magazine} = useContext(MPDigitalContext);
   return (
     <>
       <View style={styles.topBarContainer}>
@@ -25,14 +27,19 @@ const MPDigitalAll = () => {
           </View>
         )}
         contentContainerStyle={styles.contentContainerStyle}
-        data={data}
+        data={magazine}
         numColumns={3}
         renderItem={({item, index}) => (
-          <Card key={index} index={index} dataLength={data.length} />
+          <Card
+            key={index}
+            index={index}
+            dataLength={magazine.length}
+            item={item}
+          />
         )}
       />
 
-      <Pagination />
+      {/* <Pagination /> */}
       <Gap height={30} />
     </>
   );

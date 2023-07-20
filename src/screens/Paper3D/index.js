@@ -1,17 +1,35 @@
-import {SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
-import React from 'react';
-import {Banner1, Gap, More, TextInter, TopBar} from '../../components';
+import {
+  RefreshControl,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  View,
+} from 'react-native';
+import React, {useContext} from 'react';
+import {Banner1, Gap, TextInter, TopBar} from '../../components';
 import {IcBack, theme} from '../../assets';
-import {CardListDigital, CardListNewspaper} from './components';
+import {CardListDigital, CardListNewspaper, More} from './components';
 import {screenHeightPercentage} from '../../utils';
+import {MPDigitalContext} from '../../context/MPDigitalContext';
 
 const Paper3D = () => {
+  const {loading, setLoading, fetchData} = useContext(MPDigitalContext);
   return (
     <SafeAreaView>
       <View style={styles.topBarContainer}>
         <TopBar type="paper" />
       </View>
-      <ScrollView style={styles.container}>
+      <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={loading}
+            onRefresh={() => {
+              setLoading(true);
+              fetchData();
+            }}
+          />
+        }
+        style={styles.container}>
         <View style={styles.bodyContainer}>
           <View style={styles.headerContainer}>
             <IcBack />
@@ -27,7 +45,7 @@ const Paper3D = () => {
             <CardListDigital />
             <Gap height={4} />
             <View style={styles.moreContainer}>
-              <More screen="MPDigitalAll" />
+              <More to={'MPDigitalAll'} />
             </View>
           </View>
 
@@ -39,7 +57,7 @@ const Paper3D = () => {
             <CardListNewspaper />
             <Gap height={4} />
             <View style={styles.moreContainer}>
-              <More screen="MPKoranAll" />
+              <More to="MPKoranAll" />
             </View>
           </View>
         </View>

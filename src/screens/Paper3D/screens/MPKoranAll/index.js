@@ -1,15 +1,18 @@
 import {FlatList, Pressable, ScrollView, StyleSheet, View} from 'react-native';
-import React from 'react';
+import React, {useContext} from 'react';
 import {Gap, Pagination, TextInter, TopBar} from '../../../../components';
 import {IcBack, theme} from '../../../../assets';
 import {screenHeightPercentage} from '../../../../utils';
 import Card from './Card';
 import {useNavigation} from '@react-navigation/native';
+import {MPDigitalContext} from '../../../../context/MPDigitalContext';
 
-const data = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+// const data = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 const MPKoranAll = () => {
   const navigation = useNavigation();
+  const {newsPaper} = useContext(MPDigitalContext);
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.topBarContainer}>
@@ -27,16 +30,21 @@ const MPKoranAll = () => {
 
         <View style={styles.flatListContainer}>
           <FlatList
-            data={data}
+            data={newsPaper}
             numColumns={3}
             renderItem={({item, index}) => (
-              <Card key={index} index={index} dataLength={data.length} />
+              <Card
+                key={index}
+                index={index}
+                dataLength={newsPaper?.length}
+                item={item}
+              />
             )}
           />
         </View>
       </View>
 
-      <Pagination />
+      {/* <Pagination /> */}
 
       <Gap height={screenHeightPercentage('15%')} />
     </ScrollView>
