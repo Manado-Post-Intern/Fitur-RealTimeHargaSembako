@@ -6,14 +6,15 @@ import {theme} from '../../../../assets';
 
 const data = ['Casabaio Resort', 'Mercure Resort', 'Casabaio Resort'];
 
-const TrendingSection = () => {
+const TrendingSection = ({item}) => {
+  const filteredData = item?.filter(item => item.trending === '1');
   return (
     <View style={styles.container}>
       <TextInter style={styles.title}>Trending hari ini</TextInter>
       <FlatList
         contentContainerStyle={styles.flatList}
         horizontal
-        data={data}
+        data={filteredData}
         showsHorizontalScrollIndicator={false}
         renderItem={({item, index}) => (
           <View style={styles.cardContainer}>

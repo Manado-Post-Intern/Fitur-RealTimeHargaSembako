@@ -31,6 +31,7 @@ import {
   Marketplace,
   CreateAds,
   MetaDetail,
+  MetaMore,
   MoreNews,
 } from '../screens';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -117,6 +118,7 @@ const Routes = () => {
       <Stack.Screen name="CreateAds" component={CreateAds} />
       <Stack.Screen name="MetaDetail" component={MetaDetail} />
       <Stack.Screen name="MoreNews" component={MoreNews} />
+      <Stack.Screen name="MetaMore" component={MetaMore} />
     </Stack.Navigator>
   );
 };

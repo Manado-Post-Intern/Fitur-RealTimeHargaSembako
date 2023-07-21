@@ -122,6 +122,7 @@ const Home = () => {
 
   useEffect(() => {
     if (token) {
+      console.log('executed');
       getHeadline();
       getForYou();
       // getTrending();

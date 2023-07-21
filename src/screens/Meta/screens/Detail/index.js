@@ -1,4 +1,13 @@
-import {Image, ScrollView, StyleSheet, View} from 'react-native';
+import {
+  Clipboard,
+  Dimensions,
+  Image,
+  ScrollView,
+  StyleSheet,
+  ToastAndroid,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React from 'react';
 import {
   IcCopyLink,
@@ -10,31 +19,30 @@ import {
   theme,
 } from '../../../../assets';
 import {Gap, TextInter, TopBar} from '../../../../components';
+import {WebView} from 'react-native-webview';
 
-const Detail = () => {
+const Detail = ({route}) => {
+  const {item} = route.params;
   return (
     <ScrollView style={styles.container}>
       <View>
         <TopBar type="meta" />
       </View>
       <View>
-        <Image style={styles.image} source={IMGHotelBestWestern} />
+        <WebView
+          style={styles.image}
+          source={{uri: item?.link_360}}
+          onTouchStart={e => {
+            e.preventDefault();
+          }}
+        />
         <View style={styles.titleContainer}>
-          <TextInter style={styles.title}>Hotel Best Western</TextInter>
+          <TextInter style={styles.title}>{item?.site_name}</TextInter>
         </View>
         <View style={styles.bodyContainer}>
           <View style={styles.informationContainer}>
             <TextInter style={styles.description}>
-              Situated in a strategic location at Bahu Mall integrated area
-              complete with shopping, commercial, and entertainment facilities
-              within easy access to Boulevard area (Manado's number 1 street)
-              while Sam Ratulangi International Airport is only 45 minutes
-              drive. Best Western The Lagoon Hotel offers perfect spots for
-              great adventure ranging from scuba diving named Bunaken National
-              Park as one of the best Indonesia’s dive spot, volcano trekking
-              tours, white water rafting, to The Tangkoko Nature Reserve. For a
-              more relaxing sunny day, visit Pall Beach or Pulisan Beach to
-              enjoy the white sand and clear blue water.
+              {item?.description}
             </TextInter>
 
             <Gap height={16} />
@@ -42,10 +50,7 @@ const Detail = () => {
             <View style={styles.addressContainer}>
               <IcGmaps />
               <Gap width={16} />
-              <TextInter style={styles.address}>
-                Jl. Wolter Monginsidi No.1, Bahu, Kec. Malalayang, Kota Manado,
-                Sulawesi Utara 95115
-              </TextInter>
+              <TextInter style={styles.address}>{item?.address}</TextInter>
             </View>
 
             <Gap height={16} />
@@ -57,9 +62,20 @@ const Detail = () => {
             <Gap height={16} />
 
             <View style={styles.socialMediaContainer}>
-              <Image style={styles.socialMedia} source={IMGRoundWhatsapp} />
-              <Image style={styles.socialMedia} source={IMGRoundFacebook} />
-              <Image style={styles.socialMedia} source={IMGRoundInstagram} />
+              <View style={styles.socialMediaSubContainer}>
+                <Image style={styles.socialMedia} source={IMGRoundWhatsapp} />
+                <TextInter style={styles.socialMediaText}>{item?.wa}</TextInter>
+              </View>
+              <View style={styles.socialMediaSubContainer}>
+                <Image style={styles.socialMedia} source={IMGRoundFacebook} />
+                <TextInter style={styles.socialMediaText}>{item?.fb}</TextInter>
+              </View>
+              <View style={styles.socialMediaSubContainer}>
+                <Image style={styles.socialMedia} source={IMGRoundInstagram} />
+                <TextInter style={styles.socialMediaText}>
+                  {item?.instagram}
+                </TextInter>
+              </View>
             </View>
 
             <Gap height={16} />
@@ -68,10 +84,18 @@ const Detail = () => {
             <Gap height={8} />
 
             <View style={styles.linkContainer}>
-              <TextInter style={styles.link}>
-                httpd://manadopost.jawapost.com/asdwgeasuiy
-              </TextInter>
-              <IcCopyLink />
+              <TextInter style={styles.link}>{item?.website}</TextInter>
+              <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={() => {
+                  Clipboard.setString(item?.website);
+                  ToastAndroid.show(
+                    'Link copied to clipboard',
+                    ToastAndroid.SHORT,
+                  );
+                }}>
+                <IcCopyLink />
+              </TouchableOpacity>
             </View>
           </View>
         </View>
@@ -151,13 +175,13 @@ const styles = StyleSheet.create({
   },
 
   socialMediaContainer: {
-    flexDirection: 'row',
+    // flexDirection: 'row',
   },
   socialMedia: {
     width: 32,
     height: 32,
     resizeMode: 'contain',
-    marginRight: 16,
+    marginRight: 5,
   },
 
   pageLink: {
@@ -177,5 +201,15 @@ const styles = StyleSheet.create({
     flex: 1,
     fontFamily: theme.fonts.inter.semiBold,
     color: '#8F8F8F',
+  },
+  socialMediaText: {
+    fontSize: 15,
+    color: theme.colors.grey1,
+    flex: 1,
+  },
+  socialMediaSubContainer: {
+    flexDirection: 'row',
+    marginBottom: 5,
+    alignItems: 'center',
   },
 });
