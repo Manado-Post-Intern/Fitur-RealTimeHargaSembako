@@ -54,8 +54,8 @@ const Meta = () => {
             <Gap height={6} />
             <Categories categories={category} item={metaData} />
             <Gap height={32} />
-            {/* <BannerSection /> */}
-            <MediumBanner item={medium} />
+            <BannerSection item={metaData} />
+            {/* <MediumBanner item={medium} /> */}
             <TrendingSection item={metaData} />
             <Gap height={10} />
 

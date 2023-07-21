@@ -2,6 +2,7 @@ import {
   Clipboard,
   Dimensions,
   Image,
+  Linking,
   ScrollView,
   StyleSheet,
   ToastAndroid,
@@ -23,6 +24,15 @@ import {WebView} from 'react-native-webview';
 
 const Detail = ({route}) => {
   const {item} = route.params;
+
+  const handleLinkPress = link => {
+    const phoneNoRegex = /([0-9]+)/g;
+    if (link.match(phoneNoRegex)) {
+      if (link[0] === '0') link = link.substring(1);
+      return Linking.openURL(`https://wa.me/${link}`);
+    }
+    Linking.openURL(link);
+  };
   return (
     <ScrollView style={styles.container}>
       <View>
@@ -62,20 +72,26 @@ const Detail = ({route}) => {
             <Gap height={16} />
 
             <View style={styles.socialMediaContainer}>
-              <View style={styles.socialMediaSubContainer}>
+              <TouchableOpacity
+                onPress={() => handleLinkPress(item?.wa)}
+                style={styles.socialMediaSubContainer}>
                 <Image style={styles.socialMedia} source={IMGRoundWhatsapp} />
                 <TextInter style={styles.socialMediaText}>{item?.wa}</TextInter>
-              </View>
-              <View style={styles.socialMediaSubContainer}>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => handleLinkPress(item?.fb)}
+                style={styles.socialMediaSubContainer}>
                 <Image style={styles.socialMedia} source={IMGRoundFacebook} />
                 <TextInter style={styles.socialMediaText}>{item?.fb}</TextInter>
-              </View>
-              <View style={styles.socialMediaSubContainer}>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => handleLinkPress(item?.instagram)}
+                style={styles.socialMediaSubContainer}>
                 <Image style={styles.socialMedia} source={IMGRoundInstagram} />
                 <TextInter style={styles.socialMediaText}>
                   {item?.instagram}
                 </TextInter>
-              </View>
+              </TouchableOpacity>
             </View>
 
             <Gap height={16} />
