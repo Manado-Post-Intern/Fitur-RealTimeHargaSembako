@@ -13,7 +13,7 @@ const BottomBanner = ({item}) => {
   const ref = useRef(null);
 
   useEffect(() => {
-    if (!onDrag) {
+    if (!onDrag && item.length > 0) {
       ref.current.scrollToIndex({
         index: index,
         animated: true,

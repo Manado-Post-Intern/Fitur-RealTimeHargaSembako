@@ -1,5 +1,6 @@
 import {createContext, useEffect, useState} from 'react';
 import database from '@react-native-firebase/database';
+import moment from 'moment/moment';
 
 export const AdsContext = createContext();
 
@@ -17,13 +18,20 @@ export const AdsProvider = ({children}) => {
       .ref('/ads/data')
       .on('value', snapshot => {
         const res = snapshot.val();
-        const data = [];
+        let data = [];
         Object.keys(res).forEach(key => {
           res[key].list.map(item => {
             if (item.isAllowed) {
               data.push(item);
             }
           });
+        });
+
+        data = data.filter(item => {
+          return moment().isBetween(
+            moment(item.startDate, 'DD MMMM YYYY'),
+            moment(item.endDate, 'DD MMMM YYYY'),
+          );
         });
 
         const top = data.filter(item => item.adsConfig.tipe === 'Top Banner');
