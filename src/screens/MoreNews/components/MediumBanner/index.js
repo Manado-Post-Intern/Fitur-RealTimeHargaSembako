@@ -1,4 +1,13 @@
-import {FlatList, Image, LogBox, StyleSheet, Text, View} from 'react-native';
+import {
+  FlatList,
+  Image,
+  Linking,
+  LogBox,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
 
@@ -51,9 +60,18 @@ const MediumBanner = ({item}) => {
 
 const Banner = ({item}) => {
   return (
-    <View style={styles.container}>
+    <TouchableOpacity
+      style={styles.container}
+      activeOpacity={0.8}
+      onPress={() => {
+        const haveHttp = item?.link?.includes('http');
+        if (haveHttp) {
+          return Linking.openURL(item?.link);
+        }
+        return Linking.openURL(`http://${item?.link}`);
+      }}>
       <Image source={{uri: item?.imageUri}} style={styles.image} />
-    </View>
+    </TouchableOpacity>
   );
 };
 
