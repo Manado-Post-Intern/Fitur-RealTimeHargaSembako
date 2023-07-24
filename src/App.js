@@ -11,6 +11,7 @@ import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {AuthProvider} from './context/AuthContext';
 import {AdsProvider} from './context/AdsContext';
 import {MPDigitalProvider} from './context/MPDigitalContext';
+import {TokenProvider} from './context/TokenContext';
 
 GoogleSignin.configure({
   webClientId:
@@ -39,17 +40,19 @@ const App = () => {
 
   return (
     <AuthProvider>
-      <AdsProvider>
-        <MPDigitalProvider>
-          <GestureHandlerRootView style={styles.gestureHandlerRootView}>
-            <BottomSheetModalProvider>
-              <NavigationContainer>
-                <Routes />
-              </NavigationContainer>
-            </BottomSheetModalProvider>
-          </GestureHandlerRootView>
-        </MPDigitalProvider>
-      </AdsProvider>
+      <TokenProvider>
+        <AdsProvider>
+          <MPDigitalProvider>
+            <GestureHandlerRootView style={styles.gestureHandlerRootView}>
+              <BottomSheetModalProvider>
+                <NavigationContainer>
+                  <Routes />
+                </NavigationContainer>
+              </BottomSheetModalProvider>
+            </GestureHandlerRootView>
+          </MPDigitalProvider>
+        </AdsProvider>
+      </TokenProvider>
     </AuthProvider>
   );
 };

@@ -39,9 +39,9 @@ const BannerSection = ({item}) => {
 
       <Gap height={10} />
 
-      {filter?.map(item => {
+      {filter?.map((item, index) => {
         return (
-          <>
+          <View key={index}>
             <TouchableOpacity
               activeOpacity={0.8}
               onPress={() => navigation.navigate('MetaDetail', {item})}
@@ -53,7 +53,7 @@ const BannerSection = ({item}) => {
             </TouchableOpacity>
 
             <Gap height={7} />
-          </>
+          </View>
         );
       })}
 

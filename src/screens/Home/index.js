@@ -32,13 +32,14 @@ import {
 } from '../../api';
 import {regionList} from '../../data';
 import {AdsContext} from '../../context/AdsContext';
+import {TokenContext} from '../../context/TokenContext';
 
 const data = [0, 1, 2];
 const daerah = ['Manado', 'Minahasa Utara', 'Bitung', 'Tondano'];
 
 const Home = () => {
+  const {token} = useContext(TokenContext);
   const canalModalRef = useRef();
-  const [token, setToken] = useState(null);
   const [headlines, setHeadlines] = useState(null);
   const [forYou, setForYou] = useState(null);
   // const [trending, setTrending] = useState(null);
@@ -131,18 +132,6 @@ const Home = () => {
       // getReferenceSite();
     }
   }, [token]);
-
-  useEffect(() => {
-    loadSession()
-      .then(session => {
-        if (session) {
-          setToken(session.access_token);
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }, []);
 
   return (
     <SafeAreaView style={styles.safeAreaView}>
