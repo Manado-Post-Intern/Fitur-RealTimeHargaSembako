@@ -96,7 +96,10 @@ const Article = ({route}) => {
         <ScrollView style={styles.scrollView}>
           <View style={styles.articleContainer}>
             <Image style={styles.mp} source={IMGMPTextPrimary} />
-            <TextInter>{article?.description}</TextInter>
+            <TextInter
+              style={{fontSize: 24, fontFamily: theme.fonts.inter.semiBold}}>
+              {article?.title}
+            </TextInter>
             <Gap height={7} />
             <TimeStamp data={article?.published_date} />
             <Gap height={7} />
@@ -104,10 +107,12 @@ const Article = ({route}) => {
               return (
                 <View style={styles.authorContainer} key={index}>
                   <View style={styles.authorImageContainer}>
-                    <Image
-                      style={styles.authorImage}
-                      source={item.photo ? {uri: item.photo} : IMGLogoMinahasa}
-                    />
+                    {item?.photo && (
+                      <Image
+                        style={styles.authorImage}
+                        source={{uri: item.photo}}
+                      />
+                    )}
                   </View>
                   <Gap width={4} />
                   <TextInter style={styles.authorName}>{item.name}</TextInter>
@@ -187,7 +192,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingBottom: 16,
     borderRadius: 24,
-    backgroundColor: theme.colors.MPWhite,
   },
   mp: {
     width: 139,

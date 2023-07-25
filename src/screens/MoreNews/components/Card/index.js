@@ -16,8 +16,7 @@ const Card = ({item}) => {
     <TouchableOpacity
       activeOpacity={0.8}
       style={styles.container}
-      // onPress={() => navigation.push('Article', {articleId: item?.id})}
-    >
+      onPress={() => navigation.push('Article', {articleId: item?.id})}>
       <View style={styles.imageContainer}>
         <Image style={styles.image} source={{uri: item?.photo_url}} />
       </View>

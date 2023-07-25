@@ -110,6 +110,7 @@ const Home = () => {
       });
       let data = response.data.data.list.latest[0];
       data.region = item.name;
+      data.icon = item.icon_url;
       return data;
     });
 

@@ -4,8 +4,9 @@ import {useNavigation} from '@react-navigation/native';
 import {IMGMinahasaLogo, IMGStoryDummy, theme} from '../../../../../../assets';
 import {TextInter} from '../../../../../../components';
 import LinearGradient from 'react-native-linear-gradient';
+import {regionList} from '../../../../../../data';
 
-const Card = ({item, region}) => {
+const Card = ({item}) => {
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
@@ -16,25 +17,34 @@ const Card = ({item, region}) => {
           source={{uri: item?.photo_url}}
           style={{width: '100%', height: '100%', resizeMode: 'cover'}}
         />
-        <LinearGradient
-          locations={[0, 0.9]}
-          start={{x: 0, y: -0.5}}
-          end={{x: 0, y: 1.3}}
-          colors={['transparent', 'black']}
-          style={{
-            width: '100%',
-            position: 'absolute',
-            bottom: 0,
-            paddingHorizontal: 8,
-          }}>
-          <TextInter
-            style={{color: 'white', paddingVertical: 5}}
-            numberOfLines={3}>
-            {item?.title}
-          </TextInter>
-        </LinearGradient>
       </Pressable>
       <View style={styles.innerContainer}>
+        {item?.icon && (
+          <View
+            style={{
+              padding: 5,
+              backgroundColor: 'white',
+              borderRadius: 50,
+              shadowColor: '#000',
+
+              shadowOffset: {
+                width: 0,
+                height: 5,
+              },
+              shadowOpacity: 0.36,
+              shadowRadius: 6.68,
+              elevation: 11,
+            }}>
+            <Image
+              source={item.icon}
+              style={{
+                width: 20,
+                height: 20,
+                resizeMode: 'contain',
+              }}
+            />
+          </View>
+        )}
         <TextInter style={styles.text}>{item?.region}</TextInter>
       </View>
     </View>
@@ -47,6 +57,7 @@ const styles = StyleSheet.create({
   container: {
     height: 195,
     width: 108,
+    alignItems: 'center',
   },
   picture: {
     width: '100%',
@@ -58,6 +69,8 @@ const styles = StyleSheet.create({
   },
   innerContainer: {
     alignItems: 'center',
+    position: 'absolute',
+    bottom: 5,
   },
   avaContainer: {
     width: 37,
@@ -72,7 +85,8 @@ const styles = StyleSheet.create({
   },
   text: {
     fontFamily: theme.fonts.inter.medium,
-    fontSize: 13,
+    fontSize: 11,
     color: theme.colors.storyTextGray,
+    textAlign: 'center',
   },
 });

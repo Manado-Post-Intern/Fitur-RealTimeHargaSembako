@@ -1,3 +1,37 @@
+import {
+  IMGLogoBitung,
+  IMGLogoBolaangMongondow,
+  IMGLogoBolaangMongondowSelatan,
+  IMGLogoBolaangMongondowTimur,
+  IMGLogoBolaangMongondowUtara,
+  IMGLogoKepulauanSangihe,
+  IMGLogoKepulauanSiauTagulandangBiaro,
+  IMGLogoKepulauanTalaud,
+  IMGLogoKotamobagu,
+  IMGLogoMinahasa,
+  IMGLogoMinahasaSelatan,
+  IMGLogoMinahasaTenggara,
+  IMGLogoMinahasaUtara,
+  IMGLogoTomohon,
+} from '../assets';
+
+const regionImages = {
+  bitung: IMGLogoBitung,
+  bolmong: IMGLogoBolaangMongondow,
+  'bolmong-selatan': IMGLogoBolaangMongondowSelatan,
+  'bolmong-timur': IMGLogoBolaangMongondowTimur,
+  'bolmong-utara': IMGLogoBolaangMongondowUtara,
+  sangihe: IMGLogoKepulauanSangihe,
+  sitaro: IMGLogoKepulauanSiauTagulandangBiaro,
+  talaud: IMGLogoKepulauanTalaud,
+  kotamobagu: IMGLogoKotamobagu,
+  minahasa: IMGLogoMinahasa,
+  'minahasa-selatan': IMGLogoMinahasaSelatan,
+  'minahasa-tenggara': IMGLogoMinahasaTenggara,
+  'minahasa-utara': IMGLogoMinahasaUtara,
+  tomohon: IMGLogoTomohon,
+};
+
 export const regionList = [
   {
     id: 371,
@@ -7,7 +41,7 @@ export const regionList = [
     description: 'Minahasa Raya',
     keyword: 'Minahasa Raya',
     photo_url: null,
-    icon_url: null,
+    icon_url: regionImages['minahasa'],
   },
   {
     id: 372,
@@ -17,7 +51,7 @@ export const regionList = [
     description: 'Bolmong Raya',
     keyword: 'Bolmong Raya',
     photo_url: null,
-    icon_url: null,
+    icon_url: regionImages['bolmong'],
   },
   {
     id: 373,
@@ -37,7 +71,7 @@ export const regionList = [
     description: 'Bitung',
     keyword: 'Bitung',
     photo_url: null,
-    icon_url: null,
+    icon_url: regionImages['bitung'],
   },
   {
     id: 376,
@@ -47,7 +81,7 @@ export const regionList = [
     description: 'Tomohon',
     keyword: 'Tomohon',
     photo_url: null,
-    icon_url: null,
+    icon_url: regionImages['tomohon'],
   },
   {
     id: 377,
@@ -57,7 +91,7 @@ export const regionList = [
     description: 'Minahasa',
     keyword: 'Minahasa',
     photo_url: null,
-    icon_url: null,
+    icon_url: regionImages['minahasa'],
   },
   {
     id: 378,
@@ -67,7 +101,7 @@ export const regionList = [
     description: 'Minahasa Utara',
     keyword: 'Minahasa Utara',
     photo_url: null,
-    icon_url: null,
+    icon_url: regionImages['minahasa-utara'],
   },
   {
     id: 379,
@@ -77,7 +111,7 @@ export const regionList = [
     description: 'Minahasa Selatan',
     keyword: 'Minahasa Selatan',
     photo_url: null,
-    icon_url: null,
+    icon_url: regionImages['minahasa-selatan'],
   },
   {
     id: 380,
@@ -87,7 +121,7 @@ export const regionList = [
     description: 'Minahasa Tenggara',
     keyword: 'Minahasa Tenggara',
     photo_url: null,
-    icon_url: null,
+    icon_url: regionImages['minahasa-tenggara'],
   },
   {
     id: 381,
@@ -97,7 +131,7 @@ export const regionList = [
     description: 'Bolmong',
     keyword: 'Bolmong',
     photo_url: null,
-    icon_url: null,
+    icon_url: regionImages['bolmong'],
   },
   {
     id: 382,
@@ -107,7 +141,7 @@ export const regionList = [
     description: 'Boltim',
     keyword: 'Boltim',
     photo_url: null,
-    icon_url: null,
+    icon_url: regionImages['bolmong-timur'],
   },
   {
     id: 383,
@@ -117,7 +151,7 @@ export const regionList = [
     description: 'Bolsel',
     keyword: 'Bolsel',
     photo_url: null,
-    icon_url: null,
+    icon_url: regionImages['bolmong-selatan'],
   },
   {
     id: 384,
@@ -127,7 +161,7 @@ export const regionList = [
     description: 'Bolmut',
     keyword: 'Bolmut',
     photo_url: null,
-    icon_url: null,
+    icon_url: regionImages['bolmong-utara'],
   },
   {
     id: 385,
@@ -137,7 +171,7 @@ export const regionList = [
     description: 'Kotamobagu',
     keyword: 'Kotamobagu',
     photo_url: null,
-    icon_url: null,
+    icon_url: regionImages['kotamobagu'],
   },
   {
     id: 462,
@@ -147,7 +181,7 @@ export const regionList = [
     description: 'Sangihe',
     keyword: 'Sangihe',
     photo_url: null,
-    icon_url: null,
+    icon_url: regionImages['sangihe'],
   },
   {
     id: 463,
@@ -157,7 +191,7 @@ export const regionList = [
     description: 'Sitaro',
     keyword: 'Sitaro',
     photo_url: null,
-    icon_url: null,
+    icon_url: regionImages['sitaro'],
   },
   {
     id: 464,
@@ -167,7 +201,7 @@ export const regionList = [
     description: 'Talaud',
     keyword: 'Talaud',
     photo_url: null,
-    icon_url: null,
+    icon_url: regionImages['talaud'],
   },
 ];
 

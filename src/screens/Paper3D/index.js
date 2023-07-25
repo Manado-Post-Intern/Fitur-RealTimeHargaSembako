@@ -3,6 +3,7 @@ import {
   SafeAreaView,
   ScrollView,
   StyleSheet,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import React, {useContext} from 'react';
@@ -12,7 +13,7 @@ import {CardListDigital, CardListNewspaper, More} from './components';
 import {screenHeightPercentage} from '../../utils';
 import {MPDigitalContext} from '../../context/MPDigitalContext';
 
-const Paper3D = () => {
+const Paper3D = ({navigation}) => {
   const {loading, setLoading, fetchData} = useContext(MPDigitalContext);
   return (
     <SafeAreaView>
@@ -35,7 +36,11 @@ const Paper3D = () => {
             <IcBack />
             <TextInter style={styles.headerText}>E-Paper</TextInter>
           </View>
-          <Banner1 />
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => navigation.navigate('Subscription')}>
+            <Banner1 />
+          </TouchableOpacity>
           <Gap height={8} />
           <View>
             <View style={styles.titleContainer}>
