@@ -41,11 +41,11 @@ const SideMenu = () => {
               </TextInter>
             </View>
             <Gap width={16} />
-            {/* <Pressable
+            <Pressable
               style={styles.editButton}
               onPress={() => navigation.navigate('Profile')}>
               <IcEdit />
-            </Pressable> */}
+            </Pressable>
           </View>
         </View>
       ) : (

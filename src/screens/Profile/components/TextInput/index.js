@@ -8,7 +8,7 @@ import React from 'react';
 import {Gap, TextInter} from '../../../../components';
 import {theme} from '../../../../assets';
 
-const TextInput = ({label, value, setValue}) => {
+const TextInput = ({label, value, setValue, editable = true}) => {
   switch (label) {
     case 'Nama':
       return (
@@ -16,6 +16,7 @@ const TextInput = ({label, value, setValue}) => {
           <TextInter style={styles.label}>{label}</TextInter>
           <Gap height={4} />
           <RNTextInput
+            editable={editable}
             style={styles.textInput}
             value={value}
             onChangeText={val => setValue(val)}
