@@ -90,8 +90,8 @@ const Routes = () => {
   const Stack = createNativeStackNavigator();
   return (
     <Stack.Navigator
-      // initialRouteName="HomeTab"
-      initialRouteName="WriteNews" // TODO: Change this to Home
+      initialRouteName="HomeTab"
+      // initialRouteName="WriteNews" // TODO: Change this to Home
       screenOptions={{headerShown: false}}>
       <Stack.Screen name="Splash" component={Splash} />
       <Stack.Screen name="Onboarding" component={Onboarding} />

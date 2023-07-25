@@ -3,12 +3,12 @@ import {
   Pressable,
   SafeAreaView,
   StyleSheet,
-  Text,
   TextInput,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import React from 'react';
-import {IMGMPText, IMGMPTextPrimary, IcBack, theme} from '../../assets';
+import {IMGMPTextPrimary, IcBack, theme} from '../../assets';
 import {Button, TextInter} from '../../components';
 import {Input} from '../Marketplace/components';
 
@@ -17,14 +17,14 @@ const WriteNews = ({navigation}) => {
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <IcBack />
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <IcBack />
+          </TouchableOpacity>
           <Image
             source={IMGMPTextPrimary}
             style={{
               resizeMode: 'contain',
               width: 130,
-              // height: 50,
-              // backgroundColor: 'red',
             }}
           />
         </View>

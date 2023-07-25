@@ -1,7 +1,6 @@
 import {
   FlatList,
   Image,
-  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -11,23 +10,17 @@ import {
 import React, {useMemo, useRef, useState} from 'react';
 import {
   IMGMPTextPrimary,
-  IcArrowDown,
   IcBack,
-  IcBigCheckmark,
   IcBlueCheckmark,
-  IcCheckBlue,
-  IcCheckmark,
-  IcDropdownArrow,
   IcPlus,
   theme,
 } from '../../../../assets';
 import BottomSheet, {BottomSheetScrollView} from '@gorhom/bottom-sheet';
 import {sectionList} from '../../../../data';
-import TextInter from '../../../../components/atoms/TextInter';
 import Switch from '../../../../components/atoms/Switch';
 import Button from '../../../../components/atoms/Button';
 
-const ChannelTagSelection = () => {
+const ChannelTagSelection = ({navigation}) => {
   const [channelView, setChannelView] = useState(-1);
   const [selectedChannel, setSelectedChannel] = useState(null);
   const [tagView, setTagView] = useState(-1);
@@ -44,14 +37,14 @@ const ChannelTagSelection = () => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <IcBack />
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <IcBack />
+        </TouchableOpacity>
         <Image
           source={IMGMPTextPrimary}
           style={{
             resizeMode: 'contain',
             width: 130,
-            // height: 50,
-            // backgroundColor: 'red',
           }}
         />
       </View>
@@ -80,14 +73,7 @@ const ChannelTagSelection = () => {
             horizontal
             renderItem={({item, index}) => {
               return (
-                <View
-                  style={{
-                    backgroundColor: theme.colors.white,
-                    paddingVertical: 5,
-                    paddingHorizontal: 10,
-                    marginHorizontal: 5,
-                    borderRadius: 5,
-                  }}>
+                <View style={styles.tagItemContainer}>
                   <Text style={{color: theme.colors.MPGrey2}}>{item}</Text>
                 </View>
               );
@@ -99,59 +85,30 @@ const ChannelTagSelection = () => {
           </TouchableOpacity>
         </View>
 
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginBottom: 10,
-          }}>
-          <Text
-            style={{
-              marginRight: 10,
-              fontSize: 15,
-              fontFamily: theme.fonts.inter.medium,
-              color: theme.colors.MPGrey2,
-            }}>
-            Pasang Sebagai Highlight Ads
-          </Text>
+        <View style={styles.switchContainer}>
+          <Text style={styles.switchText}>Pasang Sebagai Highlight Ads</Text>
           <Switch defaultValue={false} onChange={value => console.log(value)} />
         </View>
 
-        <Text
-          style={{
-            fontSize: 14,
-            fontFamily: theme.fonts.inter.regular,
-            color: '#E25151',
-            backgroundColor: theme.colors.white2,
-            paddingVertical: 5,
-            paddingHorizontal: 8,
-            borderRadius: 10,
-          }}>
+        <Text style={styles.warningText}>
           Konten ini akan melalui proses redasi dan tidak dapat diubah selama
           proses tersebut
         </Text>
       </View>
 
-      <View
-        style={{
-          paddingBottom: 30,
-          paddingHorizontal: 15,
-          alignItems: 'center',
-        }}>
-        <Text
-          style={{
-            fontSize: 14,
-            fontFamily: theme.fonts.inter.regular,
-            color: theme.colors.grey1,
-            paddingBottom: 10,
-          }}>
+      <View style={styles.bottomContainer}>
+        <Text style={styles.bottomText}>
           Penulis berita wajib{' '}
           <Text style={{fontFamily: theme.fonts.inter.bold}}>
             mengupload KTP
           </Text>
         </Text>
 
-        <Button label={'Kirim Berita'} style={{borderRadius: 17}} />
+        <Button
+          label={'Kirim Berita'}
+          style={{borderRadius: 17}}
+          activeOpacity={0.8}
+        />
       </View>
 
       <ChannelView
@@ -210,8 +167,6 @@ const TagView = ({
   onItemSelect = () => {},
 }) => {
   const bottomSheetRef = useRef(null);
-
-  console.log(value);
 
   const snapPoints = useMemo(() => ['80%'], []);
   return (
@@ -309,5 +264,43 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     paddingVertical: 4,
     borderRadius: 5,
+  },
+  tagItemContainer: {
+    backgroundColor: theme.colors.white,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    marginHorizontal: 5,
+    borderRadius: 5,
+  },
+  switchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  switchText: {
+    marginRight: 10,
+    fontSize: 15,
+    fontFamily: theme.fonts.inter.medium,
+    color: theme.colors.MPGrey2,
+  },
+  warningText: {
+    fontSize: 14,
+    fontFamily: theme.fonts.inter.regular,
+    color: '#E25151',
+    backgroundColor: theme.colors.white2,
+    paddingVertical: 5,
+    paddingHorizontal: 8,
+    borderRadius: 10,
+  },
+  bottomContainer: {
+    paddingBottom: 30,
+    paddingHorizontal: 15,
+    alignItems: 'center',
+  },
+  bottomText: {
+    fontSize: 14,
+    fontFamily: theme.fonts.inter.regular,
+    color: theme.colors.grey1,
+    paddingBottom: 10,
   },
 });
