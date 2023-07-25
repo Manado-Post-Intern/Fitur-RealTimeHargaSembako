@@ -33,6 +33,8 @@ import {
   MetaDetail,
   MetaMore,
   MoreNews,
+  WriteNews,
+  ChannelTagSelection,
 } from '../screens';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {screenHeightPercentage} from '../utils';
@@ -88,8 +90,8 @@ const Routes = () => {
   const Stack = createNativeStackNavigator();
   return (
     <Stack.Navigator
-      initialRouteName="HomeTab"
-      // initialRouteName="MoreNews" // TODO: Change this to Home
+      // initialRouteName="HomeTab"
+      initialRouteName="WriteNews" // TODO: Change this to Home
       screenOptions={{headerShown: false}}>
       <Stack.Screen name="Splash" component={Splash} />
       <Stack.Screen name="Onboarding" component={Onboarding} />
@@ -119,6 +121,11 @@ const Routes = () => {
       <Stack.Screen name="MetaDetail" component={MetaDetail} />
       <Stack.Screen name="MoreNews" component={MoreNews} />
       <Stack.Screen name="MetaMore" component={MetaMore} />
+      <Stack.Screen name="WriteNews" component={WriteNews} />
+      <Stack.Screen
+        name="ChannelTagSelection"
+        component={ChannelTagSelection}
+      />
     </Stack.Navigator>
   );
 };

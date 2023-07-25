@@ -64,7 +64,9 @@ const SideMenu = () => {
       <Gap height={16} />
 
       <View style={styles.sectionContainer}>
-        <Pressable style={[styles.section, styles.bottomBorder]}>
+        <Pressable
+          onPress={() => navigation.navigate('WriteNews')}
+          style={[styles.section, styles.bottomBorder]}>
           <IcWriteNews />
           <Gap width={10} />
           <TextInter style={styles.sectionLabel}>Tulis Berita</TextInter>

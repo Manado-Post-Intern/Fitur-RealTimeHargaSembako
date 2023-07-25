@@ -24,6 +24,7 @@ export * from './Region/screens';
 export * from './Ads/screens';
 export * from './Marketplace/screens';
 export * from './Meta/screens';
+export * from './WriteNews/screens';
 export {
   Splash,
   Onboarding,
