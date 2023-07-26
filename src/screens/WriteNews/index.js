@@ -7,12 +7,32 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {IMGMPTextPrimary, IcBack, theme} from '../../assets';
 import {Button, TextInter} from '../../components';
 import {Input} from '../Marketplace/components';
+import ImageCropPicker from 'react-native-image-crop-picker';
 
 const WriteNews = ({navigation}) => {
+  const [data, setData] = useState({
+    title: '',
+    image: '',
+    content: '',
+  });
+
+  console.log(data);
+
+  const handleImageSelect = async () => {
+    try {
+      const res = await ImageCropPicker.openPicker({
+        mediaType: 'photo',
+        multiple: false,
+      });
+      return res.path;
+    } catch (error) {
+      throw error;
+    }
+  };
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -31,7 +51,13 @@ const WriteNews = ({navigation}) => {
 
         <View>
           <Button
-            onPress={() => navigation.navigate('ChannelTagSelection')}
+            onPress={() => {
+              if (data.title && data.image && data.content) {
+                navigation.navigate('ChannelTagSelection', {data});
+              } else {
+                alert('Harap diisi semua');
+              }
+            }}
             label={'Selanjutnya'}
             style={{paddingHorizontal: 15, height: 40}}
           />
@@ -39,14 +65,20 @@ const WriteNews = ({navigation}) => {
       </View>
 
       <View style={{flex: 1, paddingVertical: 20, paddingHorizontal: 30}}>
-        <Input placeholder={'Judul Berita'} />
+        <Input
+          placeholder={'Judul Berita'}
+          onChangeText={value => setData({...data, title: value})}
+        />
 
         <View style={styles.browseContainer}>
           {/* {!data.adsImage ? ( */}
           <Pressable
             style={styles.browseButton}
-            // onPress={handleImageSelect}
-          >
+            onPress={() =>
+              handleImageSelect()
+                .then(res => setData({...data, image: res}))
+                .catch(err => console.log(err))
+            }>
             <TextInter style={styles.browseLabel}>browse picture</TextInter>
           </Pressable>
           {/* ) : (
@@ -92,6 +124,7 @@ const WriteNews = ({navigation}) => {
             placeholder={'Isi Berita'}
             multiline
             placeholderTextColor="#617D9780"
+            onChangeText={value => setData({...data, content: value})}
           />
         </View>
       </View>

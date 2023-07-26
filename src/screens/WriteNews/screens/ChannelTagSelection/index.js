@@ -1,5 +1,4 @@
 import {
-  FlatList,
   Image,
   StyleSheet,
   Text,
@@ -7,20 +6,24 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useMemo, useRef, useState} from 'react';
+import React, {useContext, useMemo, useRef, useState} from 'react';
 import {
   IMGMPTextPrimary,
   IcBack,
   IcBlueCheckmark,
-  IcPlus,
   theme,
 } from '../../../../assets';
 import BottomSheet, {BottomSheetScrollView} from '@gorhom/bottom-sheet';
 import {sectionList} from '../../../../data';
 import Switch from '../../../../components/atoms/Switch';
 import Button from '../../../../components/atoms/Button';
+import database from '@react-native-firebase/database';
+import storage from '@react-native-firebase/storage';
+import {AuthContext} from '../../../../context/AuthContext';
 
-const ChannelTagSelection = ({navigation}) => {
+const ChannelTagSelection = ({navigation, route}) => {
+  const {data} = route.params;
+  const {mpUser} = useContext(AuthContext);
   const [channelView, setChannelView] = useState(-1);
   const [selectedChannel, setSelectedChannel] = useState(null);
   const [tagView, setTagView] = useState(-1);
@@ -32,6 +35,72 @@ const ChannelTagSelection = ({navigation}) => {
       setSelectedTag(newTag);
     } else {
       setSelectedTag([...selectedTag, value]);
+    }
+  };
+
+  const ktpCheck = async () => {
+    const userRef = database().ref(`/users/${mpUser?.uid}/`);
+    try {
+      await userRef.once('value', snapshot => {
+        const res = snapshot.hasChild('ktpUri');
+        if (!res) {
+          throw new Error('KTP belum diupload');
+        }
+      });
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const handleImageUpload = async uri => {
+    const fileName =
+      Math.floor(Math.random() * 50001) + '_' + uri.split('/').pop();
+    const photoRef = storage().ref(`/images/news/${mpUser?.uid}/${fileName}`);
+    try {
+      await photoRef.putFile(uri);
+      return await photoRef.getDownloadURL();
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+
+  const handleSubmit = async () => {
+    const newsRef = database().ref(`/news/data/${mpUser?.uid}/list/`);
+    try {
+      await ktpCheck();
+      if (!selectedChannel) {
+        throw new Error('Channel belum dipilih');
+      }
+
+      const payload = {
+        ...data,
+        section: selectedChannel,
+      };
+
+      const imageUri = await handleImageUpload(data?.image);
+      payload.image = imageUri;
+
+      const snapshot = await newsRef.once('value');
+      let newsData = snapshot.val() || [];
+      newsData.push(payload);
+      await newsRef.set(newsData);
+
+      alert('Berita berhasil dikirim');
+    } catch (error) {
+      switch (error.message) {
+        case 'KTP belum diupload':
+          alert(`${error.message}`);
+          navigation.navigate('Profile');
+          break;
+        case 'Channel belum dipilih':
+          alert(`${error.message}`);
+          break;
+        default:
+          console.log(
+            `Terjadi kesalahan, silahkan coba lagi: ${error.message}`,
+          );
+          break;
+      }
     }
   };
   return (
@@ -67,7 +136,7 @@ const ChannelTagSelection = ({navigation}) => {
           </View>
         </View>
 
-        <View style={[styles.inputContainer, {paddingVertical: 10}]}>
+        {/* <View style={[styles.inputContainer, {paddingVertical: 10}]}>
           <FlatList
             data={selectedTag}
             horizontal
@@ -83,7 +152,7 @@ const ChannelTagSelection = ({navigation}) => {
           <TouchableOpacity onPress={() => setTagView(0)} style={styles.icon}>
             <IcPlus />
           </TouchableOpacity>
-        </View>
+        </View> */}
 
         <View style={styles.switchContainer}>
           <Text style={styles.switchText}>Pasang Sebagai Highlight Ads</Text>
@@ -105,6 +174,7 @@ const ChannelTagSelection = ({navigation}) => {
         </Text>
 
         <Button
+          onPress={handleSubmit}
           label={'Kirim Berita'}
           style={{borderRadius: 17}}
           activeOpacity={0.8}
