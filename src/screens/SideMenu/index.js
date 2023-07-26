@@ -1,9 +1,8 @@
-import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
+import {Image, Pressable, StyleSheet, View} from 'react-native';
 import React, {useContext} from 'react';
-import {screenHeightPercentage, screenWidth} from '../../utils';
+import {screenHeightPercentage} from '../../utils';
 import {
   theme,
-  IMGDummyProfile,
   IcEdit,
   IcWriteNews,
   IcSubscription,
@@ -20,24 +19,23 @@ import {AuthContext} from '../../context/AuthContext';
 
 const SideMenu = () => {
   const navigation = useNavigation();
-  const {user} = useContext(AuthContext);
-  console.log('user', user);
+  const {mpUser} = useContext(AuthContext);
 
   const handleLogout = () => auth().signOut();
   return (
     <View style={styles.container}>
-      {user ? (
+      {mpUser ? (
         <View style={styles.headerContainer}>
-          <Image style={styles.profileImage} source={{uri: user?.photoURL}} />
+          <Image style={styles.profileImage} source={{uri: mpUser?.photo}} />
           <Gap width={16} />
           <View style={styles.headerTextContainer}>
             <View style={styles.userNameContainer}>
-              <TextInter style={styles.name}>{user?.displayName}</TextInter>
+              <TextInter style={styles.name}>{mpUser?.fullName}</TextInter>
               <TextInter
                 style={styles.email}
                 adjustsFontSizeToFit={true}
                 numberOfLines={1}>
-                {user?.email}
+                {mpUser?.email}
               </TextInter>
             </View>
             <Gap width={16} />
@@ -88,7 +86,9 @@ const SideMenu = () => {
         <Pressable
           style={[styles.section, styles.bottomBorder]}
           onPress={() => {
-            user ? navigation.navigate('Ads') : alert('Login terlebih dahulu');
+            mpUser
+              ? navigation.navigate('Ads')
+              : alert('Login terlebih dahulu');
           }}>
           <IcAds />
           <Gap width={10} />
@@ -101,7 +101,7 @@ const SideMenu = () => {
           <Gap width={10} />
           <TextInter style={styles.sectionLabel}>Tentang Kami</TextInter>
         </Pressable>
-        {user ? (
+        {mpUser ? (
           <Pressable onPress={handleLogout} style={styles.section}>
             <IcLogout />
             <Gap width={10} />

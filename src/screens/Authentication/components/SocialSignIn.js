@@ -31,6 +31,7 @@ const SocialSignIn = ({type}) => {
         uid: user.uid,
         fullName: user.displayName,
         email: user.email,
+        phoneNumber: user.phoneNumber,
         photo: user.photoURL,
         token: userToken,
         subscription: {
