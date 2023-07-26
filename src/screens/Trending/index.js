@@ -1,4 +1,9 @@
-import {SafeAreaView, ScrollView, StyleSheet} from 'react-native';
+import {
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {theme} from '../../assets';
 import {Banner1, Gap} from '../../components';
@@ -7,7 +12,7 @@ import {screenHeightPercentage} from '../../utils';
 import {loadSession, popular} from '../../api';
 import axios from 'axios';
 
-const Trending = () => {
+const Trending = ({navigation}) => {
   const [token, setToken] = useState(null);
   const [trending, setTrending] = useState(null);
 
@@ -45,7 +50,11 @@ const Trending = () => {
       <ScrollView style={styles.container}>
         <Gap height={40} />
 
-        <Banner1 />
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => navigation.navigate('Subscription')}>
+          <Banner1 />
+        </TouchableOpacity>
 
         <Gap height={18} />
 

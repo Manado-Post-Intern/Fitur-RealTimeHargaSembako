@@ -3,21 +3,63 @@ import React from 'react';
 import {IcApple, IcFacebook, IcGoogle, theme} from '../../../assets';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
+import messaging from '@react-native-firebase/messaging';
+import database from '@react-native-firebase/database';
+import moment from 'moment';
 
 const SocialSignIn = ({type}) => {
   const handleGoogleSignIn = async () => {
     try {
       await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
-
       const {idToken} = await GoogleSignin.signIn();
-
       const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-
-      return auth().signInWithCredential(googleCredential);
+      const {user} = await auth().signInWithCredential(googleCredential);
+      await handleSaveUser(user);
     } catch (error) {
       console.log(error);
     }
   };
+
+  const handleSaveUser = async user => {
+    const userRef = database().ref(`/users/`);
+    try {
+      await messaging().requestPermission();
+      const userToken = await messaging().getToken();
+
+      // news user payload
+      const newUser = {
+        uid: user.uid,
+        fullName: user.displayName,
+        email: user.email,
+        photo: user.photoURL,
+        token: userToken,
+        subscription: {
+          isSubscribed: true,
+          orderId: '',
+          productId: '3 hari percobaan',
+          purchaseDate: moment().format(),
+          expireDate: moment().add(3, 'days').format(),
+        },
+      };
+
+      await userRef
+        .orderByChild('uid')
+        .equalTo(newUser.uid)
+        .once('value', snapshot => {
+          if (!snapshot.exists()) {
+            database().ref(`/users/${newUser.uid}`).set(newUser);
+          } else {
+            // update token if changed
+            database()
+              .ref(`/users/${newUser.uid}`)
+              .update({token: newUser.token});
+          }
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   switch (type) {
     case 'facebook':
       return (

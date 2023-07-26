@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {
   Ads,
@@ -39,6 +39,7 @@ import {
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {screenHeightPercentage} from '../utils';
 import {BottomTabBar, TopBar} from '../components';
+import {AuthContext} from '../context/AuthContext';
 
 /**
  * Home Bottom Tab Bar Navigation Routes
@@ -83,21 +84,13 @@ const HomeTab = () => {
   );
 };
 
-/**
- * Main Root Routes
- */
-const Routes = () => {
+// USER REQUIRE LOGIN
+const PrivateRoutes = () => {
   const Stack = createNativeStackNavigator();
   return (
     <Stack.Navigator
       initialRouteName="HomeTab"
-      // initialRouteName="WriteNews" // TODO: Change this to Home
       screenOptions={{headerShown: false}}>
-      <Stack.Screen name="Splash" component={Splash} />
-      <Stack.Screen name="Onboarding" component={Onboarding} />
-      <Stack.Screen name="SignIn" component={SignIn} />
-      <Stack.Screen name="OTPVerification" component={OTPVerification} />
-      <Stack.Screen name="NewPassword" component={NewPassword} />
       <Stack.Screen name="ChooseCanal" component={ChooseCanal} />
       <Stack.Screen name="ChooseRegion" component={ChooseRegion} />
       <Stack.Screen name="HomeTab" component={HomeTab} />
@@ -127,6 +120,28 @@ const Routes = () => {
         component={ChannelTagSelection}
       />
     </Stack.Navigator>
+  );
+};
+
+/**
+ * Main Root Routes
+ */
+const Routes = () => {
+  const {user} = useContext(AuthContext);
+  const Stack = createNativeStackNavigator();
+  return !user ? (
+    <Stack.Navigator
+      initialRouteName="Splash"
+      // initialRouteName="Splash" // TODO: Change this to Home
+      screenOptions={{headerShown: false}}>
+      <Stack.Screen name="Splash" component={Splash} />
+      <Stack.Screen name="Onboarding" component={Onboarding} />
+      <Stack.Screen name="SignIn" component={SignIn} />
+      <Stack.Screen name="OTPVerification" component={OTPVerification} />
+      <Stack.Screen name="NewPassword" component={NewPassword} />
+    </Stack.Navigator>
+  ) : (
+    <PrivateRoutes />
   );
 };
 

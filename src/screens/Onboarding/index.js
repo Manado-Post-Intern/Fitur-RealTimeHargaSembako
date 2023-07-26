@@ -65,7 +65,7 @@ const Onboarding = () => {
   const viewConfig = useRef({viewAreaCoveragePercentThreshold: 50}).current;
 
   const handleSkip = () => {
-    navigation.navigate('Authentication');
+    navigation.navigate('SignIn');
   };
 
   return (
