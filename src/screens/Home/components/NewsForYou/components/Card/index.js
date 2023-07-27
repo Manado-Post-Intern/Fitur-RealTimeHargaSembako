@@ -28,7 +28,7 @@ const Card = ({item}) => {
         <Gap height={4} />
         <CategoryHorizontal />
         <Gap height={4} />
-        {/* <Actions /> */}
+        <Actions item={item} />
       </View>
     </TouchableOpacity>
   );

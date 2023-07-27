@@ -31,7 +31,9 @@ const MoreNews = ({route}) => {
   const navigation = useNavigation();
 
   const bottomReached = ({layoutMeasurement, contentOffset, contentSize}) => {
-    return layoutMeasurement.height + contentOffset.y >= contentSize.height;
+    return (
+      layoutMeasurement.height + contentOffset.y >= contentSize.height - 10
+    );
   };
 
   const getMoreNews = async () => {
@@ -120,6 +122,7 @@ const MoreNews = ({route}) => {
         }
         onScroll={({nativeEvent}) => {
           if (bottomReached(nativeEvent)) {
+            console.log('reach bottom');
             setPage(prevPage => prevPage + 1);
           }
         }}>

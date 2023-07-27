@@ -9,10 +9,13 @@ const data = [0, 1, 2];
 
 const AreaSection = ({item}) => {
   const regionId = regionList.find(region => region.name === item?.region)?.id;
+  const regionLogo = regionList.find(
+    region => region.name === item?.region,
+  )?.icon_url;
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
-        <Image style={styles.logo} source={IMGLogoManado} />
+        <Image style={styles.logo} source={regionLogo} />
         <Gap width={10} />
         <TextInter style={styles.title}>{item?.region}</TextInter>
       </View>
@@ -43,6 +46,7 @@ const styles = StyleSheet.create({
   logo: {
     width: 25,
     height: 25,
+    resizeMode: 'contain',
   },
   title: {
     fontSize: 24,

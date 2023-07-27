@@ -27,7 +27,7 @@ const Card = ({item}) => {
 
       <Gap height={4} />
 
-      {/* <CategoryHorizontal /> */}
+      <CategoryHorizontal />
 
       <Gap height={16} />
 
@@ -35,7 +35,7 @@ const Card = ({item}) => {
 
       <Gap height={8} />
 
-      {/* <Actions /> */}
+      <Actions item={item} />
     </View>
   );
 };

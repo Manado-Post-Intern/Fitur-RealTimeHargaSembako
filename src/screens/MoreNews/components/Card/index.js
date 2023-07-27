@@ -25,7 +25,7 @@ const Card = ({item}) => {
         <TextInter style={styles.title} numberOfLines={2}>
           {item?.title}
         </TextInter>
-        <TextInter style={styles.description} numberOfLines={5}>
+        <TextInter style={styles.description} numberOfLines={3}>
           {item?.description}
         </TextInter>
         <Gap height={8} />
@@ -33,7 +33,7 @@ const Card = ({item}) => {
         <Gap height={4} />
         <CategoryHorizontal />
         <Gap height={4} />
-        {/* <Actions /> */}
+        <Actions />
       </View>
     </TouchableOpacity>
   );
