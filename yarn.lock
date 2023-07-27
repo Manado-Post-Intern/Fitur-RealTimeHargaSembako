@@ -7145,6 +7145,7 @@ __metadata:
     react-native-render-html: ^6.3.4
     react-native-safe-area-context: ^4.4.1
     react-native-screens: ^3.18.2
+    react-native-share: ^9.2.3
     react-native-svg: ^13.6.0
     react-native-svg-transformer: ^1.0.0
     react-native-webview: ^13.2.3
@@ -8864,6 +8865,13 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 8f7202baced736220710138469aea2c7b543662d820eb47170bfc98a0503f8c764d7509596ccbcc76cac6158e47a2c029444d6e1f78c20e98bcafeda15027ac1
+  languageName: node
+  linkType: hard
+
+"react-native-share@npm:^9.2.3":
+  version: 9.2.3
+  resolution: "react-native-share@npm:9.2.3"
+  checksum: 8794b63ef981580f747cded2b0e13246ac5fa1efdf70042a0fbe3228d16a4a9875971febcb788a796e118a99f73cc2a1c037a25e6e65eab3aba75282a7639a76
   languageName: node
   linkType: hard
 

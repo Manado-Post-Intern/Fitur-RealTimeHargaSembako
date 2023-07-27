@@ -13,7 +13,7 @@ import {TextInter} from '../../components';
 import {Card, MediumBanner} from './components';
 import {useNavigation} from '@react-navigation/native';
 import {regionList, sectionList} from '../../data';
-import {latestEndPoint, loadSession} from '../../api';
+import {latestEndPoint, loadSession, tagArticle} from '../../api';
 import axios from 'axios';
 import {AdsContext} from '../../context/AdsContext';
 
@@ -24,7 +24,7 @@ const MoreNews = ({route}) => {
   const [token, setToken] = useState(null);
   const [moreNews, setMoreNews] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const {sectionId} = route.params;
+  const {sectionId, tag} = route.params;
   const {medium} = useContext(AdsContext);
   const label = sectionList.find(item => item?.id === sectionId)?.name;
 
@@ -37,17 +37,37 @@ const MoreNews = ({route}) => {
   const getMoreNews = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get(latestEndPoint, {
-        headers: {
-          Accept: 'application/vnd.promedia+json; version=1.0',
-          Authorization: `Bearer ${token}`,
-        },
-        params: {
-          page,
-          section_id: sectionId,
-        },
-      });
-      setMoreNews(prevData => [...prevData, ...response.data.data.list.latest]);
+      if (sectionId) {
+        const response = await axios.get(latestEndPoint, {
+          headers: {
+            Accept: 'application/vnd.promedia+json; version=1.0',
+            Authorization: `Bearer ${token}`,
+          },
+          params: {
+            page,
+            section_id: sectionId,
+          },
+        });
+        setMoreNews(prevData => [
+          ...prevData,
+          ...response.data.data.list.latest,
+        ]);
+      } else if (tag) {
+        const response = await axios.get(tagArticle, {
+          headers: {
+            Accept: 'application/vnd.promedia+json; version=1.0',
+            Authorization: `Bearer ${token}`,
+          },
+          params: {
+            page,
+            tag,
+          },
+        });
+        setMoreNews(prevData => [
+          ...prevData,
+          ...response.data.data.list.latest,
+        ]);
+      }
     } catch (error) {
       console.log(error);
     } finally {
@@ -105,7 +125,7 @@ const MoreNews = ({route}) => {
         }}>
         <MediumBanner item={medium} />
         <View style={styles.labelContainer}>
-          <TextInter style={styles.label}>{label}</TextInter>
+          <TextInter style={styles.label}>{label || tag}</TextInter>
         </View>
 
         <View>

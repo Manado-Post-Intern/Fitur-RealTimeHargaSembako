@@ -23,6 +23,7 @@ import {AdsContext} from '../../context/AdsContext';
 import {TokenContext} from '../../context/TokenContext';
 import {checkUserPreferences} from '../../utils/checkUserPreferences';
 import {AuthContext} from '../../context/AuthContext';
+import moment from 'moment';
 
 const data = [0, 1, 2];
 const daerah = ['Manado', 'Minahasa Utara', 'Bitung', 'Tondano'];
@@ -185,7 +186,12 @@ const Home = ({navigation}) => {
 
           <Gap height={12} />
 
-          <NewsForYou canalModalRef={canalModalRef} item={forYou} />
+          <NewsForYou
+            canalModalRef={canalModalRef}
+            item={forYou?.sort((a, b) =>
+              moment(b.published_date).diff(moment(a.published_date)),
+            )}
+          />
 
           <Gap height={12} />
 

@@ -21,7 +21,7 @@ import {
 import {screenHeightPercentage, screenWidth} from '../../utils';
 import {Card} from '../Home/components/NewsForYou/components';
 import {Card as TrendingCard} from '../Trending/components';
-import {loadSession, popular, readArticle} from '../../api';
+import {latestEndPoint, loadSession, popular, readArticle} from '../../api';
 import axios from 'axios';
 import RenderHtml from 'react-native-render-html';
 
@@ -37,7 +37,8 @@ const Article = ({route}) => {
   const {articleId} = route.params;
   const [token, setToken] = useState(null);
   const [article, setArticle] = useState(null);
-  const [trending, setTrending] = useState(null);
+  // const [trending, setTrending] = useState(null);
+  const [latest, setLatest] = useState(null);
 
   const getArticle = async () => {
     try {
@@ -54,15 +55,29 @@ const Article = ({route}) => {
     }
   };
 
-  const getTrending = async () => {
+  // const getTrending = async () => {
+  //   try {
+  //     const response = await axios.get(popular, {
+  //       headers: {
+  //         Accept: 'application/vnd.promedia+json; version=1.0',
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     });
+  //     setTrending(response.data.data.list);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  const getLatest = async () => {
     try {
-      const response = await axios.get(popular, {
+      const response = await axios.get(latestEndPoint, {
         headers: {
           Accept: 'application/vnd.promedia+json; version=1.0',
           Authorization: `Bearer ${token}`,
         },
       });
-      setTrending(response.data.data.list);
+      setLatest(response.data.data.list.latest);
     } catch (error) {
       console.log(error);
     }
@@ -71,7 +86,8 @@ const Article = ({route}) => {
   useEffect(() => {
     if (token) {
       getArticle();
-      getTrending();
+      // getTrending();
+      getLatest();
     }
   }, [token]);
 
@@ -145,9 +161,9 @@ const Article = ({route}) => {
           ))}
 
           <View style={styles.sectionTitleContainer}>
-            <TextInter style={styles.sectionTitle}>Trending</TextInter>
+            <TextInter style={styles.sectionTitle}>Berita Terkini</TextInter>
           </View>
-          {trending?.slice(0, 5).map((item, i) => (
+          {latest?.slice(0, 5).map((item, i) => (
             <TrendingCard key={i} item={item} />
           ))}
           <More trending />
