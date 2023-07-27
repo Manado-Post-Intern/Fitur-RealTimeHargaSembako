@@ -17,7 +17,7 @@ const SelectionRow = ({item, setActive, activeList}) => {
 
   return (
     <Pressable style={styles.container} onPress={handleCheck}>
-      <Text style={styles.label}>{item}</Text>
+      <Text style={styles.label}>{item.name}</Text>
       <CheckBox isChecked={isChecked} />
     </Pressable>
   );
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     borderTopColor: theme.colors.skyBlue,
   },
   label: {
-    color: theme.colors.grey1,
+    color: theme.colors.white,
     fontSize: 14,
   },
 });

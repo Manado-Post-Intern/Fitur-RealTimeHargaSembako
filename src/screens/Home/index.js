@@ -3,13 +3,10 @@ import React, {useContext, useEffect, useRef, useState} from 'react';
 import {theme} from '../../assets';
 import {Gap} from '../../components';
 import {
-  ActionSection,
   BottomBanner,
   FullBanner,
   Headlines,
   LatestNews,
-  MPDigital,
-  MPNewspaper,
   NewsForYou,
   SecondBanner,
   Story,
@@ -20,25 +17,19 @@ import {Card as CardNews} from './components/NewsForYou/components';
 import {TrendingSection} from '../Trending/components';
 import CanalModal from './components/NewsForYou/components/CanalModal';
 import axios from 'axios';
-import {
-  editorPick,
-  headline,
-  latestEndPoint,
-  loadSession,
-  popular,
-  search,
-  site,
-  tagArticle,
-} from '../../api';
+import {editorPick, headline, latestEndPoint} from '../../api';
 import {regionList} from '../../data';
 import {AdsContext} from '../../context/AdsContext';
 import {TokenContext} from '../../context/TokenContext';
+import {checkUserPreferences} from '../../utils/checkUserPreferences';
+import {AuthContext} from '../../context/AuthContext';
 
 const data = [0, 1, 2];
 const daerah = ['Manado', 'Minahasa Utara', 'Bitung', 'Tondano'];
 
-const Home = () => {
+const Home = ({navigation}) => {
   const {token} = useContext(TokenContext);
+  const {mpUser} = useContext(AuthContext);
   const canalModalRef = useRef();
   const [headlines, setHeadlines] = useState(null);
   const [forYou, setForYou] = useState(null);
@@ -60,19 +51,19 @@ const Home = () => {
       console.log(error);
     }
   };
-  const getForYou = async () => {
-    try {
-      const response = await axios.get(editorPick, {
-        headers: {
-          Accept: 'application/vnd.promedia+json; version=1.0',
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setForYou(response.data.data.list);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const getForYou = async () => {
+  //   try {
+  //     const response = await axios.get(editorPick, {
+  //       headers: {
+  //         Accept: 'application/vnd.promedia+json; version=1.0',
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     });
+  //     setForYou(response.data.data.list);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
   const getLatest = async () => {
     try {
       const response = await axios.get(latestEndPoint, {
@@ -122,17 +113,54 @@ const Home = () => {
     }
   };
 
+  const getForYouNew = async preverence => {
+    const promises = preverence.map(async item => {
+      const response = await axios.get(latestEndPoint, {
+        headers: {
+          Accept: 'application/vnd.promedia+json; version=1.0',
+          Authorization: `Bearer ${token}`,
+        },
+        params: {page: 1, section_id: item.id},
+      });
+      const data = response.data.data.list.latest;
+      return data;
+    });
+
+    try {
+      const result = await Promise.all(promises);
+      const array = result.flat();
+      setForYou(array);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     if (token) {
-      console.log('executed');
       getHeadline();
-      getForYou();
+      // getForYou();
       // getTrending();
       getLatest();
       getStory();
       // getReferenceSite();
     }
   }, [token]);
+
+  useEffect(() => {
+    if (mpUser && token) {
+      checkUserPreferences(mpUser)
+        .then(res => {
+          const preferences = [...res.channel, ...res.region];
+          getForYouNew(preferences);
+        })
+        .catch(error => {
+          if (error.message === 'User preferences not found') {
+            // canalModalRef.current.present();
+            navigation.navigate('ChooseCanal');
+          }
+        });
+    }
+  }, [mpUser, token]);
 
   return (
     <SafeAreaView style={styles.safeAreaView}>

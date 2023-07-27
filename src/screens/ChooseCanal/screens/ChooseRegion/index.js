@@ -1,28 +1,52 @@
 import {FlatList, Image, SafeAreaView, StyleSheet, View} from 'react-native';
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {screenHeightPercentage} from '../../../../utils';
 import {Button, Gap, GlowCircle, TextInter} from '../../../../components';
 import {IMGMPText, theme} from '../../../../assets';
 import {SelectionRow} from '../../../Home/components/NewsForYou/components/CanalModal/components';
+import {regionList} from '../../../../data';
+import database from '@react-native-firebase/database';
+import {useNavigation} from '@react-navigation/native';
+import {AuthContext} from '../../../../context/AuthContext';
 
-const data = [
-  'Manado',
-  'Minahasa',
-  'Minahasa Utara',
-  'Minahasa Selatan',
-  'Minahasa Tenggara',
-  'Tomohon',
-  'Bitung',
-  'Bolaang Mongondow',
-  'Bolaang Mongondow Selatan',
-  'Kotamobagu',
-  'SITARO',
-  'Sangihe',
-  'Talaud',
-];
+// const data = [
+//   'Manado',
+//   'Minahasa',
+//   'Minahasa Utara',
+//   'Minahasa Selatan',
+//   'Minahasa Tenggara',
+//   'Tomohon',
+//   'Bitung',
+//   'Bolaang Mongondow',
+//   'Bolaang Mongondow Selatan',
+//   'Kotamobagu',
+//   'SITARO',
+//   'Sangihe',
+//   'Talaud',
+// ];
 
-const ChooseRegion = () => {
+const ChooseRegion = ({route}) => {
+  const {choosedCanal} = route.params;
   const [choosed, setChoosed] = useState([]);
+  const {mpUser} = useContext(AuthContext);
+  const navigation = useNavigation();
+
+  const handleSubmit = async () => {
+    const preferencesRef = database().ref(`/users/${mpUser.uid}/`);
+    try {
+      const payload = {
+        channel: choosedCanal,
+        region: choosed,
+      };
+      await preferencesRef.update({preferences: payload});
+      console.log('Preferences updated');
+
+      navigation.reset({index: 0, routes: [{name: 'HomeTab'}]});
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <View style={styles.container}>
@@ -45,7 +69,7 @@ const ChooseRegion = () => {
           <FlatList
             style={styles.flatListContainer}
             contentContainerStyle={styles.flatList}
-            data={data}
+            data={regionList}
             renderItem={({item, i}) => (
               <SelectionRow
                 key={i}
@@ -66,8 +90,9 @@ const ChooseRegion = () => {
         ) : (
           <Button
             style={styles.nextButton}
-            label="Lanjutkan"
+            label="Masukan"
             type="secondary"
+            onPress={handleSubmit}
           />
         )}
       </View>
