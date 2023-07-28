@@ -13,9 +13,11 @@ import {
   IMGLogoMinahasaTenggara,
   IMGLogoMinahasaUtara,
   IMGLogoTomohon,
+  IMGLogoManado,
 } from '../assets';
 
 const regionImages = {
+  manado: IMGLogoManado,
   bitung: IMGLogoBitung,
   bolmong: IMGLogoBolaangMongondow,
   'bolmong-selatan': IMGLogoBolaangMongondowSelatan,
@@ -34,13 +36,22 @@ const regionImages = {
 
 export const regionList = [
   {
+    id: 370,
+    name: 'Manado',
+    alias: 'kapol',
+    title: 'Kapol',
+    description: 'Kapol',
+    keyword: 'Kapol',
+    icon_url: regionImages['manado'],
+  },
+  {
     id: 371,
     name: 'Minahasa Raya',
     alias: 'minahasa-raya',
     title: 'Minahasa Raya',
     description: 'Minahasa Raya',
     keyword: 'Minahasa Raya',
-    photo_url: null,
+
     icon_url: regionImages['minahasa'],
   },
   {
@@ -50,7 +61,7 @@ export const regionList = [
     title: 'Bolmong Raya',
     description: 'Bolmong Raya',
     keyword: 'Bolmong Raya',
-    photo_url: null,
+
     icon_url: regionImages['bolmong'],
   },
   {
@@ -60,8 +71,6 @@ export const regionList = [
     title: 'Nusa Utara',
     description: 'Nusa Utara',
     keyword: 'Nusa Utara',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 375,
@@ -70,7 +79,7 @@ export const regionList = [
     title: 'Bitung',
     description: 'Bitung',
     keyword: 'Bitung',
-    photo_url: null,
+
     icon_url: regionImages['bitung'],
   },
   {
@@ -80,7 +89,7 @@ export const regionList = [
     title: 'Tomohon',
     description: 'Tomohon',
     keyword: 'Tomohon',
-    photo_url: null,
+
     icon_url: regionImages['tomohon'],
   },
   {
@@ -90,7 +99,7 @@ export const regionList = [
     title: 'Minahasa',
     description: 'Minahasa',
     keyword: 'Minahasa',
-    photo_url: null,
+
     icon_url: regionImages['minahasa'],
   },
   {
@@ -100,7 +109,7 @@ export const regionList = [
     title: 'Minahasa Utara',
     description: 'Minahasa Utara',
     keyword: 'Minahasa Utara',
-    photo_url: null,
+
     icon_url: regionImages['minahasa-utara'],
   },
   {
@@ -110,7 +119,7 @@ export const regionList = [
     title: 'Minahasa Selatan',
     description: 'Minahasa Selatan',
     keyword: 'Minahasa Selatan',
-    photo_url: null,
+
     icon_url: regionImages['minahasa-selatan'],
   },
   {
@@ -120,7 +129,7 @@ export const regionList = [
     title: 'Minahasa Tenggara',
     description: 'Minahasa Tenggara',
     keyword: 'Minahasa Tenggara',
-    photo_url: null,
+
     icon_url: regionImages['minahasa-tenggara'],
   },
   {
@@ -130,7 +139,7 @@ export const regionList = [
     title: 'Bolmong',
     description: 'Bolmong',
     keyword: 'Bolmong',
-    photo_url: null,
+
     icon_url: regionImages['bolmong'],
   },
   {
@@ -140,7 +149,7 @@ export const regionList = [
     title: 'Boltim',
     description: 'Boltim',
     keyword: 'Boltim',
-    photo_url: null,
+
     icon_url: regionImages['bolmong-timur'],
   },
   {
@@ -150,7 +159,7 @@ export const regionList = [
     title: 'Bolsel',
     description: 'Bolsel',
     keyword: 'Bolsel',
-    photo_url: null,
+
     icon_url: regionImages['bolmong-selatan'],
   },
   {
@@ -160,7 +169,7 @@ export const regionList = [
     title: 'Bolmut',
     description: 'Bolmut',
     keyword: 'Bolmut',
-    photo_url: null,
+
     icon_url: regionImages['bolmong-utara'],
   },
   {
@@ -170,7 +179,7 @@ export const regionList = [
     title: 'Kotamobagu',
     description: 'Kotamobagu',
     keyword: 'Kotamobagu',
-    photo_url: null,
+
     icon_url: regionImages['kotamobagu'],
   },
   {
@@ -180,7 +189,7 @@ export const regionList = [
     title: 'Sangihe',
     description: 'Sangihe',
     keyword: 'Sangihe',
-    photo_url: null,
+
     icon_url: regionImages['sangihe'],
   },
   {
@@ -190,7 +199,7 @@ export const regionList = [
     title: 'Sitaro',
     description: 'Sitaro',
     keyword: 'Sitaro',
-    photo_url: null,
+
     icon_url: regionImages['sitaro'],
   },
   {
@@ -200,7 +209,7 @@ export const regionList = [
     title: 'Talaud',
     description: 'Talaud',
     keyword: 'Talaud',
-    photo_url: null,
+
     icon_url: regionImages['talaud'],
   },
 ];
@@ -213,8 +222,6 @@ export const sectionList = [
     title: 'Berita Utama',
     description: 'Berita Utama',
     keyword: 'Berita Utama',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 366,
@@ -223,8 +230,6 @@ export const sectionList = [
     title: 'Nasional',
     description: 'Nasional',
     keyword: 'Nasional',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 367,
@@ -233,8 +238,6 @@ export const sectionList = [
     title: 'Ekbis',
     description: 'Ekbis',
     keyword: 'Ekbis',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 368,
@@ -243,8 +246,6 @@ export const sectionList = [
     title: 'Hukum',
     description: 'Hukum',
     keyword: 'Hukum',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 369,
@@ -253,8 +254,6 @@ export const sectionList = [
     title: 'Politik',
     description: 'Politik',
     keyword: 'Politik',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 370,
@@ -263,8 +262,6 @@ export const sectionList = [
     title: 'Kapol',
     description: 'Kapol',
     keyword: 'Kapol',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 371,
@@ -273,8 +270,6 @@ export const sectionList = [
     title: 'Minahasa Raya',
     description: 'Minahasa Raya',
     keyword: 'Minahasa Raya',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 372,
@@ -283,8 +278,6 @@ export const sectionList = [
     title: 'Bolmong Raya',
     description: 'Bolmong Raya',
     keyword: 'Bolmong Raya',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 373,
@@ -293,8 +286,6 @@ export const sectionList = [
     title: 'Nusa Utara',
     description: 'Nusa Utara',
     keyword: 'Nusa Utara',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 374,
@@ -303,8 +294,6 @@ export const sectionList = [
     title: 'Internasional',
     description: 'Internasional',
     keyword: 'Internasional',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 375,
@@ -313,8 +302,6 @@ export const sectionList = [
     title: 'Bitung',
     description: 'Bitung',
     keyword: 'Bitung',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 376,
@@ -323,8 +310,6 @@ export const sectionList = [
     title: 'Tomohon',
     description: 'Tomohon',
     keyword: 'Tomohon',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 377,
@@ -333,8 +318,6 @@ export const sectionList = [
     title: 'Minahasa',
     description: 'Minahasa',
     keyword: 'Minahasa',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 378,
@@ -343,8 +326,6 @@ export const sectionList = [
     title: 'Minahasa Utara',
     description: 'Minahasa Utara',
     keyword: 'Minahasa Utara',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 379,
@@ -353,8 +334,6 @@ export const sectionList = [
     title: 'Minahasa Selatan',
     description: 'Minahasa Selatan',
     keyword: 'Minahasa Selatan',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 380,
@@ -363,8 +342,6 @@ export const sectionList = [
     title: 'Minahasa Tenggara',
     description: 'Minahasa Tenggara',
     keyword: 'Minahasa Tenggara',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 381,
@@ -373,8 +350,6 @@ export const sectionList = [
     title: 'Bolmong',
     description: 'Bolmong',
     keyword: 'Bolmong',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 382,
@@ -383,8 +358,6 @@ export const sectionList = [
     title: 'Boltim',
     description: 'Boltim',
     keyword: 'Boltim',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 383,
@@ -393,8 +366,6 @@ export const sectionList = [
     title: 'Bolsel',
     description: 'Bolsel',
     keyword: 'Bolsel',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 384,
@@ -403,8 +374,6 @@ export const sectionList = [
     title: 'Bolmut',
     description: 'Bolmut',
     keyword: 'Bolmut',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 385,
@@ -413,8 +382,6 @@ export const sectionList = [
     title: 'Kotamobagu',
     description: 'Kotamobagu',
     keyword: 'Kotamobagu',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 462,
@@ -423,8 +390,6 @@ export const sectionList = [
     title: 'Sangihe',
     description: 'Sangihe',
     keyword: 'Sangihe',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 463,
@@ -433,8 +398,6 @@ export const sectionList = [
     title: 'Sitaro',
     description: 'Sitaro',
     keyword: 'Sitaro',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 464,
@@ -443,8 +406,6 @@ export const sectionList = [
     title: 'Talaud',
     description: 'Talaud',
     keyword: 'Talaud',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 465,
@@ -453,8 +414,6 @@ export const sectionList = [
     title: 'Advertorial',
     description: 'Advertorial',
     keyword: 'Advertorial',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 466,
@@ -463,8 +422,6 @@ export const sectionList = [
     title: 'Berita Terbaru',
     description: 'Berita Terbaru',
     keyword: 'Berita Terbaru',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 467,
@@ -473,8 +430,6 @@ export const sectionList = [
     title: 'Esport',
     description: 'Esport',
     keyword: 'Esport',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 468,
@@ -483,8 +438,6 @@ export const sectionList = [
     title: 'Featured',
     description: 'Featured',
     keyword: 'Featured',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 469,
@@ -493,8 +446,6 @@ export const sectionList = [
     title: 'Gorontalo Post',
     description: 'Gorontalo Post',
     keyword: 'Gorontalo Post',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 470,
@@ -503,8 +454,6 @@ export const sectionList = [
     title: 'Kesehatan',
     description: 'Kesehatan',
     keyword: 'Kesehatan',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 471,
@@ -513,8 +462,6 @@ export const sectionList = [
     title: 'Lifestyle&Teknologi',
     description: 'Lifestyle&Teknologi',
     keyword: 'Lifestyle&Teknologi',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 472,
@@ -523,8 +470,6 @@ export const sectionList = [
     title: 'Liputan Khusus',
     description: 'Liputan Khusus',
     keyword: 'Liputan Khusus',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 473,
@@ -533,8 +478,6 @@ export const sectionList = [
     title: 'Magazine',
     description: 'Magazine',
     keyword: 'Magazine',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 474,
@@ -543,8 +486,6 @@ export const sectionList = [
     title: 'MPedia',
     description: 'MPedia',
     keyword: 'MPedia',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 475,
@@ -553,8 +494,6 @@ export const sectionList = [
     title: 'Olahraga',
     description: 'Olahraga',
     keyword: 'Olahraga',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 476,
@@ -563,8 +502,6 @@ export const sectionList = [
     title: 'Opini',
     description: 'Opini',
     keyword: 'Opini',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 477,
@@ -573,8 +510,6 @@ export const sectionList = [
     title: 'Otomotif',
     description: 'Otomotif',
     keyword: 'Otomotif',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 478,
@@ -583,8 +518,6 @@ export const sectionList = [
     title: 'Publika',
     description: 'Publika',
     keyword: 'Publika',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 479,
@@ -593,8 +526,6 @@ export const sectionList = [
     title: 'Ramadhan',
     description: 'Ramadhan',
     keyword: 'Ramadhan',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 480,
@@ -603,8 +534,6 @@ export const sectionList = [
     title: 'Show & Celebrities',
     description: 'Show & Celebrities',
     keyword: 'Show & Celebrities',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 481,
@@ -613,8 +542,6 @@ export const sectionList = [
     title: 'Sumikola',
     description: 'Sumikola',
     keyword: 'Sumikola',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 482,
@@ -623,8 +550,6 @@ export const sectionList = [
     title: 'Sumikolah',
     description: 'Sumikolah',
     keyword: 'Sumikolah',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 483,
@@ -633,8 +558,6 @@ export const sectionList = [
     title: 'Teropong',
     description: 'Teropong',
     keyword: 'Teropong',
-    photo_url: null,
-    icon_url: null,
   },
 ];
 
@@ -646,8 +569,6 @@ export const canal = [
     title: 'Berita Utama',
     description: 'Berita Utama',
     keyword: 'Berita Utama',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 366,
@@ -656,8 +577,6 @@ export const canal = [
     title: 'Nasional',
     description: 'Nasional',
     keyword: 'Nasional',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 367,
@@ -666,8 +585,6 @@ export const canal = [
     title: 'Ekbis',
     description: 'Ekbis',
     keyword: 'Ekbis',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 368,
@@ -676,8 +593,6 @@ export const canal = [
     title: 'Hukum',
     description: 'Hukum',
     keyword: 'Hukum',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 369,
@@ -686,8 +601,6 @@ export const canal = [
     title: 'Politik',
     description: 'Politik',
     keyword: 'Politik',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 370,
@@ -696,8 +609,6 @@ export const canal = [
     title: 'Kapol',
     description: 'Kapol',
     keyword: 'Kapol',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 465,
@@ -706,8 +617,6 @@ export const canal = [
     title: 'Advertorial',
     description: 'Advertorial',
     keyword: 'Advertorial',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 467,
@@ -716,8 +625,6 @@ export const canal = [
     title: 'Esport',
     description: 'Esport',
     keyword: 'Esport',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 468,
@@ -726,8 +633,6 @@ export const canal = [
     title: 'Featured',
     description: 'Featured',
     keyword: 'Featured',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 470,
@@ -736,8 +641,6 @@ export const canal = [
     title: 'Kesehatan',
     description: 'Kesehatan',
     keyword: 'Kesehatan',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 471,
@@ -746,8 +649,6 @@ export const canal = [
     title: 'Lifestyle&Teknologi',
     description: 'Lifestyle&Teknologi',
     keyword: 'Lifestyle&Teknologi',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 472,
@@ -756,8 +657,6 @@ export const canal = [
     title: 'Liputan Khusus',
     description: 'Liputan Khusus',
     keyword: 'Liputan Khusus',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 473,
@@ -766,8 +665,6 @@ export const canal = [
     title: 'Magazine',
     description: 'Magazine',
     keyword: 'Magazine',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 474,
@@ -776,8 +673,6 @@ export const canal = [
     title: 'MPedia',
     description: 'MPedia',
     keyword: 'MPedia',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 475,
@@ -786,8 +681,6 @@ export const canal = [
     title: 'Olahraga',
     description: 'Olahraga',
     keyword: 'Olahraga',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 476,
@@ -796,8 +689,6 @@ export const canal = [
     title: 'Opini',
     description: 'Opini',
     keyword: 'Opini',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 477,
@@ -806,8 +697,6 @@ export const canal = [
     title: 'Otomotif',
     description: 'Otomotif',
     keyword: 'Otomotif',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 478,
@@ -816,8 +705,6 @@ export const canal = [
     title: 'Publika',
     description: 'Publika',
     keyword: 'Publika',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 479,
@@ -826,8 +713,6 @@ export const canal = [
     title: 'Ramadhan',
     description: 'Ramadhan',
     keyword: 'Ramadhan',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 480,
@@ -836,8 +721,6 @@ export const canal = [
     title: 'Show & Celebrities',
     description: 'Show & Celebrities',
     keyword: 'Show & Celebrities',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 481,
@@ -846,8 +729,6 @@ export const canal = [
     title: 'Sumikola',
     description: 'Sumikola',
     keyword: 'Sumikola',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 482,
@@ -856,8 +737,6 @@ export const canal = [
     title: 'Sumikolah',
     description: 'Sumikolah',
     keyword: 'Sumikolah',
-    photo_url: null,
-    icon_url: null,
   },
   {
     id: 483,
@@ -866,7 +745,5 @@ export const canal = [
     title: 'Teropong',
     description: 'Teropong',
     keyword: 'Teropong',
-    photo_url: null,
-    icon_url: null,
   },
 ];

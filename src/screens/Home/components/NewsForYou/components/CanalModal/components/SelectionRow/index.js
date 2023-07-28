@@ -1,5 +1,5 @@
 import {Pressable, StyleSheet, Text} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {theme} from '../../../../../../../../assets';
 import CheckBox from '../Checkbox';
 
@@ -7,17 +7,20 @@ const SelectionRow = ({item, setActive, activeList}) => {
   const [isChecked, setIsChecked] = useState(false);
 
   const handleCheck = () => {
-    if (!isChecked) {
-      setActive([...activeList, item]);
+    if (isChecked) {
+      setActive(prev => prev.filter(i => i !== item?.name));
     } else {
-      setActive(activeList.filter(x => x !== item));
+      setActive(prev => [...prev, item?.name]);
     }
-    setIsChecked(!isChecked);
   };
+
+  useEffect(() => {
+    activeList?.includes(item?.name) ? setIsChecked(true) : setIsChecked(false);
+  }, [activeList]);
 
   return (
     <Pressable style={styles.container} onPress={handleCheck}>
-      <Text style={styles.label}>{item.name}</Text>
+      <Text style={styles.label}>{item?.name}</Text>
       <CheckBox isChecked={isChecked} />
     </Pressable>
   );

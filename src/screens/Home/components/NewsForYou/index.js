@@ -5,10 +5,7 @@ import {IcPlus, theme} from '../../../../assets';
 import More from '../../../../components/atoms/More';
 import {Card} from './components';
 
-const categories = ['Politik', 'Budaya', 'Pendidikan'];
-const data = [0, 1, 2, 3];
-
-const NewsForYou = ({canalModalRef, item}) => {
+const NewsForYou = ({canalModalRef, item, preferences}) => {
   return (
     <View>
       <View style={styles.titleContainer}>
@@ -16,20 +13,24 @@ const NewsForYou = ({canalModalRef, item}) => {
       </View>
       <Gap height={8} />
       <View style={styles.categoriesWrapper}>
-        {/* <View style={styles.categoriesContainer}>
+        <View style={styles.categoriesContainer}>
           <FlatList
-            data={categories}
+            data={preferences}
             horizontal
             renderItem={({item, index}) => (
               <TextInter style={styles.categories} key={index}>
-                {item}
+                {item.name}
               </TextInter>
             )}
           />
-          <Pressable onPress={() => canalModalRef.current?.present()}>
+          <Pressable
+            style={{padding: 5}}
+            onPress={() => {
+              canalModalRef.current?.present();
+            }}>
             <IcPlus />
           </Pressable>
-        </View> */}
+        </View>
       </View>
       <Gap height={4} />
       {item?.map((item, i) => (

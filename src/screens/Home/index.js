@@ -114,8 +114,8 @@ const Home = ({navigation}) => {
     }
   };
 
-  const getForYouNew = async preverence => {
-    const promises = preverence.map(async item => {
+  const getForYouNew = async preference => {
+    const promises = preference.map(async item => {
       const response = await axios.get(latestEndPoint, {
         headers: {
           Accept: 'application/vnd.promedia+json; version=1.0',
@@ -124,13 +124,14 @@ const Home = ({navigation}) => {
         params: {page: 1, section_id: item.id},
       });
       const data = response.data.data.list.latest;
+      console.log('yuhu', data);
       return data;
     });
 
     try {
       const result = await Promise.all(promises);
       const array = result.flat();
-      setForYou(array);
+      setForYou({preferences: preference, array});
     } catch (error) {
       console.log(error);
     }
@@ -149,15 +150,26 @@ const Home = ({navigation}) => {
 
   useEffect(() => {
     if (mpUser && token) {
+      console.log('masuk');
       checkUserPreferences(mpUser)
         .then(res => {
-          const preferences = [...res.channel, ...res.region];
+          const preferences = [];
+          if (res.channel && Array.isArray(res.channel)) {
+            preferences.push(...res.channel);
+          }
+
+          if (res.region && Array.isArray(res.region)) {
+            preferences.push(...res.region);
+          }
+
           getForYouNew(preferences);
         })
         .catch(error => {
           if (error.message === 'User preferences not found') {
             // canalModalRef.current.present();
             navigation.navigate('ChooseCanal');
+          } else {
+            console.log(error);
           }
         });
     }
@@ -188,9 +200,10 @@ const Home = ({navigation}) => {
 
           <NewsForYou
             canalModalRef={canalModalRef}
-            item={forYou?.sort((a, b) =>
+            item={forYou?.array.sort((a, b) =>
               moment(b.published_date).diff(moment(a.published_date)),
             )}
+            preferences={forYou?.preferences}
           />
 
           <Gap height={12} />
@@ -221,7 +234,10 @@ const Home = ({navigation}) => {
           <Gap height={screenHeightPercentage('11%')} />
         </ScrollView>
 
-        <CanalModal canalModalRef={canalModalRef} />
+        <CanalModal
+          canalModalRef={canalModalRef}
+          preferences={forYou?.preferences}
+        />
       </View>
     </SafeAreaView>
   );
