@@ -74,10 +74,6 @@ const CanalModal = ({canalModalRef, preferences}) => {
     };
   }, [preferences]);
 
-  useEffect(() => {
-    console.log(choosed);
-  }, [choosed]);
-
   return (
     <BottomSheetModal
       ref={canalModalRef}

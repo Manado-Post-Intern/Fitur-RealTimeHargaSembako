@@ -124,7 +124,6 @@ const Home = ({navigation}) => {
         params: {page: 1, section_id: item.id},
       });
       const data = response.data.data.list.latest;
-      console.log('yuhu', data);
       return data;
     });
 
@@ -150,7 +149,6 @@ const Home = ({navigation}) => {
 
   useEffect(() => {
     if (mpUser && token) {
-      console.log('masuk');
       checkUserPreferences(mpUser)
         .then(res => {
           const preferences = [];
