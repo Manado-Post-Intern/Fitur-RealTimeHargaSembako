@@ -14,7 +14,7 @@ const More = ({sectionId, trending}) => {
     } else if (trending) {
       navigation.navigate('Trending');
     } else {
-      console.log('Section ID Not Provided');
+      navigation.navigate('MoreNews', {latest: true});
     }
   };
   return (

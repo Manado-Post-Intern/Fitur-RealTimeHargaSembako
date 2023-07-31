@@ -24,7 +24,7 @@ const MoreNews = ({route}) => {
   const [token, setToken] = useState(null);
   const [moreNews, setMoreNews] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const {sectionId, tag} = route.params;
+  const {sectionId, tag, latest} = route.params;
   const {medium} = useContext(AdsContext);
   const label = sectionList.find(item => item?.id === sectionId)?.name;
 
@@ -63,6 +63,20 @@ const MoreNews = ({route}) => {
           params: {
             page,
             tag,
+          },
+        });
+        setMoreNews(prevData => [
+          ...prevData,
+          ...response.data.data.list.latest,
+        ]);
+      } else if (latest) {
+        const response = await axios.get(latestEndPoint, {
+          headers: {
+            Accept: 'application/vnd.promedia+json; version=1.0',
+            Authorization: `Bearer ${token}`,
+          },
+          params: {
+            page,
           },
         });
         setMoreNews(prevData => [
@@ -128,7 +142,9 @@ const MoreNews = ({route}) => {
         }}>
         <MediumBanner item={medium} />
         <View style={styles.labelContainer}>
-          <TextInter style={styles.label}>{label || tag}</TextInter>
+          <TextInter style={styles.label}>
+            {label || tag || 'Latest News'}
+          </TextInter>
         </View>
 
         <View>
