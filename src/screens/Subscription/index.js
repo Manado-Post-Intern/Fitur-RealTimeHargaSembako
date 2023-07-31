@@ -1,6 +1,13 @@
 import {useNavigation} from '@react-navigation/native';
-import React from 'react';
-import {Image, Pressable, ScrollView, StyleSheet, View} from 'react-native';
+import React, {useEffect} from 'react';
+import {
+  Image,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  View,
+} from 'react-native';
 import {
   IcEdit,
   IcGoldCheckmark,
@@ -12,11 +19,33 @@ import {
 } from '../../assets';
 import {ChevroletBackButton, Gap, TextInter} from '../../components';
 import {screenHeightPercentage} from '../../utils';
+import {initConnection, getSubscriptions} from 'react-native-iap';
+
+const items = Platform.select({
+  ios: [],
+  android: ['paket_1_bulanan'],
+});
 
 const Subscription = () => {
   const navigation = useNavigation();
   const subscribed = true;
   const shortTimeLeft = true;
+
+  useEffect(() => {
+    initConnection()
+      .catch(() => {
+        console.log('error connecting to store...');
+      })
+      .then(() => {
+        getSubscriptions({skus: items})
+          .catch(error => {
+            console.log('error finding items ', error);
+          })
+          .then(res => {
+            console.log('dari get subscription', res);
+          });
+      });
+  }, []);
   return (
     <ScrollView style={styles.container}>
       <View style={styles.headerContainer}>

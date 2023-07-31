@@ -1,4 +1,4 @@
-package com.manadopostrevamp;
+package com.mp.manadopost;
 import android.os.Bundle;
 
 import com.facebook.react.ReactActivity;
