@@ -3,6 +3,7 @@ import React, {useContext, useEffect, useRef, useState} from 'react';
 import {theme} from '../../assets';
 import {Gap} from '../../components';
 import {
+  ActionSection,
   BottomBanner,
   FullBanner,
   Headlines,
@@ -183,7 +184,7 @@ const Home = ({navigation}) => {
 
           <Gap height={12} />
 
-          {/* <ActionSection /> */}
+          <ActionSection preferences={mpUser?.preferences} />
           {top && <TopBanner item={top} />}
 
           <Gap height={12} />
