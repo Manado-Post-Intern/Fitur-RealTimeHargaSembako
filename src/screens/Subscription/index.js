@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Image,
   Platform,
@@ -19,7 +19,14 @@ import {
 } from '../../assets';
 import {ChevroletBackButton, Gap, TextInter} from '../../components';
 import {screenHeightPercentage} from '../../utils';
-import {initConnection, getSubscriptions} from 'react-native-iap';
+import {
+  initConnection,
+  getSubscriptions,
+  requestSubscription,
+  endConnection,
+  purchaseUpdatedListener,
+  purchaseErrorListener,
+} from 'react-native-iap';
 
 const items = Platform.select({
   ios: [],
@@ -27,11 +34,32 @@ const items = Platform.select({
 });
 
 const Subscription = () => {
+  const [products, setProducts] = useState([]);
   const navigation = useNavigation();
   const subscribed = true;
   const shortTimeLeft = true;
 
+  const handleSubscribe = async (sku, subscriptionOffers) => {
+    try {
+      await requestSubscription({
+        sku,
+        subscriptionOffers: [
+          {
+            sku,
+            offerToken:
+              'AUj/Yhiq+XoV8Bb+9Cbdx75tGQ3E42OInTOE13Q8Ug5QgoFLtXjor8M/sxq/+Yls202mOe2cqxNSrIXAVaovvgOHGX1BdHhTy2wpdw8ShA==',
+          },
+        ],
+      });
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
+
   useEffect(() => {
+    let purchaseUpdateSubscription;
+    let purchaseErrorSubscription;
+
     initConnection()
       .catch(() => {
         console.log('error connecting to store...');
@@ -42,9 +70,36 @@ const Subscription = () => {
             console.log('error finding items ', error);
           })
           .then(res => {
-            console.log('dari get subscription', res);
+            console.log('res', res[0].subscriptionOfferDetails);
+            setProducts(res);
           });
+
+        purchaseUpdateSubscription = purchaseUpdatedListener(purchase => {
+          console.log('purchaseUpdatedListener', purchase);
+          const receipt = purchase.transactionReceipt;
+          if (receipt) {
+            // finishTransaction(purchase, true);
+            console.log('receipt', receipt);
+            console.log('do something with receipt');
+          }
+        });
+
+        purchaseErrorSubscription = purchaseErrorListener(error => {
+          console.log('purchaseErrorListener', error);
+        });
       });
+
+    return () => {
+      if (purchaseUpdateSubscription) {
+        purchaseUpdateSubscription.remove();
+        purchaseUpdateSubscription = null;
+      }
+      if (purchaseErrorSubscription) {
+        purchaseErrorSubscription.remove();
+        purchaseErrorSubscription = null;
+      }
+      endConnection();
+    };
   }, []);
   return (
     <ScrollView style={styles.container}>
@@ -140,7 +195,11 @@ const Subscription = () => {
         </View>
 
         <View>
-          <Pressable style={styles.subscriptionBannerContainer}>
+          <Pressable
+            style={styles.subscriptionBannerContainer}
+            onPress={() => {
+              handleSubscribe(products[0].productId);
+            }}>
             <Image
               style={styles.subscriptionBanner}
               source={IMGSubscription1Month}
