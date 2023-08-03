@@ -51,7 +51,7 @@ const Marketplace = () => {
     const filtered = dataArray?.filter(item =>
       moment().isBetween(item.startDate, item.endDate),
     );
-    return filtered;
+    return filtered.sort((a, b) => a.startDate - b.endDate);
   };
 
   const forHighlight = labelledData?.filter(

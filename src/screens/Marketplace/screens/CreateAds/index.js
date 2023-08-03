@@ -392,7 +392,12 @@ const CreateAds = ({navigation}) => {
               onChange={value =>
                 setData({
                   ...data,
-                  highlight: {...data.highlight, isHighlight: value},
+
+                  highlight: {
+                    ...data.highlight,
+                    isHighlight: value,
+                    duration: '1',
+                  },
                 })
               }
             />
