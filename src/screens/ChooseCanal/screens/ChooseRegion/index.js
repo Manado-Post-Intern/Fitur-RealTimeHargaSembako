@@ -4,7 +4,7 @@ import {screenHeightPercentage} from '../../../../utils';
 import {Button, Gap, GlowCircle, TextInter} from '../../../../components';
 import {IMGMPText, theme} from '../../../../assets';
 import {SelectionRow} from '../../../Home/components/NewsForYou/components/CanalModal/components';
-import {regionList} from '../../../../data';
+import {canal, regionList} from '../../../../data';
 import database from '@react-native-firebase/database';
 import {useNavigation} from '@react-navigation/native';
 import {AuthContext} from '../../../../context/AuthContext';
@@ -31,12 +31,28 @@ const ChooseRegion = ({route}) => {
   const {mpUser} = useContext(AuthContext);
   const navigation = useNavigation();
 
+  const findMatchingData = (firstArray, secondArray) => {
+    const matchingData = [];
+
+    firstArray.forEach(nameToFind => {
+      const foundData = secondArray.find(data => data.name === nameToFind);
+      if (foundData) {
+        matchingData.push(foundData);
+      }
+    });
+
+    return matchingData;
+  };
+
   const handleSubmit = async () => {
     const preferencesRef = database().ref(`/users/${mpUser.uid}/`);
     try {
+      const arr = [...choosed, ...choosedCanal];
+      const region = findMatchingData(arr, regionList);
+      const channel = findMatchingData(arr, canal);
       const payload = {
-        channel: choosedCanal,
-        region: choosed,
+        channel,
+        region,
       };
       await preferencesRef.update({preferences: payload});
       console.log('Preferences updated');

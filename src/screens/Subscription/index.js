@@ -1,17 +1,17 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
   Image,
   Platform,
   Pressable,
   ScrollView,
   StyleSheet,
+  ToastAndroid,
   View,
 } from 'react-native';
 import {
   IcEdit,
   IcGoldCheckmark,
-  IMGDummyProfile,
   theme,
   IMGSubscription1Month,
   IMGSubscription6Month,
@@ -26,28 +26,56 @@ import {
   endConnection,
   purchaseUpdatedListener,
   purchaseErrorListener,
+  finishTransaction,
 } from 'react-native-iap';
+import {AuthContext} from '../../context/AuthContext';
+import database from '@react-native-firebase/database';
+import moment from 'moment';
 
 const items = Platform.select({
   ios: [],
-  android: ['paket_1_bulanan'],
+  android: ['paket_1_bulanan', 'paket_2_enam_bulan', 'paket_3_tahunan'],
 });
+
+const productBaner = [
+  IMGSubscription1Month,
+  IMGSubscription6Month,
+  IMGSubscription1Year,
+];
 
 const Subscription = () => {
   const [products, setProducts] = useState([]);
+  const {mpUser} = useContext(AuthContext);
   const navigation = useNavigation();
   const subscribed = true;
   const shortTimeLeft = true;
 
-  const handleSubscribe = async (sku, subscriptionOffers) => {
+  let word;
+
+  switch (mpUser.subscription?.productId) {
+    case 'paket_1_bulanan':
+      word = 'Anda berlangganan paket 1 bulan';
+      break;
+    case 'paket_2_enam_bulan':
+      word = 'Anda berlangganan paket 6 bulan';
+      break;
+    case 'paket_3_tahunan':
+      word = 'Anda berlangganan paket 1 tahun';
+      break;
+
+    default:
+      word = 'Berlangganan sekarang';
+      break;
+  }
+
+  const handleSubscribe = async (sku, offerToken) => {
     try {
       await requestSubscription({
         sku,
         subscriptionOffers: [
           {
             sku,
-            offerToken:
-              'AUj/Yhiq+XoV8Bb+9Cbdx75tGQ3E42OInTOE13Q8Ug5QgoFLtXjor8M/sxq/+Yls202mOe2cqxNSrIXAVaovvgOHGX1BdHhTy2wpdw8ShA==',
+            offerToken,
           },
         ],
       });
@@ -70,22 +98,49 @@ const Subscription = () => {
             console.log('error finding items ', error);
           })
           .then(res => {
-            console.log('res', res[0].subscriptionOfferDetails);
             setProducts(res);
           });
 
-        purchaseUpdateSubscription = purchaseUpdatedListener(purchase => {
+        purchaseUpdateSubscription = purchaseUpdatedListener(async purchase => {
           console.log('purchaseUpdatedListener', purchase);
           const receipt = purchase.transactionReceipt;
           if (receipt) {
-            // finishTransaction(purchase, true);
-            console.log('receipt', receipt);
-            console.log('do something with receipt');
+            const subscriptionRef = database().ref(
+              `/users/${mpUser.uid}/subscription/`,
+            );
+
+            let expireDate;
+
+            switch (purchase.productId) {
+              case 'paket_1_bulanan':
+                expireDate = moment().add(1, 'month').format();
+                break;
+              case 'paket_2_enam_bulan':
+                expireDate = moment().add(6, 'months').format();
+                break;
+              case 'paket_3_tahunan':
+                expireDate = moment().add(1, 'year').format();
+                break;
+              default:
+                break;
+            }
+
+            const payload = {
+              productId: purchase.productId,
+              orderId: purchase.transactionId,
+              purchaseDate: moment(purchase.transactionDate).format(),
+              expireDate,
+              isExpired: false,
+            };
+
+            await subscriptionRef.update(payload);
+            ToastAndroid.show('Berhasil berlangganan', ToastAndroid.SHORT);
+            await finishTransaction({purchase});
           }
         });
 
         purchaseErrorSubscription = purchaseErrorListener(error => {
-          console.log('purchaseErrorListener', error);
+          console.log('purchaseError', error);
         });
       });
 
@@ -113,14 +168,12 @@ const Subscription = () => {
 
       <View style={styles.bodyContainer}>
         <View style={styles.profileHeaderContainer}>
-          <Image style={styles.profileImage} source={IMGDummyProfile} />
+          <Image style={styles.profileImage} source={{uri: mpUser.photo}} />
           <Gap width={16} />
           <View style={styles.headerTextContainer}>
             <View>
-              <TextInter style={styles.name}>Cameron Williamson</TextInter>
-              <TextInter style={styles.email}>
-                jessica.hanson@example.com
-              </TextInter>
+              <TextInter style={styles.name}>{mpUser.fullName}</TextInter>
+              <TextInter style={styles.email}>{mpUser.email}</TextInter>
             </View>
             <Gap width={16} />
             <Pressable
@@ -133,7 +186,7 @@ const Subscription = () => {
 
         <Gap height={8} />
 
-        {shortTimeLeft && (
+        {/* {shortTimeLeft && (
           <View style={styles.extendContainer}>
             <TextInter
               style={styles.subscribedLeft}
@@ -145,7 +198,7 @@ const Subscription = () => {
               <TextInter style={styles.extendButtonLabel}>Perpanjang</TextInter>
             </Pressable>
           </View>
-        )}
+        )} */}
 
         {subscribed && !shortTimeLeft && (
           <View style={styles.subscribedContainer}>
@@ -156,7 +209,9 @@ const Subscription = () => {
         )}
 
         <TextInter style={styles.text1}>
-          {subscribed ? 'Upgrade Berlangganan' : 'Berlangganan'}{' '}
+          {mpUser?.subscription?.isExpired
+            ? 'Paket langganan anda telah selesai. Silahkan berlangganan kembali'
+            : word}{' '}
           <TextInter style={styles.specialText1}>
             Manado Post Digital Premium
           </TextInter>
@@ -195,37 +250,78 @@ const Subscription = () => {
         </View>
 
         <View>
-          <Pressable
+          {products.map((item, index) => {
+            if (
+              mpUser?.subscription?.productId === item.productId &&
+              mpUser?.subscription?.isExpired === false
+            )
+              return null;
+            return (
+              <Pressable
+                key={index}
+                style={styles.subscriptionBannerContainer}
+                onPress={() => {
+                  handleSubscribe(
+                    item.productId,
+                    item.subscriptionOfferDetails[0].offerToken,
+                  );
+                }}>
+                <Image
+                  style={styles.subscriptionBanner}
+                  source={productBaner[index]}
+                />
+              </Pressable>
+            );
+          })}
+
+          {/* <Pressable
             style={styles.subscriptionBannerContainer}
             onPress={() => {
-              handleSubscribe(products[0].productId);
+              handleSubscribe(
+                products[0].productId,
+                products[0].subscriptionOfferDetails[0].offerToken,
+              );
             }}>
             <Image
               style={styles.subscriptionBanner}
               source={IMGSubscription1Month}
             />
           </Pressable>
-          <Pressable style={styles.subscriptionBannerContainer}>
+          <Pressable
+            style={styles.subscriptionBannerContainer}
+            onPress={() => {
+              handleSubscribe(
+                products[1].productId,
+                products[1].subscriptionOfferDetails[0].offerToken,
+              );
+            }}>
             <Image
               style={styles.subscriptionBanner}
               source={IMGSubscription6Month}
             />
           </Pressable>
-          <Pressable style={styles.subscriptionBannerContainer}>
+          <Pressable
+            style={styles.subscriptionBannerContainer}
+            onPress={() => {
+              handleSubscribe(
+                products[2].productId,
+                products[2].subscriptionOfferDetails[0].offerToken,
+              );
+            }}>
             <Image
               style={styles.subscriptionBanner}
               source={IMGSubscription1Year}
             />
-          </Pressable>
+          </Pressable> */}
         </View>
       </View>
       <Gap height={screenHeightPercentage('5%')} />
-      <Pressable style={styles.stopSubscribeButton}>
+      {/* <Pressable style={styles.stopSubscribeButton}>
         <TextInter style={styles.stopSubscribe}>
           Tidak ingin berlangganan lagi ?{' '}
           <TextInter style={styles.stopSubscribeBold}>Unsubscribe</TextInter>
         </TextInter>
-      </Pressable>
+      </Pressable> */}
     </ScrollView>
   );
 };
