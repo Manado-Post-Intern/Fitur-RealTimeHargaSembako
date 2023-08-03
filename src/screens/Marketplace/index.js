@@ -14,6 +14,7 @@ import BottomSheet from '@gorhom/bottom-sheet';
 import {useNavigation} from '@react-navigation/native';
 import {screenHeightPercentage} from '../../utils';
 import database from '@react-native-firebase/database';
+import moment from 'moment';
 
 const categories = ['Otomotif', 'Properti', 'Lowongan', 'Ragam'];
 const horizontal = [0, 1, 2, 3, 4];
@@ -46,7 +47,11 @@ const Marketplace = () => {
         const userList = user['list'];
         dataArray.push(...userList);
       });
-    return dataArray;
+
+    const filtered = dataArray?.filter(item =>
+      moment().isBetween(item.startDate, item.endDate),
+    );
+    return filtered;
   };
 
   const forHighlight = labelledData?.filter(

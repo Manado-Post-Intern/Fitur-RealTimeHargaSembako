@@ -14,6 +14,10 @@ const CARD_WIDTH = 172; // Card width minus 4 horizontal padding
 
 const HorizontalCard = ({item}) => {
   const handleOpenWhatsapp = phoneNumber => {
+    if (phoneNumber.slice(0, 1) === '0') {
+      phoneNumber = phoneNumber.slice(1);
+      phoneNumber = '62' + phoneNumber;
+    }
     const url = `https://wa.me/${phoneNumber}`;
 
     Linking.openURL(url);

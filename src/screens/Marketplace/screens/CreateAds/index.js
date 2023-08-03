@@ -65,7 +65,7 @@ const requiredField = [
   {field: 'startDate', message: 'Tanggal mulai belum dipilih'},
 ];
 
-const CreateAds = () => {
+const CreateAds = ({navigation}) => {
   const [data, setData] = useState({
     adsImage: '',
     adsName: '',
@@ -82,12 +82,15 @@ const CreateAds = () => {
       highlightPrice: '0',
     },
     startDate: '',
+    endDate: '',
     totalPrice: 0,
   });
   const [label, setLabel] = useState(0);
+  const [pricePerDay, setPricePerDay] = useState(null);
   const [isStartToday, setIsStartToday] = useState(false);
   const [status, setStatus] = useState(0);
   const [calendarModal, setCalendarModal] = useState(false);
+  const [calendarModalForEndDate, setCalendarModalForEndDate] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [terms, setTerms] = useState(false);
   const modalRef = useRef();
@@ -103,7 +106,8 @@ const CreateAds = () => {
 
   const handleTotalPrice = () => {
     const tp =
-      parseInt(data.highlight.duration, 10) * 20000 + parseInt(data.price, 10);
+      parseInt(data.highlight.duration, 10) * 20000 +
+      pricePerDay * (moment(data.endDate).diff(data.startDate, 'days') + 1);
     setData({...data, totalPrice: tp});
   };
 
@@ -188,9 +192,11 @@ const CreateAds = () => {
   };
 
   useEffect(() => {
-    const unsubscribe = handleTotalPrice();
-    return unsubscribe;
-  }, [data.highlight.duration, data.price]);
+    if ((pricePerDay, data.highlight.duration, data.highlight.highlightPrice)) {
+      const unsubscribe = handleTotalPrice();
+      return unsubscribe;
+    }
+  }, [data.highlight.duration, pricePerDay, data.startDate, data.endDate]);
 
   useEffect(() => {
     if (isStartToday) {
@@ -212,6 +218,23 @@ const CreateAds = () => {
       });
     }
   }, [data.highlight.isHighlight]);
+
+  // useEffect(() => {
+  //   if (data.startDate && data.endDate) {
+  //     const duration = moment(data.endDate).diff(data.startDate, 'days') + 1;
+  //     const price = duration * pricePerDay;
+  //     setData(prev => ({...prev, totalPrice: prev.price + price}));
+  //   }
+  // }, [data.startDate, data.endDate]);
+
+  useEffect(() => {
+    database()
+      .ref('/marketplace/options')
+      .once('value', snapshot => {
+        const data = snapshot.val();
+        setPricePerDay(data.pricePerDay);
+      });
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -393,30 +416,47 @@ const CreateAds = () => {
         </View>
 
         <View style={styles.dateContainer}>
-          <View style={styles.dateLeftContainer}>
+          <View style={styles.dateContainerComponent}>
+            <View style={styles.dateLeftContainer}>
+              <TextInter style={styles.dateTitle}>
+                Jadwalkan tanggal mulai
+              </TextInter>
+              <Gap height={4} />
+              <Pressable
+                disabled={isStartToday}
+                style={styles.fieldContainer}
+                onPress={() => setCalendarModal(true)}>
+                <TextInter style={styles.activeDate}>
+                  {data.startDate}
+                </TextInter>
+                <IcCalendarGrey />
+              </Pressable>
+            </View>
+            <View style={styles.dateRightContainer}>
+              <View>
+                <TextInter style={styles.dateTitle}>
+                  Mulai saat ini juga
+                </TextInter>
+                <Gap height={4} />
+                <Switch
+                  onChange={value => setIsStartToday(value)}
+                  defaultValue={false}
+                />
+              </View>
+            </View>
+          </View>
+          <View
+            style={[styles.dateLeftContainer, {marginTop: 8, width: '50%'}]}>
             <TextInter style={styles.dateTitle}>
-              Jadwalkan tanggal mulai
+              Jadwalkan tanggal selesai
             </TextInter>
             <Gap height={4} />
             <Pressable
-              disabled={isStartToday}
               style={styles.fieldContainer}
-              onPress={() => setCalendarModal(true)}>
-              <TextInter style={styles.activeDate}>{data.startDate}</TextInter>
+              onPress={() => setCalendarModalForEndDate(true)}>
+              <TextInter style={styles.activeDate}>{data.endDate}</TextInter>
               <IcCalendarGrey />
             </Pressable>
-          </View>
-          <View style={styles.dateRightContainer}>
-            <View>
-              <TextInter style={styles.dateTitle}>
-                Mulai saat ini juga
-              </TextInter>
-              <Gap height={4} />
-              <Switch
-                onChange={value => setIsStartToday(value)}
-                defaultValue={false}
-              />
-            </View>
           </View>
         </View>
         <Gap height={16} />
@@ -464,6 +504,11 @@ const CreateAds = () => {
         setIsOpen={setCalendarModal}
         onDayPress={day => setData({...data, startDate: day.dateString})}
       />
+      <ModalCalendar
+        isOpen={calendarModalForEndDate}
+        setIsOpen={setCalendarModalForEndDate}
+        onDayPress={day => setData({...data, endDate: day.dateString})}
+      />
 
       <BottomSheet
         ref={modalRef}
@@ -486,7 +531,7 @@ const CreateAds = () => {
           <Gap height={24} />
           <Pressable
             style={styles.successButton}
-            onPress={() => modalRef.current.close()}>
+            onPress={() => navigation.goBack()}>
             <TextInter style={styles.successButtonLabel}>
               Kembali Ke Halaman Iklan
             </TextInter>
@@ -622,10 +667,14 @@ const styles = StyleSheet.create({
   },
 
   dateContainer: {
-    flexDirection: 'row',
+    // flexDirection: 'row',
     paddingVertical: 16,
     borderBottomColor: theme.colors.MPWhite,
     borderBottomWidth: 1,
+    // marginTop: 8,
+  },
+  dateContainerComponent: {
+    flexDirection: 'row',
   },
   dateTitle: {
     fontSize: 14,
