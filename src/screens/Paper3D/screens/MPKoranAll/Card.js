@@ -20,7 +20,9 @@ const Card = ({index, dataLength, item}) => {
         index % 3 === 0 && styles.firstCard,
       ]}
       onPress={() => onPress()}>
-      <Image style={styles.image} source={{uri: item?.thumbnail}} />
+      {item?.thumbnail && (
+        <Image style={styles.image} source={{uri: item?.thumbnail}} />
+      )}
       <Gap height={8} />
       <TextInter style={styles.title}>
         {moment(item?.publish_date).format('DD MMMM YYYY')}

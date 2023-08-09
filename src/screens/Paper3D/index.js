@@ -19,7 +19,6 @@ import {AuthContext} from '../../context/AuthContext';
 const Paper3D = ({navigation}) => {
   const {loading, setLoading, fetchData} = useContext(MPDigitalContext);
   const {mpUser} = useContext(AuthContext);
-  console.log(mpUser);
   return (
     <SafeAreaView style={{flex: 1}}>
       <View style={styles.topBarContainer}>
@@ -75,7 +74,7 @@ const Paper3D = ({navigation}) => {
 
           <Gap height={screenHeightPercentage('19%')} />
         </ScrollView>
-        {mpUser?.subscription?.isExpired && (
+        {mpUser?.subscription?.isExpired === true ? (
           <View
             blurType="light"
             style={{
@@ -123,7 +122,7 @@ const Paper3D = ({navigation}) => {
               </TouchableOpacity>
             </View>
           </View>
-        )}
+        ) : null}
       </View>
     </SafeAreaView>
   );

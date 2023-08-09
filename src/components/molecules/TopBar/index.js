@@ -63,14 +63,14 @@ const TopBar = ({searchOnly, type, onSearchPress}, props) => {
           <View style={styles.topContainer}>
             <Image style={styles.image} source={IMGMPTextPrimary} />
             <View style={styles.topActionContainer}>
-              {!activeSearch && (
+              {/* {!activeSearch && (
                 <Pressable
                   onPress={() => {
                     setActiveSearch(true);
                   }}>
                   <IcMagnifying />
                 </Pressable>
-              )}
+              )} */}
               <Gap width={24} />
               <Pressable onPress={() => handleBurgerPress()}>
                 <IcSort />
