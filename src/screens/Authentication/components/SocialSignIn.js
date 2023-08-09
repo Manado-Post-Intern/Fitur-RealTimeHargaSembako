@@ -35,11 +35,11 @@ const SocialSignIn = ({type}) => {
         photo: user.photoURL,
         token: userToken,
         subscription: {
-          isSubscribed: true,
+          isExpired: false,
           orderId: '',
-          productId: '3 hari percobaan',
+          productId: '1_bulan_percobaan',
           purchaseDate: moment().format(),
-          expireDate: moment().add(3, 'days').format(),
+          expireDate: moment().add(1, 'month').format(),
         },
       };
 

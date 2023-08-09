@@ -37,10 +37,10 @@ const Paper3D = ({navigation}) => {
           }
           style={styles.container}>
           <View style={styles.bodyContainer}>
-            <View style={styles.headerContainer}>
+            {/* <View style={styles.headerContainer}>
               <IcBack />
               <TextInter style={styles.headerText}>E-Paper</TextInter>
-            </View>
+            </View> */}
             <TouchableOpacity
               activeOpacity={0.8}
               onPress={() => navigation.navigate('Subscription')}>
