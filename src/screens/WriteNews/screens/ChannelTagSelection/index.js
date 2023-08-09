@@ -3,6 +3,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  ToastAndroid,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -85,15 +86,15 @@ const ChannelTagSelection = ({navigation, route}) => {
       newsData.push(payload);
       await newsRef.set(newsData);
 
-      alert('Berita berhasil dikirim');
+      ToastAndroid.show('Berita berhasil dikirim', ToastAndroid.SHORT);
     } catch (error) {
       switch (error.message) {
         case 'KTP belum diupload':
-          alert(`${error.message}`);
+          ToastAndroid.show(`${error.message}`, ToastAndroid.SHORT);
           navigation.navigate('Profile');
           break;
         case 'Channel belum dipilih':
-          alert(`${error.message}`);
+          ToastAndroid.show(`${error.message}`, ToastAndroid.SHORT);
           break;
         default:
           console.log(
@@ -154,10 +155,10 @@ const ChannelTagSelection = ({navigation, route}) => {
           </TouchableOpacity>
         </View> */}
 
-        <View style={styles.switchContainer}>
+        {/* <View style={styles.switchContainer}>
           <Text style={styles.switchText}>Pasang Sebagai Highlight Ads</Text>
           <Switch defaultValue={false} onChange={value => console.log(value)} />
-        </View>
+        </View> */}
 
         <Text style={styles.warningText}>
           Konten ini akan melalui proses redasi dan tidak dapat diubah selama

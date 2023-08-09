@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  ToastAndroid,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -118,6 +119,10 @@ const CreateAds = ({navigation}) => {
         mediaType: 'photo',
         multiple: false,
       });
+      if (res.size > 512000) {
+        ToastAndroid.show('Ukuran gambar terlalu besar', ToastAndroid.SHORT);
+        return;
+      }
       setData({...data, adsImage: res.path});
     } catch (error) {
       console.log(error);
@@ -308,6 +313,7 @@ const CreateAds = ({navigation}) => {
             </>
           )}
         </View>
+        <TextInter style={{}}>*Batas ukuran gambar 500kb</TextInter>
         <Gap height={20} />
         <Input
           placeholder="Nama Barang / Properti / Perkerjaan"

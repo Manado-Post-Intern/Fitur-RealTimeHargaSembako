@@ -186,6 +186,7 @@ const Home = ({navigation}) => {
           <Gap height={12} />
 
           <ActionSection preferences={mpUser?.preferences} />
+          <Gap height={12} />
           {top && <TopBanner item={top} />}
 
           <Gap height={12} />

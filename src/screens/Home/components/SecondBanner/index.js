@@ -22,6 +22,7 @@ const SecondBanner = ({item}) => {
   const ref = useRef(null);
 
   useEffect(() => {
+    if (!item) return;
     if (!onDrag && item.length > 0) {
       ref.current.scrollToIndex({
         index: index,
