@@ -1,13 +1,14 @@
 import {SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
 import React, {useContext, useEffect, useRef, useState} from 'react';
 import {theme} from '../../assets';
-import {Gap} from '../../components';
+import {Banner1, Banner2, Gap} from '../../components';
 import {
   ActionSection,
   BottomBanner,
   FullBanner,
   Headlines,
   LatestNews,
+  MPNewspaper,
   NewsForYou,
   SecondBanner,
   Story,
@@ -205,7 +206,8 @@ const Home = ({navigation}) => {
             preferences={forYou?.preferences}
           />
 
-          <Gap height={12} />
+          <Gap height={25} />
+          <Banner2 />
 
           <LatestNews item={latest} />
 
@@ -217,6 +219,8 @@ const Home = ({navigation}) => {
           <Gap height={12} />
 
           {full && <FullBanner item={full} />}
+
+          <Banner1 />
 
           {/* <MPDigital />
 
