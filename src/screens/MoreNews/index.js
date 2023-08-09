@@ -24,7 +24,7 @@ const MoreNews = ({route}) => {
   const [token, setToken] = useState(null);
   const [moreNews, setMoreNews] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const {sectionId, tag, latest} = route.params;
+  const {sectionId, tag, latest, forYou, newsForYou} = route.params;
   const {medium} = useContext(AdsContext);
   const label = sectionList.find(item => item?.id === sectionId)?.name;
 
@@ -83,6 +83,8 @@ const MoreNews = ({route}) => {
           ...prevData,
           ...response.data.data.list.latest,
         ]);
+      } else if (forYou) {
+        setMoreNews(newsForYou);
       }
     } catch (error) {
       console.log(error);
@@ -143,7 +145,7 @@ const MoreNews = ({route}) => {
         <MediumBanner item={medium} />
         <View style={styles.labelContainer}>
           <TextInter style={styles.label}>
-            {label || tag || 'Latest News'}
+            {label || tag || (latest && 'Latest News') || 'Berita Untukmu'}
           </TextInter>
         </View>
 

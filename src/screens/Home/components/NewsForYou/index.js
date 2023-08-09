@@ -33,10 +33,10 @@ const NewsForYou = ({canalModalRef, item, preferences}) => {
         </View>
       </View>
       <Gap height={4} />
-      {item?.map((item, i) => (
+      {item?.slice(0, 5).map((item, i) => (
         <Card item={item} key={i} />
       ))}
-      {/* <More /> */}
+      <More forYou item={item} />
     </View>
   );
 };

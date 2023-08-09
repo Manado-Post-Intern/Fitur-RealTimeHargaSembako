@@ -115,7 +115,7 @@ const Home = ({navigation}) => {
     }
   };
 
-  const getForYouNew = async preference => {
+  const getForYouNews = async preference => {
     const promises = preference.map(async item => {
       const response = await axios.get(latestEndPoint, {
         headers: {
@@ -161,7 +161,7 @@ const Home = ({navigation}) => {
             preferences.push(...res.region);
           }
 
-          getForYouNew(preferences);
+          getForYouNews(preferences);
         })
         .catch(error => {
           if (error.message === 'User preferences not found') {

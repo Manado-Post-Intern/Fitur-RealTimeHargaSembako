@@ -5,7 +5,7 @@ import TextInter from '../TextInter';
 import {IcArrowRight, theme} from '../../../assets';
 import {useNavigation} from '@react-navigation/native';
 
-const More = ({sectionId, trending}) => {
+const More = ({sectionId, trending, forYou, item}) => {
   const navigation = useNavigation();
 
   const handlePress = () => {
@@ -13,6 +13,8 @@ const More = ({sectionId, trending}) => {
       navigation.navigate('MoreNews', {sectionId});
     } else if (trending) {
       navigation.navigate('Trending');
+    } else if (forYou) {
+      navigation.navigate('MoreNews', {forYou: true, newsForYou: item});
     } else {
       navigation.navigate('MoreNews', {latest: true});
     }
