@@ -70,6 +70,7 @@ import IMGAdsPreview4 from './img-ads-preview-4.png';
 import IMGDummyProperty from './img-dummy-property.png';
 import IMGBanner1 from './img-banner-1.png';
 import IMGBanner2 from './img-banner-2.png';
+import IMGLotteryWinner from './img-lottery-winner.png';
 
 export {
   IMGMetaLogo,
@@ -144,4 +145,5 @@ export {
   IMGDummyProperty,
   IMGBanner1,
   IMGBanner2,
+  IMGLotteryWinner,
 };

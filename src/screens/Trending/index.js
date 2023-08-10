@@ -50,11 +50,7 @@ const Trending = ({navigation}) => {
       <ScrollView style={styles.container}>
         <Gap height={40} />
 
-        <TouchableOpacity
-          activeOpacity={0.8}
-          onPress={() => navigation.navigate('Subscription')}>
-          <Banner1 />
-        </TouchableOpacity>
+        <Banner1 />
 
         <Gap height={18} />
 

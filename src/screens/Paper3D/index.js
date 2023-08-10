@@ -41,11 +41,9 @@ const Paper3D = ({navigation}) => {
               <IcBack />
               <TextInter style={styles.headerText}>E-Paper</TextInter>
             </View> */}
-            <TouchableOpacity
-              activeOpacity={0.8}
-              onPress={() => navigation.navigate('Subscription')}>
-              <Banner1 />
-            </TouchableOpacity>
+
+            <Banner1 />
+
             <Gap height={8} />
             <View>
               <View style={styles.titleContainer}>

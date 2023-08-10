@@ -18,6 +18,7 @@ export const AdsProvider = ({children}) => {
       .ref('/ads/data')
       .on('value', snapshot => {
         const res = snapshot.val();
+        if (!res) return;
         let data = [];
         Object.keys(res).forEach(key => {
           res[key].list.map(item => {
