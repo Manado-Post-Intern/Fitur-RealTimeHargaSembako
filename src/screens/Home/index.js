@@ -8,7 +8,6 @@ import {
   FullBanner,
   Headlines,
   LatestNews,
-  LotteryModal,
   NewsForYou,
   SecondBanner,
   Story,
@@ -24,7 +23,6 @@ import {TokenContext} from '../../context/TokenContext';
 import {checkUserPreferences} from '../../utils/checkUserPreferences';
 import {AuthContext} from '../../context/AuthContext';
 import moment from 'moment';
-import database from '@react-native-firebase/database';
 
 const data = [0, 1, 2];
 const daerah = ['Manado', 'Minahasa Utara', 'Bitung', 'Tondano'];
@@ -38,7 +36,6 @@ const Home = ({navigation}) => {
   // const [trending, setTrending] = useState(null);
   const [latest, setLatest] = useState(null);
   const [story, setStory] = useState(null);
-  const [lotteryModal, setLotteryModal] = useState(false);
   const {top, bottom, second, full} = useContext(AdsContext);
 
   const getHeadline = async () => {
@@ -175,17 +172,6 @@ const Home = ({navigation}) => {
     }
   }, [mpUser, token]);
 
-  useEffect(() => {
-    if (mpUser) {
-      const lotteryWinnerRef = database().ref('/lottery/winner/');
-      lotteryWinnerRef.once('value', snapshot => {
-        const data = snapshot.val();
-        if (!data) return;
-        data.find(item => item === mpUser.email) && setLotteryModal(true);
-      });
-    }
-  }, [mpUser]);
-
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <View style={styles.container}>
@@ -252,12 +238,6 @@ const Home = ({navigation}) => {
         <CanalModal
           canalModalRef={canalModalRef}
           preferences={forYou?.preferences}
-        />
-
-        <LotteryModal
-          visible={lotteryModal}
-          user={mpUser}
-          handleClose={() => setLotteryModal(false)}
         />
       </View>
     </SafeAreaView>

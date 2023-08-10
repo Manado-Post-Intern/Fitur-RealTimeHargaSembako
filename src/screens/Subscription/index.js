@@ -31,6 +31,7 @@ import {
 import {AuthContext} from '../../context/AuthContext';
 import database from '@react-native-firebase/database';
 import moment from 'moment';
+import {LotteryModal} from '../Home/components';
 
 const items = Platform.select({
   ios: [],
@@ -45,6 +46,7 @@ const productBaner = [
 
 const Subscription = () => {
   const [products, setProducts] = useState([]);
+  const [lotteryModal, setLotteryModal] = useState(false);
   const {mpUser} = useContext(AuthContext);
   const navigation = useNavigation();
   const subscribed = true;
@@ -156,6 +158,17 @@ const Subscription = () => {
       endConnection();
     };
   }, []);
+
+  useEffect(() => {
+    if (mpUser) {
+      const lotteryWinnerRef = database().ref('/lottery/winner/');
+      lotteryWinnerRef.once('value', snapshot => {
+        const data = snapshot.val();
+        if (!data) return;
+        data.find(item => item === mpUser.email) && setLotteryModal(true);
+      });
+    }
+  }, [mpUser]);
   return (
     <ScrollView style={styles.container}>
       <View style={styles.headerContainer}>
@@ -322,6 +335,12 @@ const Subscription = () => {
           <TextInter style={styles.stopSubscribeBold}>Unsubscribe</TextInter>
         </TextInter>
       </Pressable> */}
+
+      <LotteryModal
+        visible={lotteryModal}
+        user={mpUser}
+        handleClose={() => setLotteryModal(false)}
+      />
     </ScrollView>
   );
 };
