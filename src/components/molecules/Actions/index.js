@@ -49,14 +49,14 @@ const Actions = ({type, border = true, item}) => {
             <TextInter style={styles.labelBig}>366k</TextInter>
           </Pressable> */}
           <Pressable
-            onPress={() => share(item.title, item.url)}
+            onPress={() => share(item?.title, item?.url)}
             style={styles.buttonContainer}>
             <IcShareBig />
             <Gap width={4} />
             <TextInter style={styles.labelBig}>Share</TextInter>
           </Pressable>
           <Pressable
-            onPress={() => whatsappShare(item.title, item.url)}
+            onPress={() => whatsappShare(item?.title, item?.url)}
             style={styles.buttonContainer}>
             <IcWhatsappBig />
             <Gap width={4} />

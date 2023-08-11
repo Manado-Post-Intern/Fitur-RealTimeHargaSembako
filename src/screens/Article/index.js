@@ -198,7 +198,7 @@ const Article = ({route, navigation}) => {
         </ScrollView>
       </View>
       <View style={styles.actionContainer}>
-        <Actions border={false} type="big" />
+        <Actions border={false} type="big" item={article} />
       </View>
     </View>
   );
