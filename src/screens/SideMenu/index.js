@@ -116,7 +116,7 @@ const SideMenu = () => {
         <TextInter style={styles.footerText}>
           Copyright by Manado Post 2022
         </TextInter>
-        <TextInter style={styles.footerText}>V. 2.0.8</TextInter>
+        <TextInter style={styles.footerText}>V. 2.0.9</TextInter>
       </View>
     </View>
   );

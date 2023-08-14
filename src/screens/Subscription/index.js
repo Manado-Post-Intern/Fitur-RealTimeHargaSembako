@@ -31,7 +31,7 @@ import {
 import {AuthContext} from '../../context/AuthContext';
 import database from '@react-native-firebase/database';
 import moment from 'moment';
-import {LotteryModal} from '../Home/components';
+import Lottery from '../Home/components/Lottery';
 
 const items = Platform.select({
   ios: [],
@@ -46,9 +46,8 @@ const productBaner = [
 
 const Subscription = () => {
   const [products, setProducts] = useState([]);
-  const [lotteryModal, setLotteryModal] = useState(false);
+  const [winner, setWinner] = useState(null);
   const {mpUser} = useContext(AuthContext);
-  const navigation = useNavigation();
   const subscribed = true;
   const shortTimeLeft = true;
 
@@ -63,6 +62,9 @@ const Subscription = () => {
       break;
     case 'paket_3_tahunan':
       word = 'Anda berlangganan paket 1 tahun';
+      break;
+    case '1_bulan_percobaan':
+      word = 'Anda dalam masa percobaan 1 bulan';
       break;
 
     default:
@@ -160,15 +162,17 @@ const Subscription = () => {
   }, []);
 
   useEffect(() => {
-    if (mpUser) {
-      const lotteryWinnerRef = database().ref('/lottery/winner/');
-      lotteryWinnerRef.once('value', snapshot => {
-        const data = snapshot.val();
-        if (!data) return;
-        data.find(item => item === mpUser.email) && setLotteryModal(true);
-      });
-    }
-  }, [mpUser]);
+    const lotteryWinnerRef = database().ref('/lottery/winner/');
+    lotteryWinnerRef.on('value', snapshot => {
+      const data = snapshot.val();
+      if (!data) return;
+      setWinner(data);
+    });
+
+    return () => {
+      lotteryWinnerRef.off();
+    };
+  }, []);
   return (
     <ScrollView style={styles.container}>
       <View style={styles.headerContainer}>
@@ -180,7 +184,7 @@ const Subscription = () => {
       </View>
 
       <View style={styles.bodyContainer}>
-        <View style={styles.profileHeaderContainer}>
+        {/* <View style={styles.profileHeaderContainer}>
           <Image style={styles.profileImage} source={{uri: mpUser.photo}} />
           <Gap width={16} />
           <View style={styles.headerTextContainer}>
@@ -195,7 +199,8 @@ const Subscription = () => {
               <IcEdit />
             </Pressable>
           </View>
-        </View>
+        </View> */}
+        {winner && <Lottery item={winner} />}
 
         <Gap height={8} />
 
@@ -223,7 +228,7 @@ const Subscription = () => {
 
         <TextInter style={styles.text1}>
           {mpUser?.subscription?.isExpired
-            ? 'Paket langganan anda telah selesai. Silahkan berlangganan kembali'
+            ? 'Paket langganan anda telah habis. Silahkan berlangganan kembali'
             : word}{' '}
           <TextInter style={styles.specialText1}>
             Manado Post Digital Premium
@@ -334,13 +339,7 @@ const Subscription = () => {
           Tidak ingin berlangganan lagi ?{' '}
           <TextInter style={styles.stopSubscribeBold}>Unsubscribe</TextInter>
         </TextInter>
-      </Pressable> */}
-
-      <LotteryModal
-        visible={lotteryModal}
-        user={mpUser}
-        handleClose={() => setLotteryModal(false)}
-      />
+        </Pressable> */}
     </ScrollView>
   );
 };

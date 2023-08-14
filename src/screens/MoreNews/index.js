@@ -145,7 +145,7 @@ const MoreNews = ({route}) => {
         <MediumBanner item={medium} />
         <View style={styles.labelContainer}>
           <TextInter style={styles.label}>
-            {label || tag || (latest && 'Latest News') || 'Berita Untukmu'}
+            {label || tag || (latest && 'Berita Terbaru') || 'Berita Untukmu'}
           </TextInter>
         </View>
 

@@ -9,7 +9,7 @@ import TopBanner from './TopBanner';
 import BottomBanner from './BottomBanner';
 import SecondBanner from './SecondBanner';
 import FullBanner from './FullBanner';
-import LotteryModal from './LotteryModal';
+import Lottery from './Lottery';
 
 export {
   TopBanner,
@@ -23,5 +23,5 @@ export {
   LatestNews,
   MPDigital,
   MPNewspaper,
-  LotteryModal,
+  Lottery,
 };
