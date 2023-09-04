@@ -40,6 +40,7 @@ const Article = ({route, navigation}) => {
   const [article, setArticle] = useState(null);
   // const [trending, setTrending] = useState(null);
   const [latest, setLatest] = useState(null);
+  console.log(article);
 
   const getArticle = async () => {
     try {
@@ -158,15 +159,17 @@ const Article = ({route, navigation}) => {
               );
             })}
             <View style={styles.articleTextContainer}>
-              <RenderHtml
-                baseStyle={{color: 'black'}}
-                source={{html: article?.content}}
-                renderersProps={{
-                  a: {
-                    onPress: handleLinkPress,
-                  },
-                }}
-              />
+              {article && (
+                <RenderHtml
+                  baseStyle={{color: 'black'}}
+                  source={{html: article?.content}}
+                  renderersProps={{
+                    a: {
+                      onPress: handleLinkPress,
+                    },
+                  }}
+                />
+              )}
               <Gap height={10} />
               <TextInter style={styles.tagTerkait}>Tag Terkait</TextInter>
               <Gap height={10} />

@@ -25,7 +25,6 @@ import {
   IcLink,
   theme,
 } from '../../../../assets';
-import {Duration, Position} from './components';
 import ModalCalendar from '../../../../components/molecules/ModalCalendar';
 import BottomSheet, {BottomSheetBackdrop} from '@gorhom/bottom-sheet';
 import moment from 'moment';
@@ -46,7 +45,7 @@ const requiredField = [
 
 const Order = ({route}) => {
   const {type, adsConfig} = route.params; // Type used for specify type of order
-  const {user} = useContext(AuthContext);
+  const {user, mpUser} = useContext(AuthContext);
   const navigation = useNavigation();
   const [data, setData] = useState({
     type,
@@ -116,9 +115,10 @@ const Order = ({route}) => {
 
   const handleSubmit = async () => {
     const referance = database().ref(`/ads/data/${user.uid}/list`);
+    const profileRef = database().ref(`/ads/data/${user.uid}/profile`);
     try {
       if (!user) {
-        throw 'Please login first';
+        throw new Error('Please login first');
       }
       const passed = await handleRequired();
       const url = await handleImageUpload(passed.imageUri, user.uid);
@@ -133,6 +133,10 @@ const Order = ({route}) => {
 
       // upload data to firebase
       const snapshot = await referance.once('value');
+      const profileSnapshot = await profileRef.once('value');
+      if (!profileSnapshot.val()) {
+        await profileRef.set({email: mpUser.email, fullName: mpUser.fullName});
+      }
       let data = snapshot.val() || [];
       data.push(normalizeData);
       await referance.set(data);

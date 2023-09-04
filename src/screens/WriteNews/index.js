@@ -3,6 +3,7 @@ import {
   Pressable,
   SafeAreaView,
   StyleSheet,
+  Text,
   TextInput,
   TouchableOpacity,
   View,
@@ -71,21 +72,21 @@ const WriteNews = ({navigation}) => {
         />
 
         <View style={styles.browseContainer}>
-          {/* {!data.adsImage ? ( */}
-          <Pressable
-            style={styles.browseButton}
-            onPress={() =>
-              handleImageSelect()
-                .then(res => setData({...data, image: res}))
-                .catch(err => console.log(err))
-            }>
-            <TextInter style={styles.browseLabel}>browse picture</TextInter>
-          </Pressable>
-          {/* ) : (
+          {!data.image ? (
+            <Pressable
+              style={styles.browseButton}
+              onPress={() =>
+                handleImageSelect()
+                  .then(res => setData({...data, image: res}))
+                  .catch(err => console.log(err))
+              }>
+              <TextInter style={styles.browseLabel}>browse picture</TextInter>
+            </Pressable>
+          ) : (
             <>
               <Image
                 source={{
-                  uri: data.adsImage,
+                  uri: data.image,
                 }}
                 style={{
                   resizeMode: 'cover',
@@ -115,7 +116,7 @@ const WriteNews = ({navigation}) => {
                 </Text>
               </TouchableOpacity>
             </>
-          )} */}
+          )}
         </View>
 
         <View style={styles.inputContainer}>

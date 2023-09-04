@@ -67,11 +67,22 @@ const ChannelTagSelection = ({navigation, route}) => {
 
   const handleSubmit = async () => {
     const newsRef = database().ref(`/news/data/${mpUser?.uid}/list/`);
+    const profileRef = database().ref(`/news/data/${mpUser?.uid}/profile/`);
     try {
       await ktpCheck();
       if (!selectedChannel) {
         throw new Error('Channel belum dipilih');
       }
+      profileRef.once('value', snapshot => {
+        const res = snapshot.val();
+        if (!res) {
+          profileRef.set({
+            fullName: mpUser.fullName,
+            uid: mpUser.uid,
+            email: mpUser.email,
+          });
+        }
+      });
 
       const payload = {
         ...data,

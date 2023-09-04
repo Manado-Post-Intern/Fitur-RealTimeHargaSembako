@@ -88,6 +88,7 @@ const CreateAds = ({navigation}) => {
   });
   const [label, setLabel] = useState(0);
   const [pricePerDay, setPricePerDay] = useState(null);
+  const [highlightPricePerDay, setHighlightPricePerDay] = useState(null);
   const [isStartToday, setIsStartToday] = useState(false);
   const [status, setStatus] = useState(0);
   const [calendarModal, setCalendarModal] = useState(false);
@@ -95,7 +96,7 @@ const CreateAds = ({navigation}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [terms, setTerms] = useState(false);
   const modalRef = useRef();
-  const {user} = useContext(AuthContext);
+  const {user, mpUser} = useContext(AuthContext);
 
   const snapPoints = useMemo(() => ['50%'], []);
   const renderBackdrop = useCallback(
@@ -107,7 +108,7 @@ const CreateAds = ({navigation}) => {
 
   const handleTotalPrice = () => {
     const tp =
-      parseInt(data.highlight.duration, 10) * 20000 +
+      parseInt(data.highlight.duration, 10) * highlightPricePerDay +
       pricePerDay * (moment(data.endDate).diff(data.startDate, 'days') + 1);
     setData({...data, totalPrice: tp});
   };
@@ -169,6 +170,8 @@ const CreateAds = ({navigation}) => {
       },
       isAllowed: false,
       profile: {
+        uid: user.uid,
+        email: user.email,
         name: user.displayName,
         photo: user.photoURL,
       },
@@ -178,13 +181,18 @@ const CreateAds = ({navigation}) => {
 
   const handleSubmit = async () => {
     const referance = database().ref(`/marketplace/data/${user.uid}/list`);
+    const profileRef = database().ref(`/marketplace/data/${user.uid}/profile`);
     setIsLoading(true);
     try {
       const passed = await handleRequired();
       const imageUri = await handleImageUpload(passed.adsImage, passed.adsName);
       const normalize = handleNormalizeData(imageUri, passed);
       const snapshot = await referance.once('value');
+      const profileSnapshot = await profileRef.once('value');
       let data = snapshot.val() || [];
+      if (!profileSnapshot.val()) {
+        await profileRef.set({email: mpUser.email, fullName: mpUser.fullName});
+      }
       data.push(normalize);
       await referance.set(data);
 
@@ -198,8 +206,7 @@ const CreateAds = ({navigation}) => {
 
   useEffect(() => {
     if ((pricePerDay, data.highlight.duration, data.highlight.highlightPrice)) {
-      const unsubscribe = handleTotalPrice();
-      return unsubscribe;
+      handleTotalPrice();
     }
   }, [data.highlight.duration, pricePerDay, data.startDate, data.endDate]);
 
@@ -224,20 +231,13 @@ const CreateAds = ({navigation}) => {
     }
   }, [data.highlight.isHighlight]);
 
-  // useEffect(() => {
-  //   if (data.startDate && data.endDate) {
-  //     const duration = moment(data.endDate).diff(data.startDate, 'days') + 1;
-  //     const price = duration * pricePerDay;
-  //     setData(prev => ({...prev, totalPrice: prev.price + price}));
-  //   }
-  // }, [data.startDate, data.endDate]);
-
   useEffect(() => {
     database()
       .ref('/marketplace/options')
       .once('value', snapshot => {
         const data = snapshot.val();
         setPricePerDay(data.pricePerDay);
+        setHighlightPricePerDay(data.highlightPricePerDay);
       });
   }, []);
 
@@ -388,7 +388,7 @@ const CreateAds = ({navigation}) => {
                 Pasang Higlight Ads
               </TextInter>
               <TextInter style={styles.highlightBottom}>
-                Tambah Rp 20k / Hari
+                Tambah Rp {highlightPricePerDay} / Hari
               </TextInter>
             </View>
             <Gap width={16} />
