@@ -22,6 +22,18 @@ import IMGDummyNewspaper from './img-dummy-newspaper.png';
 import IMGLogoManado from './img-logo-manado.png';
 import IMGLogoMinahasa from './img-logo-minahasa.png';
 import IMGLogoMinahasaUtara from './img-logo-minahasa-utara.png';
+import IMGLogoMinahasaTenggara from './img-logo-minahasa-tenggara.png';
+import IMGLogoMinahasaSelatan from './img-logo-minahasa-selatan.png';
+import IMGLogoBitung from './img-logo-bitung.png';
+import IMGLogoBolaangMongondowSelatan from './img-logo-bolaang-mongondow-selatan.png';
+import IMGLogoBolaangMongondowTimur from './img-logo-bolaang-mongondow-timur.png';
+import IMGLogoBolaangMongondowUtara from './img-logo-bolaang-mongondow-utara.png';
+import IMGLogoBolaangMongondow from './img-logo-bolaang-mongondow.png';
+import IMGLogoKepulauanSangihe from './img-logo-kepulauan-sangihe.png';
+import IMGLogoKepulauanSiauTagulandangBiaro from './img-logo-kepulauan-siau-tagulandang-biaro.png';
+import IMGLogoKepulauanTalaud from './img-logo-kepulauan-talaud.png';
+import IMGLogoTomohon from './img-logo-tomohon.png';
+import IMGLogoKotamobagu from './img-logo-kotamobagu.png';
 import IMGIllNotFound from './img-ill-not-found.png';
 import IMGMetaProperti from './img-meta-properti.png';
 import IMGMetaOtomotif from './img-meta-otomotif.png';
@@ -58,6 +70,7 @@ import IMGAdsPreview4 from './img-ads-preview-4.png';
 import IMGDummyProperty from './img-dummy-property.png';
 import IMGBanner1 from './img-banner-1.png';
 import IMGBanner2 from './img-banner-2.png';
+import IMGLotteryWinner from './img-lottery-winner.png';
 
 export {
   IMGMetaLogo,
@@ -84,6 +97,18 @@ export {
   IMGLogoManado,
   IMGLogoMinahasa,
   IMGLogoMinahasaUtara,
+  IMGLogoMinahasaTenggara,
+  IMGLogoMinahasaSelatan,
+  IMGLogoBitung,
+  IMGLogoBolaangMongondowSelatan,
+  IMGLogoBolaangMongondowTimur,
+  IMGLogoBolaangMongondowUtara,
+  IMGLogoBolaangMongondow,
+  IMGLogoKepulauanSangihe,
+  IMGLogoKepulauanSiauTagulandangBiaro,
+  IMGLogoKepulauanTalaud,
+  IMGLogoTomohon,
+  IMGLogoKotamobagu,
   IMGIllNotFound,
   IMGMetaProperti,
   IMGMetaBudaya,
@@ -120,4 +145,5 @@ export {
   IMGDummyProperty,
   IMGBanner1,
   IMGBanner2,
+  IMGLotteryWinner,
 };

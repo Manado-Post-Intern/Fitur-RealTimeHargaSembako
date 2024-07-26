@@ -28,20 +28,16 @@ import {
   theme,
 } from '../../../../assets';
 import LinearGradient from 'react-native-linear-gradient';
+import {useNavigation} from '@react-navigation/native';
 
 const data = [
+  // {
+  //   title: 'Otomotif',
+  //   image: IMGMetaOtomotif,
+  //   icon: IcMetaOtomotif,
+  // },
   {
-    title: 'Properti',
-    image: IMGMetaProperti,
-    icon: IcMetaProperti,
-  },
-  {
-    title: 'Otomotif',
-    image: IMGMetaOtomotif,
-    icon: IcMetaOtomotif,
-  },
-  {
-    title: 'Tampilan Udara',
+    title: 'Aerial',
     image: IMGMetaTampilanUdara,
     icon: IcMetaTampilanUdara,
   },
@@ -50,13 +46,13 @@ const data = [
     image: IMGMetaRekreasi,
     icon: IcMetaRekreasi,
   },
+  // {
+  //   title: 'Shoping Center',
+  //   image: IMGMetaShoping,
+  //   icon: IcMetaShoping,
+  // },
   {
-    title: 'Shoping Center',
-    image: IMGMetaShoping,
-    icon: IcMetaShoping,
-  },
-  {
-    title: 'Hotel & Resort',
+    title: 'Hotel',
     image: IMGMetaHotel,
     icon: IcMetaHotel,
   },
@@ -66,9 +62,14 @@ const data = [
     icon: IcMetaBudaya,
   },
   {
-    title: 'Olahraga & Dive',
+    title: 'Dive',
     image: IMGMetaDive,
     icon: IcMetaDive,
+  },
+  {
+    title: 'Others',
+    image: IMGMetaProperti,
+    icon: IcMetaProperti,
   },
 ];
 
@@ -76,7 +77,16 @@ const STYLES = {
   borderRadius: 10,
 };
 
-const Categories = () => {
+const Categories = ({item}) => {
+  const navigation = useNavigation();
+  const handleNavigation = title => {
+    if (title === 'Others') {
+      const filtered = item.filter(item => item.category === '');
+      return navigation.navigate('MetaMore', {filtered});
+    }
+    const filtered = item.filter(item => item.category === title);
+    navigation.navigate('MetaMore', {filtered});
+  };
   return (
     <View>
       <FlatList
@@ -85,7 +95,7 @@ const Categories = () => {
         data={data}
         showsHorizontalScrollIndicator={false}
         renderItem={({item, index}) => (
-          <Pressable>
+          <Pressable onPress={() => handleNavigation(item.title)}>
             <ImageBackground
               style={styles.image}
               imageStyle={styles.imageStyle}

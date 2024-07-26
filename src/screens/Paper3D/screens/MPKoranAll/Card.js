@@ -3,11 +3,12 @@ import React from 'react';
 import {IMGDummyNewspaper, theme} from '../../../../assets';
 import {Gap, TextInter} from '../../../../components';
 import {useNavigation} from '@react-navigation/native';
+import moment from 'moment';
 
-const Card = ({index, dataLength}) => {
+const Card = ({index, dataLength, item}) => {
   const navigation = useNavigation();
   const onPress = () => {
-    navigation.navigate('ReadPaper');
+    navigation.navigate('ReadPaper', {item});
   };
   return (
     <Pressable
@@ -19,9 +20,13 @@ const Card = ({index, dataLength}) => {
         index % 3 === 0 && styles.firstCard,
       ]}
       onPress={() => onPress()}>
-      <Image style={styles.image} source={IMGDummyNewspaper} />
+      {item?.thumbnail && (
+        <Image style={styles.image} source={{uri: item?.thumbnail}} />
+      )}
       <Gap height={8} />
-      <TextInter style={styles.title}>31 Oktober 2022</TextInter>
+      <TextInter style={styles.title}>
+        {moment(item?.publish_date).format('DD MMMM YYYY')}
+      </TextInter>
     </Pressable>
   );
 };

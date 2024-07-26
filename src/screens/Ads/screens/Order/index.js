@@ -1,5 +1,23 @@
-import {Pressable, StyleSheet, TextInput, View} from 'react-native';
-import React, {useCallback, useMemo, useRef, useState} from 'react';
+import {
+  ActivityIndicator,
+  Clipboard,
+  Image,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import {Gap, TextInter, TopBar} from '../../../../components';
 import {
   IcBigCheckmark,
@@ -7,12 +25,38 @@ import {
   IcLink,
   theme,
 } from '../../../../assets';
-import {Duration, Position} from './components';
 import ModalCalendar from '../../../../components/molecules/ModalCalendar';
 import BottomSheet, {BottomSheetBackdrop} from '@gorhom/bottom-sheet';
+import moment from 'moment';
+import ImageCropPicker from 'react-native-image-crop-picker';
+import {AuthContext} from '../../../../context/AuthContext';
+import storage from '@react-native-firebase/storage';
+import database from '@react-native-firebase/database';
+import {useNavigation} from '@react-navigation/native';
+
+const requiredField = [
+  {field: 'type', message: 'Gambar iklan belum dipilih'},
+  {field: 'imageUri', message: 'Gambar iklan belum dipilih'},
+  {field: 'link', message: 'Link belum dimasukan'},
+  {field: 'adsConfig', message: 'Gambar iklan belum dipilih'},
+  {field: 'duration', message: 'Durasi hari belum dimasukan'},
+  {field: 'startDate', message: 'Tanggal mulai belum dipilih'},
+];
 
 const Order = ({route}) => {
-  const {type} = route; // Type used for specify type of order
+  const {type, adsConfig} = route.params; // Type used for specify type of order
+  const {user, mpUser} = useContext(AuthContext);
+  const navigation = useNavigation();
+  const [data, setData] = useState({
+    type,
+    imageUri: '',
+    link: '',
+    adsConfig,
+    duration: '0',
+    startDate: moment().format('DD MMMM YYYY'),
+    price: 0,
+  });
+  const [isLoading, setIsLoading] = useState(false);
 
   const [calendarModal, setCalendarModal] = useState(false);
   const modalRef = useRef();
@@ -25,63 +69,234 @@ const Order = ({route}) => {
     [],
   );
 
+  const handleImageSelect = async () => {
+    try {
+      const res = await ImageCropPicker.openPicker({
+        mediaType: 'photo',
+        multiple: false,
+      });
+      setData({...data, imageUri: res.path});
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleRequired = () =>
+    new Promise((resolve, reject) => {
+      const emptyField = requiredField.find(
+        item =>
+          data[item.field] === '' ||
+          data[item.field] === null ||
+          data[item.field] === undefined ||
+          data[item.field] === '0',
+      );
+      if (emptyField) {
+        reject(emptyField.message);
+      }
+      resolve(data);
+    });
+
+  const handleImageUpload = async (imageUri, uid) => {
+    setIsLoading(true);
+    const referanceKey = database().ref(`/ads/${uid}/list`).push().key;
+    const referance = storage().ref(
+      `/images/ads/${uid + '_' + referanceKey}.${imageUri.split('.').pop()}`,
+    );
+    try {
+      await referance.putFile(imageUri);
+      const url = await referance.getDownloadURL();
+      return url;
+    } catch (error) {
+      throw error.message;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleSubmit = async () => {
+    const referance = database().ref(`/ads/data/${user.uid}/list`);
+    const profileRef = database().ref(`/ads/data/${user.uid}/profile`);
+    try {
+      if (!user) {
+        throw new Error('Please login first');
+      }
+      const passed = await handleRequired();
+      const url = await handleImageUpload(passed.imageUri, user.uid);
+      const normalizeData = {
+        ...passed,
+        imageUri: url,
+        endDate: moment(passed.startDate, 'DD MMMM YYYY')
+          .add(passed.duration, 'days')
+          .format('DD MMMM YYYY'),
+        isAllowed: false,
+      };
+
+      // upload data to firebase
+      const snapshot = await referance.once('value');
+      const profileSnapshot = await profileRef.once('value');
+      if (!profileSnapshot.val()) {
+        await profileRef.set({email: mpUser.email, fullName: mpUser.fullName});
+      }
+      let data = snapshot.val() || [];
+      data.push(normalizeData);
+      await referance.set(data);
+      modalRef.current.expand();
+    } catch (error) {
+      alert(error);
+    }
+  };
+
+  useEffect(() => {
+    const price = data.adsConfig?.pricePerDay * parseInt(data.duration);
+    setData({...data, price});
+
+    // return price;
+  }, [data.duration, data.adsConfig?.price]);
+
   return (
     <View style={styles.container}>
       <View>
         <TopBar type="order" />
       </View>
       <View style={styles.body}>
-        <TextInter style={styles.title}>MP Ads - Top Banner</TextInter>
-        <View style={styles.browseContainer}>
-          <Pressable style={styles.browseButton}>
-            <TextInter style={styles.browseLabel}>browse picture</TextInter>
-          </Pressable>
-          <TextInter style={styles.browseNote}>
-            picture Height = 100 Px
-          </TextInter>
-        </View>
-        <Gap height={20} />
-        <View style={styles.linkInputContainer}>
-          <TextInput
-            style={styles.linkInput}
-            placeholder="Paste Link Here"
-            placeholderTextColor="#617D9780"
-          />
-          <IcLink />
-        </View>
-        <Gap height={20} />
-
-        <Position />
-
-        <Gap height={16} />
-
-        <View style={styles.row}>
-          <Duration />
-          <Gap width={16} />
-          <View style={styles.calendarContainer}>
-            <TextInter style={styles.calendarLabel}>Tanggal Mulai</TextInter>
-            <Pressable
-              style={styles.fieldContainer}
-              onPress={() => setCalendarModal(true)}>
-              <TextInter style={styles.activeDate}>1 Januari 2023</TextInter>
-              <IcCalendarGrey />
-            </Pressable>
+        <ScrollView>
+          <TextInter style={styles.title}>MP Ads - {type}</TextInter>
+          <View style={[styles.browseContainer, {height: adsConfig?.height}]}>
+            {!data.imageUri ? (
+              <>
+                <Pressable
+                  style={styles.browseButton}
+                  onPress={handleImageSelect}>
+                  <TextInter style={styles.browseLabel}>
+                    browse picture
+                  </TextInter>
+                </Pressable>
+                <TextInter style={styles.browseNote}>
+                  picture Height = {data.adsConfig?.height.toString()} Px
+                </TextInter>
+              </>
+            ) : (
+              <View
+                style={{
+                  height: adsConfig?.height ? adsConfig.height : 100,
+                  width: '100%',
+                }}>
+                <Image
+                  source={{uri: data.imageUri}}
+                  style={{flex: 1, resizeMode: 'cover'}}
+                />
+                <TouchableOpacity
+                  onPress={() => setData({...data, imageUri: ''})}
+                  style={{
+                    backgroundColor: theme.colors.errorRed,
+                    position: 'absolute',
+                    top: 15,
+                    right: 15,
+                    paddingHorizontal: 7,
+                    paddingVertical: 2,
+                    alignItems: 'center',
+                    borderRadius: 8,
+                  }}>
+                  <Text>X</Text>
+                </TouchableOpacity>
+              </View>
+            )}
           </View>
-        </View>
+          <Gap height={20} />
+          <View style={styles.linkInputContainer}>
+            <TextInput
+              style={styles.linkInput}
+              placeholder="Paste direct Link Here"
+              placeholderTextColor="#617D9780"
+              value={data.link}
+              onChangeText={value => setData({...data, link: value})}
+            />
+            <TouchableOpacity
+              onPress={async () => {
+                try {
+                  const res = await Clipboard.getString();
+                  setData({...data, link: res});
+                } catch (error) {
+                  console.log(error);
+                }
+              }}>
+              <IcLink />
+            </TouchableOpacity>
+          </View>
+          {/* <Gap height={20} /> */}
+
+          {/* <Position onChecked={value => setData({...data, position: value})} /> */}
+
+          <Gap height={16} />
+
+          <View style={styles.row}>
+            {/* <Duration
+            onDurationSelect={value => setData({...data, duration: value})}
+          /> */}
+            <View style={styles.highlightDuration}>
+              <TextInter style={styles.highlightTop}>Durasi (Hari)</TextInter>
+              <Gap height={4} />
+              <TextInput
+                defaultValue={data.duration}
+                style={styles.durationInput}
+                keyboardType="numeric"
+                value={data.duration}
+                onChangeText={value =>
+                  setData({
+                    ...data,
+                    duration: value,
+                  })
+                }
+              />
+            </View>
+            <Gap width={16} />
+            <View style={styles.calendarContainer}>
+              <TextInter style={styles.calendarLabel}>Tanggal Mulai</TextInter>
+              <Pressable
+                style={styles.fieldContainer}
+                onPress={() => setCalendarModal(true)}>
+                <TextInter style={styles.activeDate}>
+                  {data.startDate}
+                </TextInter>
+                <IcCalendarGrey />
+              </Pressable>
+            </View>
+          </View>
+          <Gap height={16} />
+        </ScrollView>
       </View>
       <View style={styles.footerContainer}>
         <View style={styles.priceContainer}>
           <TextInter style={styles.totalLabel}>total</TextInter>
-          <TextInter style={styles.total}>Rp. 1.560.000</TextInter>
+          <TextInter style={styles.total}>
+            {data.price?.toLocaleString('id-ID', {
+              style: 'currency',
+              currency: 'IDR',
+              minimumFractionDigits: 0,
+            })}
+          </TextInter>
         </View>
-        <Pressable
-          style={styles.buyAdsButton}
-          onPress={() => modalRef.current.expand()}>
-          <TextInter style={styles.buyAdsLabel}>Pasang Iklan</TextInter>
+        <Pressable style={styles.buyAdsButton} onPress={handleSubmit}>
+          <TextInter style={styles.buyAdsLabel}>
+            {!isLoading ? (
+              'Pasang Iklan'
+            ) : (
+              <ActivityIndicator animating={true} size={'large'} />
+            )}
+          </TextInter>
         </Pressable>
       </View>
 
-      <ModalCalendar isOpen={calendarModal} setIsOpen={setCalendarModal} />
+      <ModalCalendar
+        isOpen={calendarModal}
+        setIsOpen={setCalendarModal}
+        onDayPress={value =>
+          setData({
+            ...data,
+            startDate: moment(value.dateString).format('DD MMMM YYYY'),
+          })
+        }
+      />
       <BottomSheet
         ref={modalRef}
         enablePanDownToClose={true}
@@ -103,7 +318,10 @@ const Order = ({route}) => {
           <Gap height={24} />
           <Pressable
             style={styles.successButton}
-            onPress={() => modalRef.current.close()}>
+            onPress={() => {
+              modalRef.current.close();
+              navigation.navigate('Home');
+            }}>
             <TextInter style={styles.successButtonLabel}>
               Kembali Ke Halaman Iklan
             </TextInter>
@@ -138,7 +356,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#E2E6EB',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 32,
+    overflow: 'hidden',
+    height: 100,
   },
   browseButton: {
     padding: 10,
@@ -168,6 +387,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingLeft: 10,
     fontSize: 14,
+    color: theme.colors.grey1,
   },
 
   calendarContainer: {
@@ -259,5 +479,21 @@ const styles = StyleSheet.create({
     color: theme.colors.fontLight,
     fontFamily: theme.fonts.inter.semiBold,
     fontSize: 14,
+  },
+  highlightDuration: {height: '100%'},
+  highlightTop: {
+    fontSize: 14,
+    color: theme.colors.grey1,
+  },
+  durationInput: {
+    height: 40,
+    // width: 49,
+    backgroundColor: theme.colors.MPWhite2,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: theme.colors.MPWhite,
+    padding: 0,
+    textAlign: 'center',
+    color: theme.colors.grey1,
   },
 });

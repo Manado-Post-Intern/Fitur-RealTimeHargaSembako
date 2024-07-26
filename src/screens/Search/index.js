@@ -1,34 +1,77 @@
 import {Pressable, ScrollView, StyleSheet, View} from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Gap, NotFound, TextInter, TopBar} from '../../components';
 import {IcBack, theme} from '../../assets';
 import {screenHeightPercentage} from '../../utils';
 import {useNavigation} from '@react-navigation/native';
 import {Card} from './components';
+import {loadSession, search} from '../../api';
+import axios from 'axios';
 
 const data = [0, 1, 2, 3];
 
 const Search = () => {
+  const [query, setQuery] = useState('');
+  const [token, setToken] = useState(null);
+  const [page, setPage] = useState(1);
+  const [searchRes, setSearchRes] = useState([]);
   const navigation = useNavigation();
 
-  const notFound = false;
+  // const notFound = false;
 
-  if (notFound) {
-    return (
-      <>
-        <View style={styles.topBarContainer}>
-          <TopBar />
-        </View>
-        <View style={styles.container}>
-          <NotFound />
-        </View>
-      </>
-    );
-  }
+  // if (notFound) {
+  //   return (
+  //     <>
+  //       <View style={styles.topBarContainer}>
+  //         <TopBar />
+  //       </View>
+  //       <View style={styles.container}>
+  //         <NotFound />
+  //       </View>
+  //     </>
+  //   );
+  // }
+
+  const getSearchedNews = async () => {
+    try {
+      const response = await axios.get(search, {
+        headers: {
+          Accept: 'application/vnd.promedia+json; version=1.0',
+          Authorization: `Bearer ${token}`,
+        },
+        params: {
+          q: query,
+          page: page,
+        },
+      });
+      // console.log(response.data.data.list.latest);
+      setSearchRes(response.data.data.list.latest);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (token && query) {
+      getSearchedNews();
+    }
+  }, [token, query]);
+
+  useEffect(() => {
+    loadSession()
+      .then(session => {
+        if (session) {
+          setToken(session.access_token);
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, []);
 
   return (
     <ScrollView style={styles.container}>
-      <TopBar searchOnly={true} />
+      <TopBar searchOnly={true} onSearchPress={word => setQuery(word)} />
 
       <>
         <Gap height={14} />
@@ -40,12 +83,12 @@ const Search = () => {
           <Gap height={8} />
 
           <TextInter style={styles.information}>
-            Hasil pencarian berita untuk ‘M’
+            Hasil pencarian berita untuk {query}
           </TextInter>
         </View>
         <Gap height={4} />
-        {data.map((item, i) => (
-          <Card key={i} />
+        {searchRes?.map((item, i) => (
+          <Card key={i} item={item} />
         ))}
       </>
     </ScrollView>

@@ -1,9 +1,8 @@
-import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
-import {screenHeightPercentage, screenWidth} from '../../utils';
+import {Image, Pressable, StyleSheet, View} from 'react-native';
+import React, {useContext} from 'react';
+import {screenHeightPercentage} from '../../utils';
 import {
   theme,
-  IMGDummyProfile,
   IcEdit,
   IcWriteNews,
   IcSubscription,
@@ -14,37 +13,58 @@ import {
 } from '../../assets';
 import {Gap, TextInter} from '../../components';
 import {useNavigation} from '@react-navigation/native';
+import {SocialSignIn} from '../Authentication/components';
+import auth from '@react-native-firebase/auth';
+import {AuthContext} from '../../context/AuthContext';
 
 const SideMenu = () => {
   const navigation = useNavigation();
+  const {mpUser} = useContext(AuthContext);
+
+  const handleLogout = () => auth().signOut();
   return (
     <View style={styles.container}>
-      <View style={styles.headerContainer}>
-        <Image style={styles.profileImage} source={IMGDummyProfile} />
-        <Gap width={16} />
-        <View style={styles.headerTextContainer}>
-          <View style={styles.userNameContainer}>
-            <TextInter style={styles.name}>Cameron Williamson</TextInter>
-            <TextInter
-              style={styles.email}
-              adjustsFontSizeToFit={true}
-              numberOfLines={1}>
-              jessica.hanson@example.com
-            </TextInter>
-          </View>
+      {mpUser ? (
+        <View style={styles.headerContainer}>
+          <Image style={styles.profileImage} source={{uri: mpUser?.photo}} />
           <Gap width={16} />
-          <Pressable
-            style={styles.editButton}
-            onPress={() => navigation.navigate('Profile')}>
-            <IcEdit />
-          </Pressable>
+          <View style={styles.headerTextContainer}>
+            <View style={styles.userNameContainer}>
+              <TextInter style={styles.name}>{mpUser?.fullName}</TextInter>
+              <TextInter
+                style={styles.email}
+                adjustsFontSizeToFit={true}
+                numberOfLines={1}>
+                {mpUser?.email}
+              </TextInter>
+            </View>
+            <Gap width={16} />
+            <Pressable
+              style={styles.editButton}
+              onPress={() => navigation.navigate('Profile')}>
+              <IcEdit />
+            </Pressable>
+          </View>
         </View>
-      </View>
+      ) : (
+        <View
+          style={{
+            borderWidth: 1,
+            borderColor: theme.colors.errorRed,
+            paddingHorizontal: 5,
+            paddingVertical: 10,
+            borderRadius: 10,
+          }}>
+          <TextInter>Login terlebih dahulu dengan Google</TextInter>
+        </View>
+      )}
 
       <Gap height={16} />
 
       <View style={styles.sectionContainer}>
-        <Pressable style={[styles.section, styles.bottomBorder]}>
+        <Pressable
+          onPress={() => navigation.navigate('WriteNews')}
+          style={[styles.section, styles.bottomBorder]}>
           <IcWriteNews />
           <Gap width={10} />
           <TextInter style={styles.sectionLabel}>Tulis Berita</TextInter>
@@ -65,7 +85,11 @@ const SideMenu = () => {
         </Pressable>
         <Pressable
           style={[styles.section, styles.bottomBorder]}
-          onPress={() => navigation.navigate('Ads')}>
+          onPress={() => {
+            mpUser
+              ? navigation.navigate('Ads')
+              : alert('Login terlebih dahulu');
+          }}>
           <IcAds />
           <Gap width={10} />
           <TextInter style={styles.sectionLabel}>Pasang Iklan</TextInter>
@@ -77,11 +101,15 @@ const SideMenu = () => {
           <Gap width={10} />
           <TextInter style={styles.sectionLabel}>Tentang Kami</TextInter>
         </Pressable>
-        <Pressable style={styles.section}>
-          <IcLogout />
-          <Gap width={10} />
-          <TextInter style={styles.sectionLabel}>Logout</TextInter>
-        </Pressable>
+        {mpUser ? (
+          <Pressable onPress={handleLogout} style={styles.section}>
+            <IcLogout />
+            <Gap width={10} />
+            <TextInter style={styles.sectionLabel}>Logout</TextInter>
+          </Pressable>
+        ) : (
+          <SocialSignIn type={'google'} />
+        )}
       </View>
 
       <View style={styles.footerContainer}>

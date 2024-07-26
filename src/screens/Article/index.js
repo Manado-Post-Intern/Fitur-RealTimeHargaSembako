@@ -1,14 +1,14 @@
-import {Image, ScrollView, StyleSheet, View} from 'react-native';
-import React from 'react';
 import {
-  IMGDummyHighlight,
-  IMGDummyNews,
-  IMGGodStatue,
-  IMGLogoMinahasa,
-  IMGMPTextPrimary,
-  IMGYourAds,
-  theme,
-} from '../../assets';
+  Image,
+  Linking,
+  LogBox,
+  ScrollView,
+  StyleSheet,
+  ToastAndroid,
+  View,
+} from 'react-native';
+import React, {useContext, useEffect, useState} from 'react';
+import {IMGMPTextPrimary, IMGYourAds, theme} from '../../assets';
 import {
   Actions,
   BackButton,
@@ -21,57 +21,159 @@ import {
 import {screenHeightPercentage, screenWidth} from '../../utils';
 import {Card} from '../Home/components/NewsForYou/components';
 import {Card as TrendingCard} from '../Trending/components';
+import {latestEndPoint, readArticle, search} from '../../api';
+import axios from 'axios';
+import RenderHtml from 'react-native-render-html';
+import {TokenContext} from '../../context/TokenContext';
 
-const related = [0, 1, 2];
-const trending = [0, 1, 2, 3, 4];
+LogBox.ignoreLogs([
+  'You should always pass contentWidth',
+  'No source prop was provided. Nothing will be rendered',
+]);
 
-const Article = () => {
-  console.log(screenWidth());
+// const related = [0, 1, 2];
+// const trending = [0, 1, 2, 3, 4];
+
+const Article = ({route, navigation}) => {
+  const {articleId} = route.params;
+  const {token} = useContext(TokenContext);
+  const [article, setArticle] = useState(null);
+  // const [trending, setTrending] = useState(null);
+  const [latest, setLatest] = useState(null);
+  console.log(article);
+
+  const getArticle = async () => {
+    try {
+      const response = await axios.get(readArticle, {
+        headers: {
+          Accept: 'application/vnd.promedia+json; version=1.0',
+          Authorization: `Bearer ${token}`,
+        },
+        params: {id: articleId},
+      });
+      setArticle(response.data.data.detail);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // const getTrending = async () => {
+  //   try {
+  //     const response = await axios.get(popular, {
+  //       headers: {
+  //         Accept: 'application/vnd.promedia+json; version=1.0',
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     });
+  //     setTrending(response.data.data.list);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  const handleLinkPress = (event, href) => {
+    const match = href.match(/\/\d+\/(.+)/);
+    if (match && match[1]) {
+      const query = match[1].replace(/-/g, ' ').trim();
+      axios
+        .get(search, {
+          headers: {
+            Accept: 'application/vnd.promedia+json; version=1.0',
+            Authorization: `Bearer ${token}`,
+          },
+          params: {
+            q: query,
+            page: 1,
+          },
+        })
+        .then(response => {
+          const articleId = response.data.data.list.latest[0].id;
+          navigation.push('Article', {articleId});
+        })
+        .catch(error => {
+          ToastAndroid.show(error.message, ToastAndroid.SHORT);
+        });
+    } else {
+      Linking.openURL(href);
+    }
+  };
+
+  const getLatest = async () => {
+    try {
+      const response = await axios.get(latestEndPoint, {
+        headers: {
+          Accept: 'application/vnd.promedia+json; version=1.0',
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setLatest(response.data.data.list.latest);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (token) {
+      getArticle();
+      // getTrending();
+      getLatest();
+    }
+  }, [token]);
   return (
     <View style={styles.container}>
       <View style={styles.backButtonContainer}>
         <BackButton />
       </View>
-      <Image style={styles.image} source={IMGGodStatue} />
+      <Image style={styles.image} source={{uri: article?.photo_url}} />
       <View style={styles.innerContainer}>
         <ScrollView style={styles.scrollView}>
           <View style={styles.articleContainer}>
             <Image style={styles.mp} source={IMGMPTextPrimary} />
-            <TextInter>Tukang Bangunan Ditatar Iptek Campuran Beton</TextInter>
+            <TextInter
+              style={{fontSize: 24, fontFamily: theme.fonts.inter.semiBold}}>
+              {article?.title}
+            </TextInter>
             <Gap height={7} />
-            <TimeStamp />
-            <Gap height={7} />
-            <View style={styles.authorContainer}>
-              <View style={styles.authorImageContainer}>
-                <Image style={styles.authorImage} source={IMGLogoMinahasa} />
-              </View>
-              <Gap width={4} />
-              <TextInter style={styles.authorName}>Kenjiro Tanos</TextInter>
-            </View>
-            <View style={styles.articleTextContainer}>
-              <TextInter style={styles.articleText}>
-                MANADOPOST.ID—Tak hanya melakukan pengabdian kepada masyarakat,
-                Politeknik Negeri Manado turut berbagi ilmu di Jemaat GMIM
-                Paulus Kauditan di Desa Kauditan II, Kecamatan Kauditan.{'\n'}
-                {'\n'}Program Penerapan Iptek kepada Masyarakat (PIM) dilakukan
-                melalui pelatihan teknologi campuran beton untuk peningkatan
-                keterampilan tukang bangunan, 29 September lalu. {'\n'}
-                {'\n'}Syanne Pangemanan ST MEng selaku Ketua Tim Pelaksana
-                didampingi anggota Helen G Mantiri SST MT dan Fery Sondakh ST MT
-                mengatakan kegiatan menyasar para tukang bangunan di jemaat
-                tersebut. {'\n'}
-                {'\n'}Para akademisi Politeknik Manado membagikan ilmu
-                pengetahuan dan teknologi serta pembuatan gudang penyimpanan
-                barang milik GMIM Paulus Kauditan. {'\n'}
-                {'\n'}“Implementasi teknologi desain campuran beton dan
-                peningkatan pengetahuan melalui pemilihan dan penggunaan
-                material campuran beton menjadi tujuan kegiatan tersebut,”
-                tandasnya.
+            {article?.photo[0]?.caption && (
+              <TextInter style={{color: theme.colors.storyTextGray}}>
+                Gambar: {article?.photo[0]?.caption}
               </TextInter>
+            )}
+            <Gap height={7} />
+            <TimeStamp data={article?.published_date} />
+            <Gap height={7} />
+            {article?.author.map((item, index) => {
+              return (
+                <View style={styles.authorContainer} key={index}>
+                  <View style={styles.authorImageContainer}>
+                    {item?.photo && (
+                      <Image
+                        style={styles.authorImage}
+                        source={{uri: item.photo}}
+                      />
+                    )}
+                  </View>
+                  <Gap width={4} />
+                  <TextInter style={styles.authorName}>{item.name}</TextInter>
+                </View>
+              );
+            })}
+            <View style={styles.articleTextContainer}>
+              {article && (
+                <RenderHtml
+                  baseStyle={{color: 'black'}}
+                  source={{html: article?.content}}
+                  renderersProps={{
+                    a: {
+                      onPress: handleLinkPress,
+                    },
+                  }}
+                />
+              )}
               <Gap height={10} />
               <TextInter style={styles.tagTerkait}>Tag Terkait</TextInter>
               <Gap height={10} />
-              <CategoryHorizontal />
+              <CategoryHorizontal categories={article?.tag} />
             </View>
           </View>
 
@@ -79,25 +181,27 @@ const Article = () => {
 
           <Image style={styles.ads} source={IMGYourAds} />
 
-          <View style={styles.sectionTitleContainer}>
-            <TextInter style={styles.sectionTitle}>Related News</TextInter>
-          </View>
-          {related.map((item, i) => (
-            <Card key={i} />
+          {article?.related.length !== 0 && (
+            <View style={styles.sectionTitleContainer}>
+              <TextInter style={styles.sectionTitle}>Related News</TextInter>
+            </View>
+          )}
+          {article?.related?.map((item, i) => (
+            <Card key={i} item={item} />
           ))}
 
           <View style={styles.sectionTitleContainer}>
-            <TextInter style={styles.sectionTitle}>Trending</TextInter>
+            <TextInter style={styles.sectionTitle}>Berita Terkini</TextInter>
           </View>
-          {trending.map((item, i) => (
-            <TrendingCard key={i} />
+          {latest?.slice(0, 5).map((item, i) => (
+            <TrendingCard key={i} item={item} />
           ))}
           <More />
-          <Gap height={400} />
+          <Gap height={380} />
         </ScrollView>
       </View>
       <View style={styles.actionContainer}>
-        <Actions border={false} type="big" />
+        <Actions border={false} type="big" item={article} />
       </View>
     </View>
   );
@@ -134,7 +238,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingBottom: 16,
     borderRadius: 24,
-    backgroundColor: theme.colors.white,
   },
   mp: {
     width: 139,
@@ -200,7 +303,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderTopRightRadius: 24,
     borderTopLeftRadius: 24,
-    borderWidth: 1,
     borderColor: 'rgba(0,0,0,0.07)',
     zIndex: 20,
   },

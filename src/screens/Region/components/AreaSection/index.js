@@ -3,23 +3,28 @@ import React from 'react';
 import {Gap, More, TextInter} from '../../../../components';
 import {IMGLogoManado, theme} from '../../../../assets';
 import Card from '../Card';
+import {regionList} from '../../../../data';
 
 const data = [0, 1, 2];
 
-const AreaSection = () => {
+const AreaSection = ({item}) => {
+  const regionId = regionList.find(region => region.name === item?.region)?.id;
+  const regionLogo = regionList.find(
+    region => region.name === item?.region,
+  )?.icon_url;
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
-        <Image style={styles.logo} source={IMGLogoManado} />
+        <Image style={styles.logo} source={regionLogo} />
         <Gap width={10} />
-        <TextInter style={styles.title}>Manado</TextInter>
+        <TextInter style={styles.title}>{item?.region}</TextInter>
       </View>
 
-      {data.map((item, i) => (
-        <Card key={i} />
+      {item?.latest?.slice(0, 3).map((item, i) => (
+        <Card key={i} item={item} />
       ))}
 
-      <More />
+      <More sectionId={regionId} />
     </View>
   );
 };
@@ -41,6 +46,7 @@ const styles = StyleSheet.create({
   logo: {
     width: 25,
     height: 25,
+    resizeMode: 'contain',
   },
   title: {
     fontSize: 24,

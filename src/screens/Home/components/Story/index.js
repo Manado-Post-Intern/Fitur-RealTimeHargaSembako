@@ -5,7 +5,7 @@ import {Card} from './components';
 
 const data = ['Minahasa', 'Manado', 'Minahasa Utara', 'Bitung'];
 
-const Story = () => {
+const Story = ({item}) => {
   return (
     <View>
       <FlatList
@@ -13,7 +13,7 @@ const Story = () => {
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.flatListContentContainer}
         ItemSeparatorComponent={() => <Gap width={9} />}
-        data={data}
+        data={item}
         horizontal
         renderItem={({item}) => <Card item={item} />}
       />

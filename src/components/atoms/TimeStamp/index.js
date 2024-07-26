@@ -2,11 +2,12 @@ import {StyleSheet} from 'react-native';
 import React from 'react';
 import TextInter from '../TextInter';
 import {theme} from '../../../assets';
+import moment from 'moment';
 
-const TimeStamp = ({type}) => {
+const TimeStamp = ({type, data}) => {
   return (
     <TextInter style={[styles.timeStamp, type === 'small' && styles.small]}>
-      30 Juni 2020 09:15 am
+      {moment(data).format('DD MMMM YYYY hh:mm a')}
     </TextInter>
   );
 };

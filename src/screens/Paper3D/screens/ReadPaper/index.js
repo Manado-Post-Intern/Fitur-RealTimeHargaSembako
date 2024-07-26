@@ -4,8 +4,10 @@ import {Gap, TopBar} from '../../../../components';
 import {IcBack, theme} from '../../../../assets';
 import {useNavigation} from '@react-navigation/native';
 import {screenHeightPercentage} from '../../../../utils';
+import WebView from 'react-native-webview';
 
-const ReadPaper = () => {
+const ReadPaper = ({route}) => {
+  const {item} = route.params;
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
@@ -19,6 +21,8 @@ const ReadPaper = () => {
           </Pressable>
         </View>
       </View>
+
+      <WebView style={{flex: 1}} source={{uri: item?.pdf_link}} />
 
       <Gap height={screenHeightPercentage('15%')} />
     </View>

@@ -1,4 +1,4 @@
-import {Image, StyleSheet, View} from 'react-native';
+import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {IMGDummyNews, theme} from '../../../../../../assets';
 import {
@@ -8,24 +8,28 @@ import {
   TextInter,
   TimeStamp,
 } from '../../../../../../components';
+import {useNavigation} from '@react-navigation/native';
 
-const Card = () => {
+const Card = ({item}) => {
+  const navigation = useNavigation();
   return (
-    <View style={styles.container}>
-      <Image style={styles.image} source={IMGDummyNews} />
+    <TouchableOpacity
+      activeOpacity={0.8}
+      onPress={() => navigation.navigate('Article', {articleId: item?.id})}
+      style={styles.container}>
+      <Image style={styles.image} source={{uri: item?.photo_url}} />
       <View style={styles.informationContainer}>
-        <TextInter style={styles.title}>
-          Rumah Makan Murah Menjamur di Manado, Seporsi Nasi Ayam dengan Sup
-          Brenebon dan Minuman Rp 15 Ribu
+        <TextInter style={styles.title} numberOfLines={3}>
+          {item?.title}
         </TextInter>
         <Gap height={8} />
-        <TimeStamp />
+        <TimeStamp data={item?.published_date} />
         <Gap height={4} />
         <CategoryHorizontal />
         <Gap height={4} />
-        <Actions type="big" />
+        <Actions type="big" item={item} />
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

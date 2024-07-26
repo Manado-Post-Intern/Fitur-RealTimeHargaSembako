@@ -1,13 +1,17 @@
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import TextInter from '../TextInter';
 import {theme} from '../../../assets';
+import {useNavigation} from '@react-navigation/native';
 
 const Categories = ({item}) => {
+  const navigation = useNavigation();
   return (
-    <View style={styles.categories}>
+    <TouchableOpacity
+      style={styles.categories}
+      onPress={() => navigation.navigate('MoreNews', {tag: item})}>
       <TextInter style={styles.categoriesLabel}>{item}</TextInter>
-    </View>
+    </TouchableOpacity>
   );
 };
 

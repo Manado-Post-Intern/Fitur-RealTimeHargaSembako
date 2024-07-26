@@ -1,13 +1,27 @@
 import {Image, Pressable, StyleSheet, View} from 'react-native';
-import React from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {ChevroletBackButton, Gap, TextInter} from '../../components';
 import {IcEdit, IMGDummyProfile, theme} from '../../assets';
 import {screenHeightPercentage} from '../../utils';
 import {useNavigation} from '@react-navigation/native';
 import {Card} from './components';
+import database from '@react-native-firebase/database';
+import {AuthContext} from '../../context/AuthContext';
 
 const Ads = () => {
   const navigation = useNavigation();
+  const [adsConfig, setAdsConfig] = useState([]);
+  const {user} = useContext(AuthContext);
+
+  useEffect(() => {
+    database()
+      .ref('/ads/options')
+      .once('value')
+      .then(snapshot => {
+        setAdsConfig(snapshot.val());
+      });
+  }, []);
+
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
@@ -22,21 +36,19 @@ const Ads = () => {
 
       <View style={styles.body}>
         <View style={styles.profileHeaderContainer}>
-          <Image style={styles.profileImage} source={IMGDummyProfile} />
+          <Image style={styles.profileImage} source={{uri: user.photoURL}} />
           <Gap width={16} />
           <View style={styles.headerTextContainer}>
             <View>
-              <TextInter style={styles.name}>Cameron Williamson</TextInter>
-              <TextInter style={styles.email}>
-                jessica.hanson@example.com
-              </TextInter>
+              <TextInter style={styles.name}>{user.displayName}</TextInter>
+              <TextInter style={styles.email}>{user.email}</TextInter>
             </View>
             <Gap width={16} />
-            <Pressable
+            {/* <Pressable
               style={styles.editButton}
               onPress={() => navigation.navigate('Profile')}>
               <IcEdit />
-            </Pressable>
+            </Pressable> */}
           </View>
         </View>
         <Gap height={8} />
@@ -48,11 +60,36 @@ const Ads = () => {
           </TextInter>
         </TextInter>
         <Gap height={16} />
-        <Card color="#3C91C0" size="300 x 100" type="Top Banner" />
-        <Card color="#25A1A9" size="300 x 100" type="Bottom Banner" />
-        <Card color="#0DA580" size="300 x 160" type="Second Banner" />
-        <Card color="#254CB1" size="300 x 300" type="Medium Banner" />
-        <Card color="#B6862A" size="300 x 600" type="Full Page Ads" />
+        <Card
+          color="#3C91C0"
+          size="300 x 100"
+          type="Top Banner"
+          adsConfig={adsConfig[0]}
+        />
+        <Card
+          color="#25A1A9"
+          size="300 x 100"
+          type="Bottom Banner"
+          adsConfig={adsConfig[1]}
+        />
+        <Card
+          color="#0DA580"
+          size="300 x 160"
+          type="Second Banner"
+          adsConfig={adsConfig[2]}
+        />
+        <Card
+          color="#254CB1"
+          size="300 x 300"
+          type="Medium Banner"
+          adsConfig={adsConfig[3]}
+        />
+        <Card
+          color="#B6862A"
+          size="300 x 600"
+          type="Full Page Ads"
+          adsConfig={adsConfig[4]}
+        />
       </View>
     </View>
   );

@@ -5,8 +5,17 @@ import NewsForYou from './NewsForYou';
 import LatestNews from './LatestNews';
 import MPDigital from './MPDigital';
 import MPNewspaper from './MPNewspaper';
+import TopBanner from './TopBanner';
+import BottomBanner from './BottomBanner';
+import SecondBanner from './SecondBanner';
+import FullBanner from './FullBanner';
+import Lottery from './Lottery';
 
 export {
+  TopBanner,
+  FullBanner,
+  SecondBanner,
+  BottomBanner,
   Story,
   ActionSection,
   Headlines,
@@ -14,4 +23,5 @@ export {
   LatestNews,
   MPDigital,
   MPNewspaper,
+  Lottery,
 };

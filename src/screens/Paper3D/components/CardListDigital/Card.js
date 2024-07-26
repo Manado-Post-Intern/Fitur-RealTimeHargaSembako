@@ -1,22 +1,27 @@
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {Gap, TextInter, TimeStamp} from '../../../../components';
 import {IMGDummyDigital, IMGDummyNews, theme} from '../../../../assets';
+import moment from 'moment';
+import {useNavigation} from '@react-navigation/native';
 
-const Card = ({index, dataLength}) => {
+const Card = ({index, dataLength, item}) => {
+  const navigation = useNavigation();
   return (
-    <View
+    <TouchableOpacity
+      activeOpacity={0.8}
+      onPress={() => navigation.navigate('ReadPaper', {item})}
       style={[
         styles.container,
         index === 0 && styles.firstCard,
         index === dataLength - 1 && styles.lastCard,
       ]}>
-      <Image style={styles.image} source={IMGDummyDigital} />
+      <Image style={styles.image} source={{uri: item?.thumbnail}} />
       <Gap height={8} />
-      <TextInter style={styles.title}>Irjen Setyo Pulang Kampung</TextInter>
+      <TextInter style={styles.title}>{item?.name}</TextInter>
       <Gap height={8} />
-      <TimeStamp />
-    </View>
+      <TimeStamp data={moment(item?.publish_date)} />
+    </TouchableOpacity>
   );
 };
 

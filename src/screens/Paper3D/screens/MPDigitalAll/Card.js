@@ -4,10 +4,10 @@ import {IMGDummyDigital, theme} from '../../../../assets';
 import {Gap, TextInter, TimeStamp} from '../../../../components';
 import {useNavigation} from '@react-navigation/native';
 
-const Card = ({index, dataLength}) => {
+const Card = ({index, dataLength, item}) => {
   const navigation = useNavigation();
   const onPress = () => {
-    navigation.navigate('ReadPaper');
+    navigation.navigate('ReadPaper', {item});
   };
   return (
     <Pressable
@@ -19,11 +19,11 @@ const Card = ({index, dataLength}) => {
         index % 3 === 0 && styles.firstCard,
       ]}
       onPress={() => onPress()}>
-      <Image style={styles.image} source={IMGDummyDigital} />
+      <Image style={styles.image} source={{uri: item?.thumbnail}} />
       <Gap height={8} />
-      <TextInter style={styles.title}>Irjen Setyo Pulang Kampung</TextInter>
+      <TextInter style={styles.title}>{item?.name}</TextInter>
       <Gap height={8} />
-      <TimeStamp type="small" />
+      <TimeStamp type="small" data={item?.publish_date} />
     </Pressable>
   );
 };

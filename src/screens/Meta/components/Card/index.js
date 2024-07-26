@@ -4,16 +4,16 @@ import {IMGDummyNews, theme} from '../../../../assets';
 import {Gap, TextInter} from '../../../../components';
 import {useNavigation} from '@react-navigation/native';
 
-const Card = ({type}) => {
+const Card = ({type, item}) => {
   const navigation = useNavigation();
   const handlePress = () => {
-    navigation.navigate('MetaDetail');
+    navigation.navigate('MetaDetail', {item});
   };
   return (
     <Pressable style={styles.container} onPress={handlePress}>
       <View style={styles.imageContainer}>
-        <Image style={styles.image} source={IMGDummyNews} />
-        <TextInter style={styles.label}>Casabaio Resort</TextInter>
+        <Image style={styles.image} source={{uri: item?.thumbnail}} />
+        <TextInter style={styles.label}>{item?.site_name}</TextInter>
       </View>
       <Gap height={3} />
       <Pressable style={[styles.button, type === 'primary' && styles.primary]}>

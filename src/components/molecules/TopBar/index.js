@@ -11,17 +11,9 @@ import {Gap} from '../../atoms';
 import {Category, Input, InputMeta, InputPaper} from './components';
 import ModalCalendar from '../ModalCalendar';
 import {useNavigation} from '@react-navigation/native';
+import {sectionList} from '../../../data';
 
-const dummy = [
-  'Terbaru',
-  'Politik',
-  'Daerah',
-  'Pendidikan',
-  'Olahraga',
-  'Games',
-];
-
-const TopBar = ({searchOnly, type}) => {
+const TopBar = ({searchOnly, type, onSearchPress}, props) => {
   const navigation = useNavigation();
 
   const [active, setActive] = useState(0);
@@ -71,14 +63,14 @@ const TopBar = ({searchOnly, type}) => {
           <View style={styles.topContainer}>
             <Image style={styles.image} source={IMGMPTextPrimary} />
             <View style={styles.topActionContainer}>
-              {!activeSearch && (
+              {/* {!activeSearch && (
                 <Pressable
                   onPress={() => {
                     setActiveSearch(true);
                   }}>
                   <IcMagnifying />
                 </Pressable>
-              )}
+              )} */}
               <Gap width={24} />
               <Pressable onPress={() => handleBurgerPress()}>
                 <IcSort />
@@ -100,7 +92,8 @@ const TopBar = ({searchOnly, type}) => {
               {!activeSearch && !searchOnly && (
                 <Pressable
                   onPress={() => {
-                    setActiveSearch(true);
+                    // setActiveSearch(true);
+                    navigation.navigate('Search');
                   }}>
                   <IcMagnifying />
                 </Pressable>
@@ -113,7 +106,11 @@ const TopBar = ({searchOnly, type}) => {
           </View>
 
           {!activeSearch && !searchOnly && (
-            <Category dummy={dummy} active={active} setActive={setActive} />
+            <Category
+              dummy={sectionList}
+              active={active}
+              setActive={setActive}
+            />
           )}
 
           {(activeSearch || searchOnly) && (
@@ -138,7 +135,8 @@ const TopBar = ({searchOnly, type}) => {
               {!activeSearch && !searchOnly && (
                 <Pressable
                   onPress={() => {
-                    setActiveSearch(true);
+                    // setActiveSearch(true);
+                    navigation.navigate('Search');
                   }}>
                   <IcMagnifying />
                 </Pressable>
@@ -150,9 +148,9 @@ const TopBar = ({searchOnly, type}) => {
             </View>
           </View>
 
-          {!activeSearch && !searchOnly && (
+          {/* {!activeSearch && !searchOnly && (
             <Category dummy={dummy} active={active} setActive={setActive} />
-          )}
+          )} */}
 
           {(activeSearch || searchOnly) && (
             <Input
@@ -214,6 +212,7 @@ const TopBar = ({searchOnly, type}) => {
               searching={searching}
               setActiveSearch={setActiveSearch}
               searchOnly={searchOnly}
+              onPress={word => onSearchPress(word)}
             />
           )}
           <Gap height={15} />

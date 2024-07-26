@@ -4,27 +4,28 @@ import {screenHeightPercentage} from '../../../../utils';
 import {Button, Gap, GlowCircle, TextInter} from '../../../../components';
 import {IMGMPText, theme} from '../../../../assets';
 import {SelectionRow} from '../../../Home/components/NewsForYou/components/CanalModal/components';
+import {canal} from '../../../../data';
 
-const data = [
-  'News',
-  'Politik',
-  'Budaya',
-  'Pendidikan',
-  'Entertainment',
-  'Sport',
-  'Daerah',
-  'Internasional',
-  'Bisnis',
-  'Daerah',
-  'Internasional',
-  'Internasional',
-  'Internasional',
-  'Internasional',
-  'Internasional',
-  'Internasional',
-];
+// const data = [
+//   'News',
+//   'Politik',
+//   'Budaya',
+//   'Pendidikan',
+//   'Entertainment',
+//   'Sport',
+//   'Daerah',
+//   'Internasional',
+//   'Bisnis',
+//   'Daerah',
+//   'Internasional',
+//   'Internasional',
+//   'Internasional',
+//   'Internasional',
+//   'Internasional',
+//   'Internasional',
+// ];
 
-const ChooseCanal = () => {
+const ChooseCanal = ({navigation}) => {
   const [choosed, setChoosed] = useState([]);
 
   return (
@@ -49,7 +50,7 @@ const ChooseCanal = () => {
           <FlatList
             style={styles.flatListContainer}
             contentContainerStyle={styles.flatList}
-            data={data}
+            data={canal}
             renderItem={({item, i}) => (
               <SelectionRow
                 key={i}
@@ -61,7 +62,18 @@ const ChooseCanal = () => {
           />
         </View>
 
-        <Button style={styles.nextButton} label="Lanjutkan" type="secondary" />
+        <Button
+          style={styles.nextButton}
+          label="Lanjutkan"
+          type="secondary"
+          onPress={() => {
+            if (choosed.length === 0) {
+              alert('Pilih minimal 1 kanal');
+            } else {
+              navigation.navigate('ChooseRegion', {choosedCanal: choosed});
+            }
+          }}
+        />
       </View>
     </SafeAreaView>
   );

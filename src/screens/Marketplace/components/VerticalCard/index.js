@@ -1,4 +1,4 @@
-import {Image, Pressable, StyleSheet, View} from 'react-native';
+import {Image, Linking, Pressable, StyleSheet, View} from 'react-native';
 import React from 'react';
 import {
   IcPinpoint,
@@ -9,46 +9,63 @@ import {
 } from '../../../../assets';
 import {Gap, TextInter} from '../../../../components';
 
-const VerticalCard = () => {
+const VerticalCard = ({item}) => {
+  const handleOpenWhatsapp = phoneNumber => {
+    if (phoneNumber.slice(0, 1) === '0') {
+      phoneNumber = phoneNumber.slice(1);
+      phoneNumber = '62' + phoneNumber;
+    }
+    const url = `https://wa.me/${phoneNumber}`;
+
+    Linking.openURL(url);
+  };
   return (
     <View style={styles.container}>
       <View style={styles.userContainer}>
-        <Image style={styles.profilePicture} source={IMGDummyProfile} />
+        <Image
+          style={styles.profilePicture}
+          source={{uri: item?.profile?.photo}}
+        />
         <Gap width={8} />
-        <TextInter style={styles.userName}>Savannah Nguyen</TextInter>
+        <TextInter style={styles.userName}>{item?.profile?.name}</TextInter>
       </View>
       <View style={styles.innerContainer}>
         <View style={styles.productImageContainer}>
-          <Image style={styles.productImage} source={IMGDummyProperty} />
-          <TextInter style={styles.productCategory}>Properti</TextInter>
+          <Image style={styles.productImage} source={{uri: item?.adsImage}} />
+          <TextInter style={styles.productCategory}>{item?.brand}</TextInter>
         </View>
         <Gap width={8} />
         <View style={styles.detailContainer}>
-          <TextInter style={styles.productName}>
-            Rumah Kost 10 Kamar, 10 x 20 SHM{' '}
-          </TextInter>
+          <TextInter style={styles.productName}>{item?.adsName}</TextInter>
           <TextInter style={styles.productDetail}>
-            CLA200 Th2016, Hitam 2400 Hybrid2014AMG Package Km15rban Antik Irit
-            KTJYA170
+            {item?.description}
           </TextInter>
           <Gap height={4} />
           <View style={styles.tagSection}>
-            <TextInter style={styles.tag}>Dijual Cepat</TextInter>
-            <TextInter style={styles.price}>Rp 1 M</TextInter>
+            <TextInter style={styles.tag}>{item?.status}</TextInter>
+            <TextInter style={styles.price}>
+              {parseInt(item?.price)?.toLocaleString('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0,
+              })}
+            </TextInter>
           </View>
           <Gap height={4} />
           <View style={styles.locationContainer}>
             <IcPinpoint />
             <Gap width={4} />
-            <TextInter style={styles.location}>
-              Jl. Pogidon 123, Malalayang Manado
-            </TextInter>
+            <TextInter style={styles.location}>{item?.address}</TextInter>
           </View>
           <Gap height={4} />
-          <Pressable style={styles.contactButton}>
+          <Pressable
+            style={styles.contactButton}
+            onPress={() => handleOpenWhatsapp(item?.whatsappContact)}>
             <IcWhatsappExtraSmall />
             <Gap width={4} />
-            <TextInter style={styles.contact}>085342344444</TextInter>
+            <TextInter style={styles.contact}>
+              {item?.whatsappContact}
+            </TextInter>
           </Pressable>
         </View>
       </View>
@@ -93,7 +110,7 @@ const styles = StyleSheet.create({
   },
   productImage: {
     borderRadius: 4,
-    resizeMode: 'cover',
+    resizeMode: 'contain',
     width: '100%',
     height: '100%',
   },

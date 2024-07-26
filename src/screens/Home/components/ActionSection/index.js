@@ -1,4 +1,4 @@
-import {Image, Pressable, StyleSheet, View} from 'react-native';
+import {Image, Linking, Pressable, StyleSheet, View} from 'react-native';
 import React from 'react';
 import {
   IMGForYou,
@@ -8,33 +8,45 @@ import {
   theme,
 } from '../../../../assets';
 import {TextInter} from '../../../../components';
+import {useNavigation} from '@react-navigation/native';
 
 const ActionSection = () => {
+  const navigation = useNavigation();
   return (
     <View style={styles.actionContainer}>
-      <Pressable style={styles.action}>
+      <Pressable
+        style={styles.action}
+        onPress={() => navigation.navigate('Marketplace')}>
         <View style={styles.square}>
           <Image style={styles.rowAdsImage} source={IMGRowAds} />
         </View>
         <TextInter style={styles.actionLabel}>Iklan Baris</TextInter>
       </Pressable>
-      <Pressable style={styles.action}>
+      <Pressable
+        style={styles.action}
+        onPress={() => navigation.navigate('Subscription')}>
         <View style={styles.square}>
           <Image style={styles.lotteryImage} source={IMGLottery} />
         </View>
         <TextInter style={styles.actionLabel}>Undian Berhadiah</TextInter>
       </Pressable>
-      <Pressable style={styles.action}>
+      <Pressable
+        style={styles.action}
+        onPress={() =>
+          Linking.openURL('https://www.youtube.com/@ManadoPostID')
+        }>
         <View style={styles.square}>
           <Image style={styles.videoImage} source={IMGVideo} />
         </View>
         <TextInter style={styles.actionLabel}>Video</TextInter>
       </Pressable>
-      <Pressable style={styles.action}>
+      <Pressable
+        style={styles.action}
+        onPress={() => navigation.navigate('WriteNews')}>
         <View style={styles.square}>
           <Image style={styles.forYouImage} source={IMGForYou} />
         </View>
-        <TextInter style={styles.actionLabel}>Untukmu</TextInter>
+        <TextInter style={styles.actionLabel}>Tulis Berita</TextInter>
       </Pressable>
     </View>
   );

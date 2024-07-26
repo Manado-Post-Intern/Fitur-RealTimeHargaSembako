@@ -1,12 +1,15 @@
 import {StyleSheet, View} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
 import TextInter from '../TextInter';
 import {theme} from '../../../assets';
 import LinearGradient from 'react-native-linear-gradient';
 
-const Switch = () => {
-  const [active, setActive] = useState(true);
+const Switch = ({onChange = () => {}, defaultValue = true}) => {
+  const [active, setActive] = useState(defaultValue);
+  useEffect(() => {
+    onChange(active);
+  }, [active]);
   if (active) {
     return (
       <Pressable style={styles.container} onPress={() => setActive(false)}>

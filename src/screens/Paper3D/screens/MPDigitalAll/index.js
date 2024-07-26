@@ -1,15 +1,33 @@
-import {FlatList, Pressable, StyleSheet, View} from 'react-native';
-import React from 'react';
+import {
+  FlatList,
+  Pressable,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import React, {useContext, useEffect, useState} from 'react';
 import {Gap, Pagination, TextInter, TopBar} from '../../../../components';
 import {IcBack, theme} from '../../../../assets';
 import {screenHeightPercentage} from '../../../../utils';
 import Card from './Card';
 import {useNavigation} from '@react-navigation/native';
+import {MPDigitalContext} from '../../../../context/MPDigitalContext';
+import {InputPaper} from '../../../../components/molecules/TopBar/components';
+import ModalCalendar from '../../../../components/molecules/ModalCalendar';
+import moment from 'moment';
 
-const data = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+// const data = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 const MPDigitalAll = () => {
+  const [calendarModal, setCalendarModal] = useState(false);
+  const [day, setDay] = useState('');
   const navigation = useNavigation();
+  const {magazine} = useContext(MPDigitalContext);
+
+  const filtered = magazine.filter(
+    item => moment(item?.publish_date).format('YYYY-MM-DD') === day,
+  );
   return (
     <>
       <View style={styles.topBarContainer}>
@@ -18,22 +36,49 @@ const MPDigitalAll = () => {
       <FlatList
         ListHeaderComponent={() => (
           <View style={styles.headerContainer}>
-            <Pressable onPress={() => navigation.goBack()}>
-              <IcBack />
-            </Pressable>
-            <TextInter style={styles.headerText}>MP Digital</TextInter>
+            <View style={{flexDirection: 'row'}}>
+              <Pressable onPress={() => navigation.goBack()}>
+                <IcBack />
+              </Pressable>
+              <TextInter style={styles.headerText}>MP Digital</TextInter>
+            </View>
+            <View style={{flexDirection: 'row'}}>
+              <InputPaper calendarModal={setCalendarModal} />
+              <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={() => setDay('')}
+                style={{
+                  backgroundColor: theme.colors.MPGrey2,
+                  justifyContent: 'center',
+                  padding: 5,
+                  marginLeft: 5,
+                  borderRadius: 8,
+                }}>
+                <Text>Clear Filter</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         )}
         contentContainerStyle={styles.contentContainerStyle}
-        data={data}
+        data={day ? filtered : magazine}
         numColumns={3}
         renderItem={({item, index}) => (
-          <Card key={index} index={index} dataLength={data.length} />
+          <Card
+            key={index}
+            index={index}
+            dataLength={magazine.length}
+            item={item}
+          />
         )}
       />
 
-      <Pagination />
+      {/* <Pagination /> */}
       <Gap height={30} />
+      <ModalCalendar
+        isOpen={calendarModal}
+        setIsOpen={setCalendarModal}
+        onDayPress={value => setDay(value.dateString)}
+      />
     </>
   );
 };
@@ -53,9 +98,9 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    marginLeft: 24 - 17,
-    marginVertical: 12,
+    marginBottom: 12,
   },
   headerText: {
     fontFamily: 'Roboto',

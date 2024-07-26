@@ -1,4 +1,4 @@
-package com.manadopostrevamp.newarchitecture.components;
+package com.mp.manadopost.newarchitecture.components;
 
 import com.facebook.jni.HybridData;
 import com.facebook.proguard.annotations.DoNotStrip;

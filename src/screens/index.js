@@ -15,6 +15,7 @@ import AboutUs from './AboutUs';
 import Subscription from './Subscription';
 import Ads from './Ads';
 import Marketplace from './Marketplace';
+import MoreNews from './MoreNews';
 
 export * from './Authentication';
 export * from './ChooseCanal';
@@ -23,6 +24,7 @@ export * from './Region/screens';
 export * from './Ads/screens';
 export * from './Marketplace/screens';
 export * from './Meta/screens';
+export * from './WriteNews/screens';
 export {
   Splash,
   Onboarding,
@@ -41,4 +43,5 @@ export {
   Subscription,
   Ads,
   Marketplace,
+  MoreNews,
 };

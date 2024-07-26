@@ -5,18 +5,22 @@ import TextInter from '../TextInter';
 import {IcArrowRight, theme} from '../../../assets';
 import {useNavigation} from '@react-navigation/native';
 
-const More = ({screen}) => {
+const More = ({sectionId, trending, forYou, item}) => {
   const navigation = useNavigation();
 
   const handlePress = () => {
-    if (screen) {
-      navigation.navigate(screen);
+    if (sectionId) {
+      navigation.navigate('MoreNews', {sectionId});
+    } else if (trending) {
+      navigation.navigate('Trending');
+    } else if (forYou) {
+      navigation.navigate('MoreNews', {forYou: true, newsForYou: item});
     } else {
-      console.log('Screen not found');
+      navigation.navigate('MoreNews', {latest: true});
     }
   };
   return (
-    <Pressable style={styles.container} onPress={() => handlePress()}>
+    <Pressable style={styles.container} onPress={handlePress}>
       <TextInter style={styles.label}>Lihat Lebih Banyak</TextInter>
       <Gap width={4} />
       <IcArrowRight />

@@ -1,14 +1,21 @@
 import {Image, SafeAreaView, StyleSheet} from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {IMGGlowBR, IMGGlow, IMGMetaLogo, theme} from '../../assets';
 import {useNavigation} from '@react-navigation/native';
 
 const Splash = () => {
   const navigation = useNavigation();
 
-  setTimeout(() => {
-    navigation.navigate('Onboarding');
-  }, 1500);
+  useEffect(() => {
+    setTimeout(() => {
+      console.log('To Splash Screen');
+      navigation.replace('Onboarding');
+    }, 1500);
+
+    return () => {
+      clearTimeout();
+    };
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>

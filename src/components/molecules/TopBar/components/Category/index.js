@@ -2,8 +2,10 @@ import {FlatList, Pressable, StyleSheet, View} from 'react-native';
 import React from 'react';
 import {TextInter} from '../../../../atoms';
 import {Ic3Dot, theme} from '../../../../../assets';
+import {useNavigation} from '@react-navigation/native';
 
 const Category = ({dummy, active, setActive}) => {
+  const navigation = useNavigation();
   return (
     <View style={styles.bottomContainer}>
       <FlatList
@@ -18,21 +20,21 @@ const Category = ({dummy, active, setActive}) => {
             ]}
             key={index}
             onPress={() => {
-              setActive(index);
+              navigation.navigate('MoreNews', {sectionId: item?.id});
             }}>
             <TextInter
               style={[
                 styles.itemLabel,
                 active === index && styles.activeLabel,
               ]}>
-              {item}
+              {item?.name}
             </TextInter>
           </Pressable>
         )}
       />
-      <Pressable style={styles.more}>
+      {/* <Pressable style={styles.more}>
         <Ic3Dot />
-      </Pressable>
+      </Pressable> */}
     </View>
   );
 };

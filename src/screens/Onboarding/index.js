@@ -17,6 +17,8 @@ import {
 import {Gap, TextInter} from '../../components';
 import Page from './components/Page';
 import {useNavigation} from '@react-navigation/native';
+import SocialSignIn from '../Authentication/components/SocialSignIn';
+import {Text} from 'react-native';
 
 const data = [
   {
@@ -65,7 +67,7 @@ const Onboarding = () => {
   const viewConfig = useRef({viewAreaCoveragePercentThreshold: 50}).current;
 
   const handleSkip = () => {
-    navigation.navigate('Authentication');
+    navigation.navigate('SignIn');
   };
 
   return (
@@ -102,10 +104,15 @@ const Onboarding = () => {
               />
             ))}
           </View>
-          <Pressable style={styles.skipButton} onPress={handleSkip}>
+          {/* <Pressable style={styles.skipButton} onPress={handleSkip}>
             <TextInter style={styles.skipLabel}>SKIP</TextInter>
-          </Pressable>
-          <Gap height={100} />
+          </Pressable> */}
+
+          <Text style={{marginTop: 30, marginBottom: 5}}>
+            Masuk untuk mulai membaca
+          </Text>
+          <SocialSignIn type={'google'} />
+          <Gap height={75} />
         </View>
       </View>
     </SafeAreaView>
@@ -133,6 +140,7 @@ const styles = StyleSheet.create({
     width: 269,
     flex: 1,
     justifyContent: 'flex-end',
+    alignItems: 'center',
   },
   dotContainer: {
     flexDirection: 'row',

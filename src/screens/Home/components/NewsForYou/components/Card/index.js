@@ -1,4 +1,4 @@
-import {Image, StyleSheet, View} from 'react-native';
+import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {IMGDummyNews, theme} from '../../../../../../assets';
 import {
@@ -8,27 +8,29 @@ import {
   TextInter,
   TimeStamp,
 } from '../../../../../../components';
+import {useNavigation} from '@react-navigation/native';
 
-const Card = () => {
+const Card = ({item}) => {
+  const navigation = useNavigation();
   return (
-    <View style={styles.container}>
+    <TouchableOpacity
+      activeOpacity={0.8}
+      style={styles.container}
+      onPress={() => navigation.push('Article', {articleId: item?.id})}>
       <View style={styles.imageContainer}>
-        <Image style={styles.image} source={IMGDummyNews} />
+        <Image style={styles.image} source={{uri: item?.photo_url}} />
       </View>
       <Gap width={14} />
       <View style={styles.informationContainer}>
-        <TextInter style={styles.title}>
-          Kasat Reskrim Polresta Manado Kompol Sugeng Wahyudi Santoso
-          membenarkan
-        </TextInter>
+        <TextInter style={styles.title}>{item?.title}</TextInter>
         <Gap height={8} />
-        <TimeStamp />
+        <TimeStamp data={item?.published_date} />
         <Gap height={4} />
         <CategoryHorizontal />
         <Gap height={4} />
-        <Actions />
+        <Actions item={item} />
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

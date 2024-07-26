@@ -1,13 +1,18 @@
-import {Image, StyleSheet, View} from 'react-native';
+import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {} from '../../atoms';
 import {IMGBanner2} from '../../../assets';
+import {useNavigation} from '@react-navigation/native';
 
 const Banner2 = () => {
+  const navigation = useNavigation();
   return (
-    <View style={styles.bannerContainer}>
+    <TouchableOpacity
+      activeOpacity={0.8}
+      onPress={() => navigation.navigate('Subscription')}
+      style={styles.bannerContainer}>
       <Image style={styles.banner} source={IMGBanner2} />
-    </View>
+    </TouchableOpacity>
   );
 };
 

@@ -1,4 +1,10 @@
-import {Image, ImageBackground, StyleSheet, View} from 'react-native';
+import {
+  Image,
+  ImageBackground,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React from 'react';
 import {Gap, TextInter} from '../../../../components';
 import {
@@ -11,8 +17,11 @@ import {
 } from '../../../../assets';
 import LinearGradient from 'react-native-linear-gradient';
 import {screenWidth} from '../../../../utils';
+import {useNavigation} from '@react-navigation/native';
 
-const BannerSection = () => {
+const BannerSection = ({item}) => {
+  const navigation = useNavigation();
+  const filter = item?.filter(item => item.category === 'Tour');
   return (
     <View style={styles.container}>
       <View style={styles.background} />
@@ -30,33 +39,39 @@ const BannerSection = () => {
 
       <Gap height={10} />
 
-      <View style={styles.bannerShadow}>
-        <ImageBackground
-          style={styles.bannerContainer}
-          imageStyle={styles.bannerImage}
-          source={IMGBeach1}>
-          <TextInter style={styles.bannerText}>
-            Expedisi Pantai{'\n'}Timur Sulut 1
-          </TextInter>
-          <Gap width={11} />
-          <IcArrowRightWhite />
-        </ImageBackground>
-      </View>
+      {filter?.map((item, index) => {
+        return (
+          <View key={index}>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => navigation.navigate('MetaDetail', {item})}
+              style={styles.bannerShadow}>
+              <ImageBackground
+                style={styles.bannerContainer}
+                imageStyle={styles.bannerImage}
+                source={{uri: item?.thumbnail}}></ImageBackground>
+            </TouchableOpacity>
 
-      <Gap height={7} />
+            <Gap height={7} />
+          </View>
+        );
+      })}
 
-      <View style={styles.bannerShadow}>
+      {/* <TouchableOpacity
+        activeOpacity={0.8}
+        onPress={() => navigation.navigate('MetaDetail', {item: filter[1]})}
+        style={styles.bannerShadow}>
         <ImageBackground
           style={styles.bannerContainer}
           imageStyle={styles.bannerImage}
           source={IMGBeach2}>
           <TextInter style={styles.bannerText}>
-            Expedisi Pantai{'\n'}Timur Sulut 2
+            {filter[1]?.site_name}
           </TextInter>
           <Gap width={11} />
           <IcArrowRightWhite />
         </ImageBackground>
-      </View>
+      </TouchableOpacity> */}
     </View>
   );
 };

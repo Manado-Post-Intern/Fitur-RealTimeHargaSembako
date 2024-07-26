@@ -1,8 +1,66 @@
 import {Pressable, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {IcApple, IcFacebook, IcGoogle, theme} from '../../../assets';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import auth from '@react-native-firebase/auth';
+import messaging from '@react-native-firebase/messaging';
+import database from '@react-native-firebase/database';
+import moment from 'moment';
 
 const SocialSignIn = ({type}) => {
+  const handleGoogleSignIn = async () => {
+    try {
+      await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
+      const {idToken} = await GoogleSignin.signIn();
+      const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+      const {user} = await auth().signInWithCredential(googleCredential);
+      await handleSaveUser(user);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleSaveUser = async user => {
+    const userRef = database().ref(`/users/`);
+    try {
+      await messaging().requestPermission();
+      const userToken = await messaging().getToken();
+
+      // news user payload
+      const newUser = {
+        uid: user.uid,
+        fullName: user.displayName,
+        email: user.email,
+        phoneNumber: user.phoneNumber,
+        photo: user.photoURL,
+        token: userToken,
+        subscription: {
+          isExpired: false,
+          orderId: '',
+          productId: '1_bulan_percobaan',
+          purchaseDate: moment().format(),
+          expireDate: moment().add(1, 'month').format(),
+        },
+      };
+
+      await userRef
+        .orderByChild('uid')
+        .equalTo(newUser.uid)
+        .once('value', snapshot => {
+          if (!snapshot.exists()) {
+            database().ref(`/users/${newUser.uid}`).set(newUser);
+          } else {
+            // update token if changed
+            database()
+              .ref(`/users/${newUser.uid}`)
+              .update({token: newUser.token});
+          }
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   switch (type) {
     case 'facebook':
       return (
@@ -15,7 +73,9 @@ const SocialSignIn = ({type}) => {
       );
     case 'google':
       return (
-        <Pressable style={[styles.container, styles.google]}>
+        <Pressable
+          onPress={handleGoogleSignIn}
+          style={[styles.container, styles.google]}>
           <View style={[styles.iconContainer, styles.iconGoogle]}>
             <IcGoogle />
           </View>
