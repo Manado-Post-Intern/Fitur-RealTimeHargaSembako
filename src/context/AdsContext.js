@@ -1,6 +1,6 @@
 import {createContext, useEffect, useState} from 'react';
 import database from '@react-native-firebase/database';
-import moment from 'moment/moment';
+import moment from 'moment';
 
 export const AdsContext = createContext();
 
@@ -18,14 +18,19 @@ export const AdsProvider = ({children}) => {
       .ref('/ads/data')
       .on('value', snapshot => {
         const res = snapshot.val();
-        if (!res) return;
+        if (!res) {
+          return;
+        }
         let data = [];
         Object.keys(res).forEach(key => {
-          res[key].list.map(item => {
-            if (item.isAllowed) {
-              data.push(item);
-            }
-          });
+          // Memeriksa apakah res[key].list ada dan merupakan array
+          if (Array.isArray(res[key].list)) {
+            res[key].list.forEach(item => {
+              if (item.isAllowed) {
+                data.push(item);
+              }
+            });
+          }
         });
 
         data = data.filter(item => {
