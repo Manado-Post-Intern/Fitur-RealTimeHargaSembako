@@ -8,8 +8,10 @@ export const loadSession = async () => {
     if (detail !== null) {
       return JSON.parse(detail);
     }
+    return null;
   } catch (error) {
     console.log(error);
+    return null;
   }
 };
 

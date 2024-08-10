@@ -12,7 +12,6 @@ import {AuthProvider} from './context/AuthContext';
 import {AdsProvider} from './context/AdsContext';
 import {MPDigitalProvider} from './context/MPDigitalContext';
 import {TokenProvider} from './context/TokenContext';
-
 GoogleSignin.configure({
   webClientId:
     '782626479856-89khocqerprpe29tscrpvdn5vb8ghan0.apps.googleusercontent.com',

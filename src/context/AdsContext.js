@@ -1,6 +1,6 @@
 import {createContext, useEffect, useState} from 'react';
 import database from '@react-native-firebase/database';
-import moment from 'moment';
+import moment from 'moment/moment';
 
 export const AdsContext = createContext();
 
@@ -23,7 +23,7 @@ export const AdsProvider = ({children}) => {
         }
         let data = [];
         Object.keys(res).forEach(key => {
-          // Memeriksa apakah res[key].list ada dan merupakan array
+          // Check if list exists and is an array before using map
           if (Array.isArray(res[key].list)) {
             res[key].list.forEach(item => {
               if (item.isAllowed) {
