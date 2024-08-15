@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 
-import {StyleSheet, Alert, Linking, BackHandler} from 'react-native';
-import React, {useEffect} from 'react';
+import {StyleSheet, Alert, Linking, BackHandler, AppState} from 'react-native';
+import React, {useEffect, useRef} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import Routes from './routes';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
@@ -22,10 +22,12 @@ GoogleSignin.configure({
 });
 
 const App = () => {
-  const latestVersion = "2.1.9"; // Define the latest version here
-  const playStoreUrl = "https://play.google.com/store/apps/details?id=com.mp.manadopost&pcampaignid=web_share"; // Play Store URL
+  const latestVersion = '2.1.1'; // Define the latest version here
+  const playStoreUrl =
+    'https://play.google.com/store/apps/details?id=com.mp.manadopost&pcampaignid=web_share'; // Play Store URL
+  const appState = useRef(AppState.currentState);
 
-  const storeSession = async (detail) => {
+  const storeSession = async detail => {
     try {
       await EncryptedStorage.setItem('detail', JSON.stringify(detail));
     } catch (error) {
@@ -39,23 +41,25 @@ const App = () => {
 
       if (currentVersion !== latestVersion) {
         Alert.alert(
-          "Update Required",
-          `You're using version ${currentVersion}. Please update to the latest version in the Play Store.`,
+          'Update Required',
+          "You're using older version. Please update to the latest version.",
           [
-            { 
-              text: "Update Now", 
+            {
+              text: 'Update Now',
               onPress: () => {
-                // Linking.openURL(playStoreUrl)
-                //   .catch(err => console.error("Failed to open URL", err));
-                BackHandler.exitApp(); // Close the app
+                Linking.openURL(playStoreUrl)
+                  .catch(err => console.error('Failed to open URL', err))
+                  .finally(() => {
+                    BackHandler.exitApp(); // Close the app
+                  });
               },
             },
           ],
-          { cancelable: false } // Prevent the user from dismissing the alert without updating
+          {cancelable: false}, // Prevent the user from dismissing the alert without updating
         );
       }
     } catch (error) {
-      console.log("Error checking version:", error);
+      console.log('Error checking version:', error);
     }
   };
 
@@ -71,6 +75,21 @@ const App = () => {
       });
 
     checkForSpecificVersion(); // Check if the current version matches the target version when the app starts
+
+    const subscription = AppState.addEventListener('change', nextAppState => {
+      if (
+        appState.current.match(/inactive|background/) &&
+        nextAppState === 'active'
+      ) {
+        checkForSpecificVersion(); // Recheck version when the app comes back to the foreground
+      }
+
+      appState.current = nextAppState;
+    });
+
+    return () => {
+      subscription.remove();
+    };
   }, []);
 
   return (
