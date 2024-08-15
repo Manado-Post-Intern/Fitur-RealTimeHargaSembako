@@ -22,9 +22,9 @@ GoogleSignin.configure({
 });
 
 const App = () => {
-  const latestVersion = '2.1.1'; // Define the latest version here
+  const latestVersion = '2.1.1'; // akan diganti dengan link dinamis
   const playStoreUrl =
-    'https://play.google.com/store/apps/details?id=com.mp.manadopost&pcampaignid=web_share'; // Play Store URL
+    'https://play.google.com/store/apps/details?id=com.mp.manadopost&pcampaignid=web_share';
   const appState = useRef(AppState.currentState);
 
   const storeSession = async detail => {
@@ -50,12 +50,12 @@ const App = () => {
                 Linking.openURL(playStoreUrl)
                   .catch(err => console.error('Failed to open URL', err))
                   .finally(() => {
-                    BackHandler.exitApp(); // Close the app
+                    BackHandler.exitApp();
                   });
               },
             },
           ],
-          {cancelable: false}, // Prevent the user from dismissing the alert without updating
+          {cancelable: false},
         );
       }
     } catch (error) {
@@ -74,14 +74,14 @@ const App = () => {
         console.log(error);
       });
 
-    checkForSpecificVersion(); // Check if the current version matches the target version when the app starts
+    checkForSpecificVersion();
 
     const subscription = AppState.addEventListener('change', nextAppState => {
       if (
         appState.current.match(/inactive|background/) &&
         nextAppState === 'active'
       ) {
-        checkForSpecificVersion(); // Recheck version when the app comes back to the foreground
+        checkForSpecificVersion();
       }
 
       appState.current = nextAppState;
