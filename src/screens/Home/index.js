@@ -13,6 +13,7 @@ import {
   Story,
   TopBanner,
 } from './components';
+import RealTimeWidget from './components/RealTimeWidget';
 import {screenHeightPercentage} from '../../utils';
 import CanalModal from './components/NewsForYou/components/CanalModal';
 import axios from 'axios';
@@ -193,6 +194,10 @@ const Home = ({navigation}) => {
           <Gap height={12} />
 
           {second && <SecondBanner item={second} />}
+
+          <Gap height={12} />
+
+          <RealTimeWidget />
 
           <Gap height={12} />
 
