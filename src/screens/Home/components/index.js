@@ -10,6 +10,7 @@ import BottomBanner from './BottomBanner';
 import SecondBanner from './SecondBanner';
 import FullBanner from './FullBanner';
 import Lottery from './Lottery';
+import RealTimeWidget from './RealTimeWidget';
 
 export {
   TopBanner,
@@ -24,4 +25,5 @@ export {
   MPDigital,
   MPNewspaper,
   Lottery,
+  RealTimeWidget,
 };

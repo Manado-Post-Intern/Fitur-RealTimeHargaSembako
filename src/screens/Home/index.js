@@ -12,8 +12,8 @@ import {
   SecondBanner,
   Story,
   TopBanner,
+  RealTimeWidget,
 } from './components';
-import RealTimeWidget from './components/RealTimeWidget';
 import {screenHeightPercentage} from '../../utils';
 import CanalModal from './components/NewsForYou/components/CanalModal';
 import axios from 'axios';
