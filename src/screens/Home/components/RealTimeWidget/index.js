@@ -1,7 +1,5 @@
 import {StyleSheet, Text, View, Image} from 'react-native';
 import React, {useState, useEffect} from 'react';
-import {theme} from '../../../../assets';
-import {Card} from '@rneui/themed';
 import database from '@react-native-firebase/database';
 import {IcGreenIndicator, IcRedIndicator} from '../../../../assets';
 import {IMGCengkeh} from '../../../../assets';
@@ -9,6 +7,7 @@ import {IMGCengkeh} from '../../../../assets';
 const RealTimeWidget = () => {
   const [currentPrice, setCurrentPrice] = useState(null);
   const [oldPrice, setOldPrice] = useState(null);
+  const [date, setDate] = useState(null);
 
   useEffect(() => {
     const priceRef = database().ref('realTimePrice/cengkeh');
@@ -17,6 +16,7 @@ const RealTimeWidget = () => {
       const data = snapshot.val();
       setCurrentPrice(data?.currentPrice);
       setOldPrice(data?.oldPrice);
+      setDate(data?.date);
     });
 
     return () => priceRef.off('value', onValueChange);
@@ -43,25 +43,24 @@ const RealTimeWidget = () => {
 
   return (
     <View>
-      <Card
-        containerStyle={{
-          borderRadius: 16,
-          paddingHorizontal: 24,
-          paddingVertical: 16,
-          borderColor: '#C1D8DD',
-        }}>
+      <View style={styles.cardContainer}>
         <View style={styles.contentContainer}>
           <View>
             <Text style={styles.titleContainer}>Update Harga</Text>
-            <Text style={styles.subtitleContainer}>Cengkeh</Text>
+            <View style={styles.subtitleContainer}>
+              <Text style={styles.subtitle}>Cengkeh</Text>
+            </View>
             <View style={styles.priceContainer}>
-              <Text style={styles.price}>Rp.{formattedPrice}</Text>
+              <Text style={styles.price}>Rp {formattedPrice}</Text>
               {renderIndicator()}
             </View>
+            <View>
+              <Text style={styles.dateContainer}>{date}</Text>
+            </View>
           </View>
-          <Image source={IMGCengkeh} style={styles.image} />
         </View>
-      </Card>
+        <Image source={IMGCengkeh} style={styles.image} />
+      </View>
     </View>
   );
 };
@@ -69,25 +68,51 @@ const RealTimeWidget = () => {
 export default RealTimeWidget;
 
 const styles = StyleSheet.create({
+  cardContainer: {
+    borderRadius: 16,
+    borderColor: '#C1D8DD',
+    borderWidth: 1,
+    backgroundColor: '#FFFFFF',
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    elevation: 2,
+    marginHorizontal: 27,
+    paddingVertical: 8,
+    paddingHorizontal: 24,
+    overflow: 'hidden',
+  },
   contentContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    position: 'relative',
+    overflow: 'hidden',
   },
   titleContainer: {
-    fontSize: 20,
+    fontSize: 25,
     color: '#054783',
     fontWeight: '600',
+    marginBottom: 4,
   },
   subtitleContainer: {
+    borderRadius: 9,
+    borderColor: 'rgba(206, 206, 206, 1)',
+    borderWidth: 1,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    backgroundColor: 'rgba(194, 194, 194, 0.5)',
+    alignSelf: 'flex-start',
+    marginBottom: 4,
+  },
+  subtitle: {
     fontSize: 15,
-    color: '#626262',
+    color: 'rgba(98, 98, 98, 1)',
     fontWeight: '600',
-    marginLeft: 8,
-    marginVertical: 8,
   },
   price: {
-    fontSize: 30,
+    fontSize: 40,
     fontWeight: '800',
     color: '#373737',
   },
@@ -99,8 +124,21 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   image: {
-    width: 100,
-    height: 100,
+    width: 235,
+    height: 235,
     resizeMode: 'contain',
+    position: 'absolute',
+    right: -50,
+  },
+  dateContainer: {
+    marginTop: 8,
+    fontSize: 14,
+    backgroundColor: 'rgba(86, 164, 235, 1)',
+    alignSelf: 'flex-start',
+    color: '#FFFF',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 4,
+    fontWeight: '600',
   },
 });
