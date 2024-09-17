@@ -130,8 +130,8 @@ const styles = StyleSheet.create({
     height: 200,
     // resizeMode: 'contain',
     position: 'absolute',
-    left: 'auto',
-    top: '10%',
+    left: '60%',
+    top: '25%',
   },
   dateContainer: {
     marginTop: '3%',
