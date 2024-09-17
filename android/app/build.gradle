@@ -7,23 +7,22 @@ def enableProguardInReleaseBuilds = false
 def jscFlavor = 'org.webkit:android-jsc:+'
 
 android {
+    compileSdkVersion 34
     ndkVersion rootProject.ext.ndkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
-    // compileSdk rootProject.ext.compileSdkVersion
-    compileSdkVersion 34
+    compileSdk rootProject.ext.compileSdkVersion
     lint {
         baseline = file("lint-baseline.xml")
     }
 
     namespace "com.mp.manadopost"
     defaultConfig {
-        applicationId "com.mp.manadopost"
-        // minSdkVersion rootProject.ext.minSdkVersion
-        // targetSdkVersion rootProject.ext.targetSdkVersion
-        minSdkVersion 24
         targetSdkVersion 34
-        versionCode 211
-        versionName "2.1.1"
+        applicationId "com.mp.manadopost"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 212
+        versionName "2.1.2"
         missingDimensionStrategy "store", "play"
     }
 

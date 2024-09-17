@@ -23,7 +23,9 @@ const RealTimeWidget = () => {
   }, []);
 
   const formatPrice = price => {
-    if (!price) return '';
+    if (!price) {
+      return '';
+    }
     if (price >= 100000 && price % 1000 === 0) {
       return `${(price / 1000).toLocaleString('id-ID')}rb`;
     }
@@ -115,6 +117,7 @@ const styles = StyleSheet.create({
     fontSize: 40,
     fontWeight: '800',
     color: '#373737',
+    // paddingRight: '30%',
   },
   priceContainer: {
     flexDirection: 'row',
@@ -124,11 +127,12 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   image: {
-    width: 235,
-    height: 235,
+    width: 200,
+    height: 200,
     resizeMode: 'contain',
     position: 'absolute',
-    right: -50,
+    left: '61%',
+    bottom: '-28%',
   },
   dateContainer: {
     marginTop: 8,
